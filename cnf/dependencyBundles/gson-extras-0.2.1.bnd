@@ -1,0 +1,10 @@
+-classpath: gson-extras-0.2.1.jar
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gson-extras-bundle
+Bundle-SymbolicName: gson-extras-bundle
+ver: 0.2.1
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+-output: ${bsn}-${ver}.jar
+Bundle-Version: ${ver}
+Export-Package: *;version=${ver}

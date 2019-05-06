@@ -1,0 +1,30 @@
+# Configure Repositories
+
+
+-plugin.8.Templates: \
+	aQute.bnd.deployer.repository.LocalIndexedRepo; \
+		name = Templates; \
+		pretty = true; \
+		local = ${build}/templates
+
+
+
+-releaserepo: Release
+-baselinerepo: Release
+# Always use contracts  
+-contract: *
+
+# Set Git revision information in the manifests of built bundles
+Git-Descriptor:           ${system-allow-fail;git describe --dirty --always}
+Git-SHA:                  ${system-allow-fail;git rev-list -1 HEAD}
+
+## inherit DS annotations
+-dsannotations-options: inherit
+
+# JUnit
+junit: org.apache.servicemix.bundles.junit; version=4.12
+mockito: org.mockito.mockito-core; version=2.13.0
+mockito-deps: org.objenesis; version=2.6.0,\
+  net.bytebuddy.byte-buddy; version=1.7.9,\
+  net.bytebuddy.byte-buddy-agent; version=1.7.9 
+-pluginpath: ${workspace}/cnf/local/biz.aQute.repository/biz.aQute.repository-2.1.0.jar

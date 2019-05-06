@@ -1,0 +1,12 @@
+-classpath: gson-extras-2.8.5.jar
+Manifest-Version: 1.0
+Bundle-Description: Gson Exras 2.8.5
+Bundle-ManifestVersion: 2
+Bundle-Name: Gson-extras-bundle
+Bundle-SymbolicName: gson-extras-bundle
+ver: 2.8.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+-output: ${bsn}-${ver}.jar
+Bundle-Version: ${ver}
+Import-Package: com.google.gson;version=${ver},com.google.gson.stream;version=${ver},com.google.gson.reflect;version=${ver},com.google.gson.internal;version=${ver}
+Export-Package: *;version=${ver}

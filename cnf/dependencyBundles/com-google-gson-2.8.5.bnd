@@ -1,0 +1,13 @@
+-classpath: gson-2.8.5.jar
+Manifest-Version: 1.0
+Bundle-Description: Gson JSON library
+Bundle-ManifestVersion: 2
+Bundle-Name: Gson
+Bundle-SymbolicName: com.google.gson.bundle
+ver: 2.8.5
+Bundle-RequiredExecutionEnvironment: J2SE-1.5, JavaSE-1.6, JavaSE-1.7, JavaSE-1.8
+-output: ${bsn}-${ver}.jar
+Bundle-Version: ${ver}
+Import-Package: com.google.gson.annotations;version=${ver}
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
+Export-Package: *;version=${ver}
