@@ -28,7 +28,7 @@ This repository contains the OSGI bundles only for creating Stage simulation man
         >java -jar orchestrator.jar
 4. go to project `it.ismb.pert.cpswarm.stageSimulationManager` 
     1. open `stageManager.bndrun`, modify the following properties' values with your path of the cacerts
-        >ros.master.uri=http://localhost:11311,\ 
+        >ros.master.uri=http:\/\/localhost:11311,\
         >Manager.config.file.manager.xml=resources/manager.xml,\
 	    >javax.net.ssl.trustStorePassword=changeit,\
 	    >javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts,\
