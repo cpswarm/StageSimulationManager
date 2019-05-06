@@ -1,7 +1,0 @@
-Bundle-Version: 0.0.1
--buildpath: \
-	com.google.gson.bundle;version=2.8.5,\
-	gson-extras-bundle;version=2.8.5
-	
-
-Export-Package: eu.cpswarm.optimization.messages
