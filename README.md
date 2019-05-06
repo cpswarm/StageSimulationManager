@@ -22,7 +22,10 @@ This repository contains the OSGI bundles only for creating Stage simulation man
 	    >javax.net.ssl.trustStorePassword=changeit,\
         >javax.net.ssl.trustStore=/usr/java/jdk1.8.0_171/jre/lib/security/cacerts,\
 	    >org.osgi.framework.trust.repositories=/usr/java/jdk1.8.0_171/jre/lib/security/cacerts
-    2. open `SimulationOrchestrator.java`, uncomment the line:657 if the `opt=false` for only test the stage simulation, otherwise, skip this step  
+     2. if only test the Stage simulation, otherwise, skip this step
+        *  set the `opt=false`;
+        *  open `SimulationOrchestrator.java`, uncomment the line:657 and comment the line:655;
+        *  put the `candiadte.h` file in the `src` folder according to your actual value;
     3. build and run the `orchestrator.bndrun`
         >bnd package orchestrator.bndrun,\
         >java -jar orchestrator.jar
