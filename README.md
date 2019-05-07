@@ -3,10 +3,10 @@
 This repository contains the OSGI bundles only for creating Stage simulation manager, but before using it, you have to firstly clone and import the repository `CPswarm-common` for seting up the bnd workspce and the necessary dependency bundles 
 
 
-# Installation and Configuration
+## Installation and Configuration
 
 1. clone and import all sub-projects in repository [`CPswarm-common`](https://git.pertforge.ismb.it/rzhao/cpswarm-common/tree/master) into eclipse.
-2. following the same steps to clone and import this repository.(must be sure the box *"Copy projects into workspace"* is checked, so that this repository can use the bnd workspace configuration) 
+2. following the same steps to clone and import this repository.(must be sure the box ***"Copy projects into workspace"*** is checked, so that this repository can use the bnd workspace configuration) 
 3. go to project `it.ismb.pert.cpswarm.simulationOrchestrator` 
     1. open `orchestrator.bndrun`, you have to modify the following properties' values according to the actual values and ***save***
         >Orchestrator.config.file.orchestrator.xml=resources/orchestrator.xml,\\\
