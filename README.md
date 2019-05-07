@@ -14,31 +14,34 @@ This repository contains the OSGI bundles only for creating Stage simulation man
         >conf=/home/rui/Documents/CPSwarm/SOOdata/conf-fd/,\\\
 	    >src=/home/rui/Documents/CPSwarm/SOOdata/src-fd/,\\\
 	    >target=/home/rui/Documents/CPSwarm/SOOdata/target-fd/,\\\
-        >test.candidate.file=resources/candidate.c,\
-        >id=emergency_exit,\
-     	>dim=2d,\
-	    >max=8,\
-	    >opt=true,\
-	    >gui=false,\
-        >org.osgi.framework.security="osgi",\
-	    >java.security.policy=all.policy,\
-	    >javax.net.ssl.trustStorePassword=changeit,\
-        >javax.net.ssl.trustStore=/usr/java/jdk1.8.0_171/jre/lib/security/cacerts,\
+        >test.candidate.file=resources/candidate.c,\\\
+        >id=emergency_exit,\\\
+     	>dim=2d,\\\
+	    >max=8,\\\
+	    >opt=true,\\\
+	    >gui=false,\\\
+        >org.osgi.framework.security="osgi",\\\
+	    >java.security.policy=all.policy,\\\
+	    >javax.net.ssl.trustStorePassword=changeit,\\\
+        >javax.net.ssl.trustStore=/usr/java/jdk1.8.0_171/jre/lib/security/cacerts,\\\
 	    >org.osgi.framework.trust.repositories=/usr/java/jdk1.8.0_171/jre/lib/security/cacerts
      2. if only test the Stage simulation, otherwise, skip this step
         *  set the `opt=false`;
         *  open `SimulationOrchestrator.java`, uncomment the line:657 and comment the line:655;
         *  put the `candiadte.h` file in the `src` folder according to your actual value;
     3. build and run the `orchestrator.bndrun`
-        >bnd package orchestrator.bndrun,\
+        >bnd package orchestrator.bndrun\
         >java -jar orchestrator.jar
 4. go to project `it.ismb.pert.cpswarm.stageSimulationManager` 
     1. open `stageManager.bndrun`, modify the following properties' values with your path of the cacerts
-        >ros.master.uri=http:\/\/localhost:11311,\
-        >Manager.config.file.manager.xml=resources/manager.xml,\
-	    >javax.net.ssl.trustStorePassword=changeit,\
-	    >javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts,\
+        >ros.core.native=true,\\\
+        >ros.master.uri=http:\/\/localhost:11311,\\\
+        >Manager.config.file.manager.xml=resources/manager.xml,\\\
+        >org.osgi.framework.security="osgi",\\\
+	    >java.security.policy=all.policy,\\\
+	    >javax.net.ssl.trustStorePassword=changeit,\\\
+	    >javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts,\\\
 	    >org.osgi.framework.trust.repositories=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts
     2. build and run the `stageManager.bndrun`
-        >bnd package stageManager.bndrun,\
+        >bnd package stageManager.bndrun\
         >java -jar stageManger.jar
