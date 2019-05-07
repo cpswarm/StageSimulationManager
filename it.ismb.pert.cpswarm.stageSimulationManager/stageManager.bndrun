@@ -1,7 +1,5 @@
 -include ../be.iminds.iot.ros.core/core.bndrun
 
--runtrace: 		false
-
 -runbundles.stageSimulation: \
 	org.eclipse.paho.client.mqttv3;version=1.2.0,\
 	org.igniterealtime.smack.im;version=4.3.1,\
@@ -17,7 +15,6 @@
 	org.minidns.core;version=0.3.3,\
 	it.ismb.pert.cpswarm.mqttLib;version=1.1.0,\
 	bcprov;version=1.46.0,\
-	it.ismb.pert.cpswarm.messages.server;version=latest,\
 	it.ismb.pert.cpswarm.simulationManager.api;version=latest,\
 	it.ismb.pert.cpswarm.stageSimulationManager.fileLogFilter;version=latest,\
 	it.ismb.pert.cpswarm.stageSimulationManager.fitnessFunctionCalculator;version=latest,\
@@ -26,15 +23,16 @@
 	it.ismb.pert.cpswarm.stageSimulationManager.simulationLauncher;version=latest,\
 	it.ismb.pert.cpswarm.stageSimulationManager.stageSimulationManager;version=latest
 
-
+-runtrace: 		false
 -runproperties: \
-	org.apache.felix.log.storeDebug=true,\
+	org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
+	org.eclipse.jetty.LEVEL=WARN,\
+	logback.configurationFile=resources/logback.xml,\
+	org.apache.felix.log.storeDebug=false,\
 	org.osgi.service.http.port=8080,\
 	ros.core.native=true,\
 	ros.master.uri=http://localhost:11311,\
 	Manager.config.file.manager.xml=resources/manager.xml,\
-	org.osgi.framework.security="osgi",\
-	java.security.policy=all.policy,\
 	javax.net.ssl.trustStorePassword=changeit,\
 	javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts,\
 	org.osgi.framework.trust.repositories=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts
