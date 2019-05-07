@@ -12,8 +12,6 @@ This repository contains the OSGI bundles only for creating Stage simulation man
         >ros.core.native=true,\\\
         >ros.master.uri=http:\/\/localhost:11311,\\\
         >Manager.config.file.manager.xml=resources/manager.xml,\\\
-        >org.osgi.framework.security="osgi",\\\
-	    >java.security.policy=all.policy,\\\
 	    >javax.net.ssl.trustStorePassword=changeit,\\\
 	    >javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts,\\\
 	    >org.osgi.framework.trust.repositories=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts
