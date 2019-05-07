@@ -9,16 +9,19 @@ This repository contains the OSGI bundles only for creating Stage simulation man
 2. following the same steps to clone and import this repository.(must be sure the box "Copy projects into workspace" is checked, so that this repository can use the bnd workspace configuration) 
 3. go to project `it.ismb.pert.cpswarm.simulationOrchestrator` 
     1. open `orchestrator.bndrun`, you have to modify the following properties' values according to the actual values and ***save***
-        >Orchestrator.config.file.orchestrator.xml=resources/orchestrator.xml,\
-	    >Orchestrator.config.fileXSD=resources/file.xsd,\
-        >conf=/home/rui/Documents/CPSwarm/SOOdata/conf-fd/,\
+        >Orchestrator.config.file.orchestrator.xml=resources/orchestrator.xml,\\
+	    >Orchestrator.config.fileXSD=resources/file.xsd,\\
+        >conf=/home/rui/Documents/CPSwarm/SOOdata/conf-fd/,\\
 	    >src=/home/rui/Documents/CPSwarm/SOOdata/src-fd/,\
 	    >target=/home/rui/Documents/CPSwarm/SOOdata/target-fd/,\
+        >test.candidate.file=resources/candidate.c,\
         >id=emergency_exit,\
      	>dim=2d,\
 	    >max=8,\
 	    >opt=true,\
 	    >gui=false,\
+        >org.osgi.framework.security="osgi",\
+	    >java.security.policy=all.policy,\
 	    >javax.net.ssl.trustStorePassword=changeit,\
         >javax.net.ssl.trustStore=/usr/java/jdk1.8.0_171/jre/lib/security/cacerts,\
 	    >org.osgi.framework.trust.repositories=/usr/java/jdk1.8.0_171/jre/lib/security/cacerts
