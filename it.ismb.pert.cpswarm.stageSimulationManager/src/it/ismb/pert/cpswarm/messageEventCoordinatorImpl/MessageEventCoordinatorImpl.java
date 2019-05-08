@@ -86,7 +86,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 
 	@Override
 	protected void handleCandidate(final EntityBareJid sender, final String candidate) {
-		System.out.println(" MA MessageEventCoordinatorImpl calls  to handleCandidate() line 88 sender = "+sender +"  the parent's optID = "+ parent.getOptimizationJID());
+		System.out.println(" MA MessageEventCoordinatorImpl calls  to handleCandidate() sender = "+sender);
 
 		try {
 			if (fake) {
@@ -123,7 +123,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					catkinBuild.buildWorkspace();
 				} catch (Exception err) {
 					result = false;
-					System.err.println("Error building workspace: " + catkinWS);
+					System.err.println("Error when building workspace: " + catkinWS);
 					err.printStackTrace();
 				} finally {
 					if (instance != null)

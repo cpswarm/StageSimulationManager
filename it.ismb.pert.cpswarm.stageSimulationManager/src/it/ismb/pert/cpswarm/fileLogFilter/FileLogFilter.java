@@ -30,12 +30,12 @@ public class FileLogFilter implements FileFilter, FilenameFilter {
 	@Activate
 	public void activate() {
 
-		System.out.println(" \n create a file log filter ...\n");
+		System.out.println("\ncreate a file log filter ...\n");
 
 	}
 
 	@Deactivate
 	public void deactivate() {
-		System.out.println(" \n stoping a file log filter ... \n");
+		System.out.println("stoping a file log filter ... \n");
 	}
 }

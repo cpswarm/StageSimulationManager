@@ -34,13 +34,13 @@ public class FitnessFunctionCalculator {
 
 	@Activate
 	public void activate(BundleContext context) {
-		System.out.println(" Instantiate a fitnessFunctionCalculator");
+		System.out.println("Instantiate a fitnessFunctionCalculator");
 
 	}
 
 	@Deactivate
 	public void deactivate() {
-		System.out.println("  stoping the fitnessFunctionCalculator");
+		System.out.println("Stoping the fitnessFunctionCalculator");
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class FitnessFunctionCalculator {
 	void setFileLogFilter(FileLogFilter filter) {
 		// make sure a file log filer is available before starting to calculate fitness
 		this.fileLogFilter = filter;
-		System.out.println(" get a file log filter ");
+		System.out.println("get a file log filter ");
 	}
 
 }
