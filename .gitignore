@@ -6,8 +6,6 @@ RemoteSystemsTempFiles/
 *.git/
 **/generated/
 **/bin/
-test/
-test1/
-**/resources/logs/
+**/stageManager.jar
 
 

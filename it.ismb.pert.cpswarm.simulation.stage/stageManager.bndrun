@@ -1,0 +1,40 @@
+-include ../be.iminds.iot.ros.core/core.bndrun
+
+-runbundles: \
+	org.eclipse.paho.client.mqttv3;version=1.2.0,\
+	org.igniterealtime.smack.im;version=4.3.1,\
+	org.igniterealtime.smack.core;version=4.3.1,\
+	org.igniterealtime.smack.extensions;version=4.3.1,\
+	org.igniterealtime.smack.java7;version=4.3.1,\
+	org.igniterealtime.smack.sasl-provided;version=4.3.1,\
+	org.igniterealtime.smack.tcp;version=4.3.1,\
+	org.jxmpp.jid;version=0.6.3,\
+	org.jxmpp.core;version=0.6.3,\
+	org.jxmpp.util-cache;version=0.6.3,\
+	org.apache.commons.cli;version=1.4.0,\
+	org.minidns.core;version=0.3.3,\
+	it.ismb.pert.cpswarm.mqttLib;version=1.1.0,\
+	bcprov;version=1.46.0,\
+	it.ismb.pert.cpswarm.simulation.manager;version=latest,\
+	it.ismb.pert.cpswarm.simulation.stage;version=latest
+	
+	
+	
+-runtrace: 		false
+-runproperties: \
+	org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
+	org.eclipse.jetty.LEVEL=WARN,\
+	logback.configurationFile=resources/logback.xml,\
+	org.apache.felix.log.storeDebug=false,\
+	org.osgi.service.http.port=8080,\
+	ros.core.native=true,\
+	ros.master.uri=http://localhost:11311,\
+	Manager.config.file.manager.xml=resources/manager.xml,\
+	javax.net.ssl.trustStorePassword=changeit,\
+	javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts,\
+	org.osgi.framework.trust.repositories=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts
+
+
+
+
+ 

@@ -1,9 +1,0 @@
-Bundle-Version: 1.0.43
--buildpath: \
-	osgi.cmpn,\
-	osgi.enterprise,\
-	osgi.residential,\
-	org.apache.felix.framework,\
-	it.ismb.pert.cpswarm.gazeboFileLogFilter;version=latest,\
-	optimization-messages;version=latest
-Export-Package: it.ismb.pert.cpswarm.fitnessFunctionCalculator
