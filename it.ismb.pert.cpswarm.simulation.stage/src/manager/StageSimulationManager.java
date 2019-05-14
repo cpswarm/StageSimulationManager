@@ -72,14 +72,15 @@ public class StageSimulationManager extends SimulationManager {
 		try {
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			String managerConfigFile = context.getProperty("Manager.config.file.manager.xml");
+			if (managerConfigFile == null) {
+				System.out.println("managerConfigFile = null");
+				deactivate();
+			}
 			Document document = null;
 
 			FileInputStream s = new FileInputStream(managerConfigFile);
 			document = documentBuilder.parse(s);
-			if (document == null) {
-				System.out.println("document = null");
-				deactivate();
-			}
+			
 			serverURI = InetAddress.getByName(document.getElementsByTagName("serverURI").item(0).getTextContent());
 			serverName = document.getElementsByTagName("serverName").item(0).getTextContent();
 			serverPassword = document.getElementsByTagName("serverPassword").item(0).getTextContent();

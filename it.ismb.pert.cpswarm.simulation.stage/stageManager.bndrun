@@ -55,12 +55,6 @@
 	org.objenesis;version='[2.1,2.2)',\
 	com.esotericsoftware.kryo;version='[2.23,2.24)',\
 	de.javakaffee.kryo-serializers;version='[0.23,0.24)',\
-	be.iminds.iot.ros.msgs.generator;version=latest,\
-	be.iminds.iot.ros.api;version=latest,\
-	be.iminds.iot.ros.core;version=latest,\
-	com.google.gson.bundle;version=2.8.5,\
-	gson-extras-bundle;version=2.8.5,\
-	optimization-messages;version=0.0.1,\
 	org.eclipse.paho.client.mqttv3;version=1.2.0,\
 	org.igniterealtime.smack.im;version=4.3.1,\
 	org.igniterealtime.smack.core;version=4.3.1,\
@@ -75,6 +69,12 @@
 	org.minidns.core;version=0.3.3,\
 	it.ismb.pert.cpswarm.mqttLib;version=1.1.0,\
 	bcprov;version=1.46.0,\
+	be.iminds.iot.ros.msgs.generator;version=latest,\
+	be.iminds.iot.ros.api;version=latest,\
+	be.iminds.iot.ros.core;version=latest,\
+	com.google.gson.bundle;version=2.8.5,\
+	gson-extras-bundle;version=2.8.5,\
+	optimization-messages;version=0.0.1,\
 	it.ismb.pert.cpswarm.simulation.manager;version=latest,\
 	it.ismb.pert.cpswarm.simulation.stage;version=latest
 	
