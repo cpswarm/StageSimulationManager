@@ -36,15 +36,15 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
    ``` bash
    -runproperties: \
         org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
-	    org.eclipse.jetty.LEVEL=WARN,\      # Avoid abose superfluous debug info printed on Stdin.
+	    org.eclipse.jetty.LEVEL=WARN,\                           # Avoid abose superfluous debug info printed on Stdin.
 	    logback.configurationFile=resources/logback.xml,\        # Configuration of ch.qos.logback.core bundle
-	    org.apache.felix.log.storeDebug=false,\     # Configuration of org.apache.felix.log bundle to determine whether or not debug messages will be stored in the history
-	    org.osgi.service.http.port=8080,\           # The default port used for Felix servlets and resources available via HTTP
-	    ros.core.native=true,\        # Indicating if launching the installed ROS system or the rosjava ROScore implementation of the rosjava_core project
+	    org.apache.felix.log.storeDebug=false,\          # Configuration of org.apache.felix.log bundle to determine whether or not debug messages will be stored in the history
+	    org.osgi.service.http.port=8080,\                # The default port used for Felix servlets and resources available via HTTP
+	    ros.core.native=true,\                      # Indicating if launching the installed ROS system or the rosjava ROScore implementation of the rosjava_core project
 	    ros.master.uri=http://localhost:11311,\     # It is used to manually indicate the Ros environment variable in case the user doesn't set it during the Ros installation
 	    Manager.config.file.manager.xml=resources/manager.xml,\     # Specify the location of the configuration file of the Gazebo simulation manager
 	    javax.net.ssl.trustStorePassword=changeit,\
-	    javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts,\      # Replace path of the JDK with the user's value in real use case
+	    javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts,\                 # Replace path of the JDK with the user's value in real use case
 	    org.osgi.framework.trust.repositories=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts      # Replace path of the JDK with the user's value in real use case
     ```  
 *  **resources/manager.xml**
