@@ -50,10 +50,7 @@ public class StageSimulationManager extends SimulationManager {
 	}
 
 	@Activate
-	public void activate(BundleContext context) {
-		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-			System.out.println("Instantiate a StageSimulationManager .....");
-		}			
+	public void activate(BundleContext context) {					
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder;
 		InetAddress serverURI = null;
@@ -81,6 +78,9 @@ public class StageSimulationManager extends SimulationManager {
 				System.out.println("Invalid verbosity level, using the default one: ALL");
 			} else {
 				CURRENT_VERBOSITY_LEVEL = VERBOSITY_LEVELS.values()[verbosityI];
+			}
+			if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+				System.out.println("Instantiate a StageSimulationManager .....");
 			}
 			
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -139,7 +139,7 @@ public class StageSimulationManager extends SimulationManager {
 			e.printStackTrace();
 		}
 		connectToXMPPserver(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
-				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout, fake, CURRENT_VERBOSITY_LEVEL);
+				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout, fake);
 		publishPresence(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
 				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout);
 		while (true) {
