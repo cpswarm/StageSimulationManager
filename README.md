@@ -33,6 +33,8 @@ Click [`here`](https://bnd.bndtools.org/chapters/123-tour-workspace.html) to see
 Go to project `it.ismb.pert.cpswarm.simulation.stage`
 *  **stageManager.bndrun**   
    There is a run descriptor file `stageManager.bndrun` with the following `-runproperties:` instruction for configuring the launching environment:
+   
+   Use 'java -D<Property_Name>=... -jar stageManager.jar ' to pass the command line parameters to override the properties listed in the `-runproperties:` when running the manager.
    ``` bash
    -runproperties: \
         org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
@@ -41,6 +43,7 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
 	    org.apache.felix.log.storeDebug=false,\          # Configuration of org.apache.felix.log bundle to determine whether or not debug messages will be stored in the history
 	    org.osgi.service.http.port=8080,\                # The default port used for Felix servlets and resources available via HTTP
 	    ros.core.native=true,\                      # Indicating if launching the installed ROS system or the rosjava ROScore implementation of the rosjava_core project
+	    verbosity=2,\                               # Selected verbosity level: 0 NO_OUTPUT, 1 ONLY_FITNESS_SCORE, 2 ALL
 	    ros.master.uri=http://localhost:11311,\     # It is used to manually indicate the Ros environment variable in case the user doesn't set it during the Ros installation
 	    Manager.config.file.manager.xml=resources/manager.xml,\     # Specify the location of the configuration file of the Gazebo simulation manager
 	    javax.net.ssl.trustStorePassword=changeit,\
