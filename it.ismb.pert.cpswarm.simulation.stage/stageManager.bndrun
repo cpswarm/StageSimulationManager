@@ -38,7 +38,6 @@
 	org.ros.rosjava.message_generation;version='[0.2.1,0.2.2)',\
 	org.ros.rosjava_messages.rosgraph_msgs;version='[1.11.1,1.12)',\
 	org.ros.rosjava_messages.std_msgs;version='[0.5.9,0.6)',\
-	org.ros.rosjava_messages.std_srvs;version='[1.11.1,1.11.2)',\
 	org.ros.rosjava_messages.geometry_msgs;version='[1.11.7,1.11.8)',\
 	org.ros.rosjava_messages.sensor_msgs;version='[1.11.7,1.11.8)',\
 	ch.qos.logback.classic;version='[1.0.13,1.0.14)',\
@@ -69,18 +68,18 @@
 	org.minidns.core;version=0.3.3,\
 	it.ismb.pert.cpswarm.mqttLib;version=1.1.0,\
 	bcprov;version=1.46.0,\
-	be.iminds.iot.ros.msgs.generator;version=latest,\
-	be.iminds.iot.ros.api;version=latest,\
-	be.iminds.iot.ros.core;version=latest,\
 	com.google.gson.bundle;version=2.8.5,\
 	gson-extras-bundle;version=2.8.5,\
 	optimization-messages;version=0.0.1,\
+	be.iminds.iot.ros.msgs.generator;version=latest,\
+	be.iminds.iot.ros.api;version=latest,\
+	be.iminds.iot.ros.core;version=latest,\
 	it.ismb.pert.cpswarm.simulation.manager;version=latest,\
 	it.ismb.pert.cpswarm.simulation.stage;version=latest
 	
 	
 	
--runtrace: 		false
+	
 -runproperties: \
 	org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
 	org.eclipse.jetty.LEVEL=WARN,\
@@ -88,11 +87,11 @@
 	org.apache.felix.log.storeDebug=false,\
 	org.osgi.service.http.port=8080,\
 	ros.core.native=true,\
+	verbosity=2,\
 	ros.master.uri=http://localhost:11311,\
 	Manager.config.file.manager.xml=resources/manager.xml,\
 	javax.net.ssl.trustStorePassword=changeit,\
 	javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts
-
 
 -runsystempackages: \
 	javax.naming,\
@@ -132,5 +131,7 @@
 	sun.*,\
 	sun.net.spi.nameservice.*,\
 	javax.*
+
+
 
  

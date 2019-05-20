@@ -40,8 +40,6 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 
 	@Activate
 	protected void activate(Map<String, Object> properties) throws Exception {
-
-		System.out.println(" Instantiate a stage MessageEventCoordinatorImpl");
 		for (Entry<String, Object> entry : properties.entrySet()) {
 			String key = entry.getKey();
 			if (key.equals("SimulationManager")) {
@@ -57,6 +55,9 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		if (parent != null) {
 			this.timeout = parent.getTimeout();
 			this.fake = parent.isFake();
+			if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+				System.out.println(" Instantiate a stage MessageEventCoordinatorImpl");
+			}
 			setSimulationManager(parent);
 		}
 	}
@@ -64,28 +65,21 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.fitnessCalculator.factory)")
 	public void getFitnessCalculatorFactory(final ComponentFactory s) {
 		this.fitnessCalculatorFactory = s;
-		System.out.println(" MA MessageEventCoordinatorImpl gets a fitnessCalculator ComponentFactory ");
 
 	}
 
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.simulationLauncher.factory)")
 	public void getSimulationLauncherFactory(final ComponentFactory s) {
 		this.simulationLauncherFactory = s;
-		System.out.println(" MA MessageEventCoordinatorImpl gets a simulationLauncher ComponentFactory ");
-
 	}
 
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.rosCommand.factory)")
 	public void getRosCommandFactory(final ComponentFactory s) {
 		this.rosCommandFactory = s;
-		System.out.println(" MA MessageEventCoordinatorImpl gets a RosCommand ComponentFactory ");
-
 	}
 
 	@Override
 	protected void handleCandidate(final EntityBareJid sender, final String candidate) {
-		System.out.println(" MA MessageEventCoordinatorImpl calls  to handleCandidate() sender = "+sender);
-
 		try {
 			if (fake) {
 				Thread.sleep(timeout);
@@ -108,8 +102,9 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 									ReplyMessage.Status.ERROR, parent.getSimulationID(), BAD_FITNESS));
 					return;
 				}
-				System.out.println(
-						"Compiling the package, using the 'catkin build' service provided by the RosCommand factory component ");
+				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+					System.out.println("Compiling the package, using the 'catkin build' service provided by the RosCommand factory component \n");
+				}
 				String catkinWS = parent.getCatkinWS();
 				Properties props = new Properties();
 				props.put("ros.buildWorkspace", catkinWS);
@@ -127,11 +122,14 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					if (instance != null)
 						instance.dispose();
 				}
-				System.out.println("Compilation finished, " + result);
-
+				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+					System.out.println("Compilation finished, "+result);
+				}
 				if (result) {
 					runSimulation(true);
-					System.out.println("done");
+					if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+						System.out.println("done "+this.parent.getSimulationID());
+					}
 				} else {
 					System.out.println("Error");
 					return;
@@ -156,9 +154,6 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	}
 
 	private void runSimulation(boolean calcFitness) throws IOException, InterruptedException {
-
-		System.out.println("\n MessageEventCoordinator is starting to launch the simulation \n");
-
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Properties props = new Properties();
 		props.put("SimulationManager", parent);
@@ -177,7 +172,9 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (TimeoutException e) {
-				System.out.println(" MessageEventCoordinator handler is timeout! ");
+				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+					System.out.println(" MessageEventCoordinator handler is timeout! ");
+				}				
 				executor.shutdown();
 				if (calcFitness) {
 					instance.dispose();
@@ -210,7 +207,9 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 
 	@Deactivate
 	public void deactivate() {
-		System.out.println(" MessageEventCoordinator is deactived ");
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println(" MessageEventCoordinator is deactived ");
+		}	
 		Process proc;
 		try {
 			proc = Runtime.getRuntime().exec("killall " + packageName);

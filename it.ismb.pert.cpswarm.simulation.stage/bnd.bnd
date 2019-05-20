@@ -1,4 +1,4 @@
-Bundle-Version: 1.0.43
+Bundle-Version: 1.1.0
 -buildpath: \
 	osgi.core;version=5.0,\
 	osgi.cmpn;version=6.0,\

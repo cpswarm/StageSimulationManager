@@ -51,7 +51,9 @@ public class StageSimulationManager extends SimulationManager {
 
 	@Activate
 	public void activate(BundleContext context) {
-		System.out.println("Instantiate a StageSimulationManager .....");
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println("Instantiate a StageSimulationManager .....");
+		}			
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder;
 		InetAddress serverURI = null;
@@ -67,9 +69,20 @@ public class StageSimulationManager extends SimulationManager {
 		boolean monitoring = false;
 		String mqttBroker = "";
 		boolean fake = false;
+		String verbosity = "2";
 
 		Server serverInfo = new Server();
 		try {
+			if(context.getProperty("verbosity")!=null){
+				verbosity = context.getProperty("verbosity");
+			}
+			int verbosityI = Integer.parseInt(verbosity);
+			if(verbosityI>2) {
+				System.out.println("Invalid verbosity level, using the default one: ALL");
+			} else {
+				CURRENT_VERBOSITY_LEVEL = VERBOSITY_LEVELS.values()[verbosityI];
+			}
+			
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			String managerConfigFile = context.getProperty("Manager.config.file.manager.xml");
 			if (managerConfigFile == null) {
@@ -77,10 +90,8 @@ public class StageSimulationManager extends SimulationManager {
 				deactivate();
 			}
 			Document document = null;
-
 			FileInputStream s = new FileInputStream(managerConfigFile);
 			document = documentBuilder.parse(s);
-			
 			serverURI = InetAddress.getByName(document.getElementsByTagName("serverURI").item(0).getTextContent());
 			serverName = document.getElementsByTagName("serverName").item(0).getTextContent();
 			serverPassword = document.getElementsByTagName("serverPassword").item(0).getTextContent();
@@ -128,7 +139,7 @@ public class StageSimulationManager extends SimulationManager {
 			e.printStackTrace();
 		}
 		connectToXMPPserver(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
-				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout, fake);
+				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout, fake, CURRENT_VERBOSITY_LEVEL);
 		publishPresence(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
 				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout);
 		while (true) {
@@ -166,7 +177,9 @@ public class StageSimulationManager extends SimulationManager {
 		disco.addFeature("http://jabber.org/protocol/si/profile/file-transfer");
 		final Presence presence = new Presence(Presence.Type.available);
 		Gson gson = new Gson();
-		System.out.println(" \n MA : the server info is " + gson.toJson(serverInfo, Server.class));
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println(" \n MA : the server info is " + gson.toJson(serverInfo, Server.class));
+		}
 		presence.setStatus(gson.toJson(serverInfo, Server.class));
 		try {
 			this.getConnection().sendStanza(presence);
@@ -187,7 +200,9 @@ public class StageSimulationManager extends SimulationManager {
 			coordinatorInstance.dispose();
 		if(fileTransferListenerInstace != null)
 			fileTransferListenerInstace.dispose();
-		System.out.println(" \n stoping Stage simulation manager \n");
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println("stoping Stage simulation manager");
+		}
 	}
 
 }

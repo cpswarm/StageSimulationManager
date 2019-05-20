@@ -36,26 +36,20 @@ public class SimulationLauncher implements Runnable {
 	public void setSimulationManager(final SimulationManager manager) {
 		assert manager != null;
 		this.parent = manager;
-		System.out.println("SimulationLauncher is bound to a MA =  " + manager.getClientID());
 	}
 
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.fitnessCalculator.factory)")
 	public void getComponentFactory(final ComponentFactory s) {
 		this.fitnessCalculatorFactory = s;
-		System.out.println(" Simulation Launcher gets a fitnessCalculator ComponentFactory ");
-
 	}
 
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.rosCommand.factory)")
 	public void getRosCommandFactory(final ComponentFactory s) {
 		this.rosCommandFactory = s;
-		System.out.println(" Simulation Launcher gets a RosCommand ComponentFactory ");
-
 	}
 
 	@Activate
 	public void activate(BundleContext context, Map<String, Object> properties) throws Exception {
-		System.out.println(" Instantiate a Simulation Launcher");
 		this.context = context;
 		for (Entry<String, Object> entry : properties.entrySet()) {
 			String key = entry.getKey();
@@ -78,6 +72,9 @@ public class SimulationLauncher implements Runnable {
 		if (parent != null) {
 			setSimulationManager(parent);
 		}
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println(" Instantiate a Simulation Launcher");
+		}	
 	}
 
 	@Override
@@ -87,7 +84,9 @@ public class SimulationLauncher implements Runnable {
 		try {
 			try {
 				String params = parent.getSimulationConfiguration();
-				System.out.println("Launching the simulation for package: " + packageName + " with params: " + params);
+				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+					System.out.println("Launching the simulation for package: "+packageName + " with params: "+ params);
+				}
 				// roslaunch emergency_exit stage.launch visual:=true
 				Properties props = new Properties();
 				props.put("rosWorkspace", rosWorkspace);
@@ -103,7 +102,6 @@ public class SimulationLauncher implements Runnable {
 				e.printStackTrace();
 			}
 			if (calcFitness) {
-				System.out.println("\n simulation launcher starts to calculate fitness");
 				calculatorInstance = this.fitnessCalculatorFactory.newInstance(null);
 				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) calculatorInstance.getInstance();
 				parent.publishFitness(
@@ -123,7 +121,9 @@ public class SimulationLauncher implements Runnable {
 
 	@Deactivate
 	void deactivate() {
-		System.out.println("Simulation launcher is deactived");
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println("Simulation launcher is deactived");
+		}
 		Process proc;
 		try {
 			proc = Runtime.getRuntime().exec("killall " + packageName);

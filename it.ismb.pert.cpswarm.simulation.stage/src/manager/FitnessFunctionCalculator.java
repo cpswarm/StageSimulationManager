@@ -18,6 +18,7 @@ import org.osgi.service.component.annotations.Reference;
 
 import eu.cpswarm.optimization.messages.ReplyMessage;
 import eu.cpswarm.optimization.messages.SimulationResultMessage;
+import simulation.SimulationManager;
 
 
 //factory component for creating instance per request
@@ -33,13 +34,16 @@ public class FitnessFunctionCalculator {
 
 	@Activate
 	public void activate(BundleContext context) {
-		System.out.println("Instantiate a fitnessFunctionCalculator");
-
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println("Instantiate a fitnessFunctionCalculator");
+		}
 	}
 
 	@Deactivate
 	public void deactivate() {
-		System.out.println("Stoping the fitnessFunctionCalculator");
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println("Stoping the fitnessFunctionCalculator");
+		}
 	}
 
 	/**
@@ -54,7 +58,9 @@ public class FitnessFunctionCalculator {
 		// container for data of all log files
 		logs = new ArrayList<NavigableMap<Integer, Double>>();
 		String logsFolder = packageFolder + File.separator + "log" + File.separator;
-		System.out.println("Reading logs from :" + logsFolder);
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println("Reading logs from :" + logsFolder);
+		}
 
 		// path to log directory
 		File logPath = new File(logsFolder);
@@ -62,7 +68,9 @@ public class FitnessFunctionCalculator {
 		// iterate through all log files
 		String[] logFiles = logPath.list(fileLogFilter);
 		for (int i = 0; i < logFiles.length; i++) {
-			System.out.println("Reading log file: " + logFiles[i]);
+			if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+	    		System.out.println("Reading log file: "+logFiles[i]);
+	    	}
 
 			// container for data of one log file
 			NavigableMap<Integer, Double> log = new TreeMap<Integer, Double>();
@@ -125,12 +133,14 @@ public class FitnessFunctionCalculator {
 				agentTimeTaken = TIMEOUT;
 			}
 			totalTimeTaken += agentTimeTaken;
-			System.out.println(
-					"Fitness score for agent " + fitness + ", distance: " + agentDistance + ", time:" + agentTimeTaken);
-			fitnessSum += fitness;
+			if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+		    	System.out.println("Fitness score for agent "+fitness+", distance: "+agentDistance +", time:"+ agentTimeTaken);
+		    }
+		    fitnessSum += fitness;
 		}
-
-		System.out.println("Total fitness calculated " + fitnessSum);
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println("Total fitness calculated "+fitnessSum);
+		}
 		// overall fitness is average fitness of agents
 		return new SimulationResultMessage(optimizationID,
 				"distance:" + (totalDistance / logs.size()) + " time:" + (totalTimeTaken / logs.size()),
@@ -148,7 +158,9 @@ public class FitnessFunctionCalculator {
 	void setFileLogFilter(FileLogFilter filter) {
 		// make sure a file log filer is available before starting to calculate fitness
 		this.fileLogFilter = filter;
-		System.out.println("get a file log filter ");
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println("get a file log filter ");
+		}		
 	}
 
 }

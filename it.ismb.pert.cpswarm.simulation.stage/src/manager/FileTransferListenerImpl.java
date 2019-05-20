@@ -24,8 +24,6 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 
 	@Activate
 	protected void activate(Map<String, Object> properties) throws Exception {
-
-		System.out.println(" Instantiate a stage FileTransferListenerImpl");
 		for (Entry<String, Object> entry : properties.entrySet()) {
 			String key = entry.getKey();
 			if (key.equals("SimulationManager")) {
@@ -39,13 +37,18 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 		}
 		assert parent != null;
 		if (parent != null) {
+			if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+				System.out.println(" Instantiate a stage FileTransferListenerImpl");
+			}
 			setSimulationManager(parent);
 		}
 	}
 
 	@Deactivate
 	public void deactivate() {
-		System.out.println(" stoping a stage FileTransferListenerImpl");
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println(" stoping a stage FileTransferListenerImpl");
+		}
 	}
 
 	@Override
