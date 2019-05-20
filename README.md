@@ -37,7 +37,9 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
    To set individual System properties with the `-D` option to pass the command line parameters to override the properties listed in the `-runproperties:` when running the manager,
 
    for example:
-   > java -Dverbosity=0 -jar stageManager.jar
+   ``` bash
+   java -Dverbosity=0 -jar stageManager.jar
+   ```
    ``` bash
    -runproperties: \
         org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
