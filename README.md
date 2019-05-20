@@ -34,7 +34,9 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
 *  **stageManager.bndrun**   
    There is a run descriptor file `stageManager.bndrun` with the following `-runproperties:` instruction for configuring the launching environment:
    
-   To pass the command line parameters to override the properties listed in the `-runproperties:` when running the manager, use:
+   To set individual System properties with the -D option to pass the command line parameters to override the properties listed in the `-runproperties:` when running the manager,
+
+   for example:
    > java -D<Property\_Name>=<Real\_Value> -jar stageManager.jar
    ``` bash
    -runproperties: \
