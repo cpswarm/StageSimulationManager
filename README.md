@@ -83,7 +83,6 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
 
 ## Run
 
-
 *  Way1: Run the `stageManager.bndrun` in the project folder from terminal, or with the `-D` option
    ``` bash
    $ bnd package stageManger.bndrun
@@ -102,6 +101,9 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
    ``` bash
    $ java -jar stageManager.jar
    ```
+## Debug
+
+Set your break-point in java classes, Click the `Debug OSGI` button in the right-top corner from `Run` tab of this bndrun file, the next debug steps are the same with generic java projects.
 
 ## Dependency Bundles Updation
 
