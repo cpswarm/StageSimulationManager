@@ -81,7 +81,7 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
    </settings>
    ```
 
-## Run
+## Run Stage Simulation Manager
 
 *  ***Way1:*** Run the `stageManager.bndrun` in the project folder from terminal, or with the `-D` option
    ``` bash
@@ -95,7 +95,7 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
    or you can click the `Run OSGI` button in the right-top corner from `Run` tab of this bndrun file
 *  ***Way3:*** Export the bndrun file as excutable jar in Eclipse
 
-   Click the `Export` button in the right-top corner from `Run` tab of this bndrun file,
+   Click the `Export` button in the stageManager.bndrun file -> Export Destination should be in the same folder with this bndrun file, because the excutable jar has to access to the `Resources/Manager.xml' configuration file. 
    
    Run the exported jar in it's folder:
    ``` bash
