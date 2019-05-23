@@ -20,11 +20,13 @@ Help-> Eclipse Markerplace-> search 'Bndtools'-> Installed->Restart Eclipse.
 ## Installation
 
 You can directly import all sub-projects in this repository by using the option `Paste Repository Path or URI` from the Git Repositories View in Eclipse.
+
+to open Bnd Repositories View:
 ```bash
 In Eclipse: Window-> Show View-> Other-> Bndtools-> Repositories.
 ```
->Note: the `cnf` project is a fixed name in the source code of Bnd IDE, it makes a directory a workspace with some built-in plugins and external plugins, just like the .git directory does for git. So don't change its name.\
->So when you want to import the second bnd repository which also contains a cnf project, you must manually clone&import the other projects with the option `Copy projects into workspace` is checked, because only one `cnf` project is allowed in a workspace
+>Note: the `cnf` project is a fixed name wrote in the source code of Bnd IDE, it makes a directory a workspace with some built-in plugins and external plugins, just like the .git directory does for git. So don't change its name.\
+>So when you want to import the second bnd repository which also contains a cnf project, you must manually clone and copy the other projects without the second cnf project into the first cloned Git repository folder and then import them to keep all sub-projects staying with the cnf, because only one `cnf` project is allowed in a workspace, as for the lacked dependencies, you can manually set up the cnf according to the last session of `Dependency Bundles Updation` in README.md.
 
 Click [`here`](https://bnd.bndtools.org/chapters/123-tour-workspace.html) to see the official guid page of cnf and bnd workspce.
 
@@ -32,7 +34,7 @@ Click [`here`](https://bnd.bndtools.org/chapters/123-tour-workspace.html) to see
 
 Go to project `it.ismb.pert.cpswarm.simulation.stage`
 *  **stageManager.bndrun**   
-   There is a run descriptor file `stageManager.bndrun` with the following `-runproperties:` instruction for configuring the launching environment:
+   There is a run descriptor file `stageManager.bndrun` with the following `-runproperties:` instruction inside for configuring the launching environment:
    
    To set individual System properties with the `-D` option to pass the command line parameters to override the properties listed in the `-runproperties:` when running the manager,
 
@@ -79,19 +81,29 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
    </settings>
    ```
 
-## Run
+## Run Stage Simulation Manager
 
-
-*  Way1: Run the `stageManager.bndrun` in the project folder from terminal
+*  ***Way1:*** Run the `stageManager.bndrun` in the project folder from terminal, or with the `-D` option
    ``` bash
    $ bnd package stageManger.bndrun
    $ java -jar stageManager.jar
    ```
-*  Way2: Run the `stageManager.bndrun` in Eclipse
+*  ***Way2:*** Run the `stageManager.bndrun` in Eclipse
 
    Run as -> Bnd OSGi Run Launcher
    
-   or you can click the `Run OSGI` buntton in the right-top corner from `Run` tab of this bndrun file
+   or you can click the `Run OSGI` button in the right-top corner from `Run` tab of this bndrun file
+*  ***Way3:*** Export the bndrun file as excutable jar in Eclipse
+
+   Click the `Export` button in the stageManager.bndrun file -> Selete Export Destination which should be in the same folder with this bndrun file, because the excutable jar has to access to the `Resources/Manager.xml` configuration file. 
+   
+   Run the exported jar in it's folder:
+   ``` bash
+   $ java -jar stageManager.jar
+   ```
+## Debug
+
+Set your break-point in java classes, Click the `Debug OSGI` button in the right-top corner from `Run` tab of this bndrun file, the next debug steps are the same with generic java projects.
 
 ## Dependency Bundles Updation
 

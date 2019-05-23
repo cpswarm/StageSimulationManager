@@ -9,6 +9,8 @@ repourl="http://aiolos.intec.ugent.be/repositories"
 	aQute.bnd.deployer.repository.FixedIndexedRepo;name=Concierge;locations=${repourl}/org.eclipse.concierge/index.xml,\
 	aQute.bnd.deployer.repository.FixedIndexedRepo;name=AIOLOS;locations=${repourl}/be.iminds.aiolos/index.xml,\
 	aQute.bnd.deployer.repository.FixedIndexedRepo;name=Build; locations=${repourl}/buildrepo/index.xml
+        
+
 	
 	
 #	aQute.bnd.repository.osgi.OSGiRepository;readonly=false;name=Maven Local;locations=/home/rui/.m2/repository/repository.xml
