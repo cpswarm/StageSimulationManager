@@ -172,15 +172,17 @@ public class StageSimulationManager extends SimulationManager {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
 		serverInfo.setServer(clientJID.asUnescapedString());
 		ServiceDiscoveryManager disco = ServiceDiscoveryManager.getInstanceFor(this.getConnection());
 		disco.addFeature("http://jabber.org/protocol/si/profile/file-transfer");
 		final Presence presence = new Presence(Presence.Type.available);
 		Gson gson = new Gson();
+		String statusToSend = gson.toJson(serverInfo, Server.class);
 		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-			System.out.println(" \n MA : the server info is " + gson.toJson(serverInfo, Server.class));
+			System.out.println(" \n MA : the server info is " + statusToSend);
 		}
-		presence.setStatus(gson.toJson(serverInfo, Server.class));
+		presence.setStatus(statusToSend);
 		try {
 			this.getConnection().sendStanza(presence);
 		} catch (final NotConnectedException | InterruptedException e) {

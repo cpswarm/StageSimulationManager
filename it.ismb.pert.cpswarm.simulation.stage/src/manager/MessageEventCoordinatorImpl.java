@@ -79,7 +79,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	}
 
 	@Override
-	protected void handleCandidate(final EntityBareJid sender, final String candidate) {
+	protected void handleCandidate(final EntityBareJid sender, final String candidate, final String candidateType) {
 		try {
 			if (fake) {
 				Thread.sleep(timeout);
@@ -89,7 +89,8 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				instance.dispose();
 				return;
 			}
-			packageName = parent.getOptimizationID().substring(0, parent.getOptimizationID().indexOf("!"));
+	//		packageName = parent.getOptimizationID().substring(0, parent.getOptimizationID().indexOf("!"));
+			packageName = parent.getSCID();
 			packageFolder = parent.getRosFolder() + packageName;
 			if (sender.equals(JidCreate.entityBareFromOrThrowUnchecked(parent.getOptimizationJID()))) {
 				if (candidate.equals("test")) {
@@ -98,8 +99,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				}
 				if (!serializeCandidate(candidate)) {
 					parent.publishFitness(
-							new SimulationResultMessage(parent.getOptimizationID(), "Error serializing the candidate",
-									ReplyMessage.Status.ERROR, parent.getSimulationID(), BAD_FITNESS));
+							new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS));
 					return;
 				}
 				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
@@ -141,15 +141,13 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				}
 				if (!serializeCandidate(candidate)) {
 					parent.publishFitness(
-							new SimulationResultMessage(parent.getOptimizationID(), "Error serializing the candidate",
-									ReplyMessage.Status.ERROR, parent.getSimulationID(), BAD_FITNESS));
+							new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS));
 					return;
 				}
 				runSimulation(false);
 			}
 		} catch (IOException | InterruptedException e) {
-			parent.publishFitness(new SimulationResultMessage(parent.getOptimizationID(),
-					"Error handling the candidate", ReplyMessage.Status.ERROR, parent.getSimulationID(), BAD_FITNESS));
+			parent.publishFitness(new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS));
 		}
 	}
 
@@ -182,7 +180,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					instance = this.fitnessCalculatorFactory.newInstance(null);
 					FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
 					if (calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), packageFolder)
-							.getOperationStatus().equals(ReplyMessage.Status.ERROR)) {
+							.getSuccess().equals(false)) {
 						System.out.println("Error");
 						return;
 					}

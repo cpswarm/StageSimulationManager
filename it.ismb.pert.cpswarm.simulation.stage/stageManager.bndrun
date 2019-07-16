@@ -76,10 +76,8 @@
 	be.iminds.iot.ros.core;version=latest,\
 	it.ismb.pert.cpswarm.simulation.manager;version=latest,\
 	it.ismb.pert.cpswarm.simulation.stage;version=latest
-	
-	
-	
-	
+
+
 -runproperties: \
 	org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
 	org.eclipse.jetty.LEVEL=WARN,\
@@ -92,7 +90,10 @@
 	Manager.config.file.manager.xml=resources/manager.xml,\
 	javax.net.ssl.trustStorePassword=changeit,\
 	javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts
-
+	
+	
+	
+	
 -runsystempackages: \
 	javax.naming,\
 	javax.naming.ldap,\
@@ -131,6 +132,7 @@
 	sun.*,\
 	sun.net.spi.nameservice.*,\
 	javax.*
+
 
 
 

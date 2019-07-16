@@ -107,8 +107,7 @@ public class FitnessFunctionCalculator {
 			final String packageFolder) {
 
 		if (!readLogs(packageFolder)) {
-			return new SimulationResultMessage(optimizationID, "Error reading the logs", ReplyMessage.Status.ERROR,
-					simulationID, BAD_FITNESS_VALUE);
+			return new SimulationResultMessage(optimizationID, false, simulationID, BAD_FITNESS_VALUE);
 		}
 
 		double fitnessSum = 0;
@@ -142,16 +141,12 @@ public class FitnessFunctionCalculator {
 			System.out.println("Total fitness calculated "+fitnessSum);
 		}
 		// overall fitness is average fitness of agents
-		return new SimulationResultMessage(optimizationID,
-				"distance:" + (totalDistance / logs.size()) + " time:" + (totalTimeTaken / logs.size()),
-				ReplyMessage.Status.OK, simulationID, fitnessSum / logs.size());
+		return new SimulationResultMessage(optimizationID, true, simulationID, fitnessSum / logs.size());
 	}
 
 	public SimulationResultMessage randomFitness(final String optimizationID, final String simulationID) {
 		Random random = new Random();
-		return new SimulationResultMessage(optimizationID,
-				"distance:" + random.nextDouble() + " time:" + random.nextDouble(), ReplyMessage.Status.OK,
-				simulationID, random.nextDouble());
+		return new SimulationResultMessage(optimizationID, true, simulationID, random.nextDouble());
 	}
 
 	@Reference
@@ -160,7 +155,8 @@ public class FitnessFunctionCalculator {
 		this.fileLogFilter = filter;
 		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println("get a file log filter ");
-		}		
+		}
+		
 	}
 
 }
