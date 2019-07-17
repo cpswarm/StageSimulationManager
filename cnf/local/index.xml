@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1563380437000">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1563384556000">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="license" value="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
@@ -83,6 +83,39 @@
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.6))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="be.iminds.iot.ros.msgs.generator"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="0.2.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.2.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="be.iminds.iot.ros.msgs.generator"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.2.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="be.iminds.iot.ros.msgs.generator"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="java.lang.Object" type="List&lt;String&gt;"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="5334" type="Long"/>
+      <attribute name="url" value="be.iminds.iot.ros.msgs.generator/be.iminds.iot.ros.msgs.generator-0.2.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="F6B66A66293077A4337B1F85B4316E5257B3651CDDF1E4D455115DE7FE90276E"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.internal.message)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
     </requirement>
   </resource>
   <resource>
@@ -750,6 +783,34 @@
   </resource>
   <resource>
     <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="be.iminds.iot.simulator.api"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="0.3.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.3.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="be.iminds.iot.simulator.api"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.3.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="be.iminds.iot.simulator.api"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="version" value="0.3.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="be.iminds.iot.simulator.api"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="8377" type="Long"/>
+      <attribute name="url" value="be.iminds.iot.simulator.api/be.iminds.iot.simulator.api-0.3.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="6264B0B8AE3C69FBA1E247488945BF893E7FA6B3674801F7F46E6F1FCE4257E6"/>
+    </capability>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
       <attribute name="license" value="http://opensource.org/licenses/apache2.0.php; link=&quot;http://www.apache.org/licenses/LICENSE-2.0&quot;; description=&quot;Apache License, Version 2.0&quot;"/>
       <attribute name="osgi.identity" value="osgi.core"/>
       <attribute name="type" value="osgi.bundle"/>
@@ -1143,6 +1204,107 @@
   </resource>
   <resource>
     <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="it.ismb.pert.cpswarm.simulation.manager"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="1.0.43" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="1.0.43" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="it.ismb.pert.cpswarm.simulation.manager"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="1.0.43" type="Version"/>
+      <attribute name="osgi.wiring.host" value="it.ismb.pert.cpswarm.simulation.manager"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="version" value="1.0.43" type="Version"/>
+      <attribute name="osgi.wiring.package" value="messages.server"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="eu.cpswarm.optimization.messages,messages.server,org.jivesoftware.smack.tcp,org.jxmpp.jid,simulation.xmpp"/>
+      <attribute name="version" value="1.0.43" type="Version"/>
+      <attribute name="osgi.wiring.package" value="simulation"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.jivesoftware.smack,org.jivesoftware.smack.chat2,org.jivesoftware.smack.packet,org.jivesoftware.smack.roster,org.jivesoftware.smackx.filetransfer,org.jxmpp.jid,simulation"/>
+      <attribute name="version" value="1.0.43" type="Version"/>
+      <attribute name="osgi.wiring.package" value="simulation.xmpp"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="40510" type="Long"/>
+      <attribute name="url" value="it.ismb.pert.cpswarm.simulation.manager/it.ismb.pert.cpswarm.simulation.manager-1.0.43.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="77DF0DF612D6D41799BA115AA32029D93B61151772E05980708E13771A5A8C76"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.annotations)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=eu.cpswarm.optimization.messages)(&amp;(version&gt;=0.0.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=it.ismb.pert.cpswarm.mqttlib.transport)(&amp;(version&gt;=1.1.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.net.ssl))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=messages.server))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.eclipse.paho.client.mqttv3)(&amp;(version&gt;=1.2.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.chat2)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.filter)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.packet)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.roster)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.sasl)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.tcp)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smackx.filetransfer)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smackx.iqregister)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid.impl)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid.parts)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=simulation))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=simulation.xmpp))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="ws-commons-util"/>
       <attribute name="type" value="osgi.bundle"/>
       <attribute name="version" value="1.0.1" type="Version"/>
@@ -1358,6 +1520,93 @@
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=std_msgs)(&amp;(version&gt;=0.5.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="be.iminds.iot.simulator.gazebo"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="0.4.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.4.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="be.iminds.iot.simulator.gazebo"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.4.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="be.iminds.iot.simulator.gazebo"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <attribute name="version" value="0.3.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="be.iminds.iot.simulator.api"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="org.ros.node.NodeMain" type="List&lt;String&gt;"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="36075" type="Long"/>
+      <attribute name="url" value="be.iminds.iot.simulator.gazebo/be.iminds.iot.simulator.gazebo-0.4.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="E6687C1AE2200D78C7FE87246BE413390C1A951298E07B2FB1BA943AD5052D1D"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.simulator.api)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=gazebo_msgs)(&amp;(version&gt;=2.4.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=geometry_msgs)(&amp;(version&gt;=1.11.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(&amp;(version&gt;=1.7.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.service.cm)(&amp;(version&gt;=1.5.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.util.promise)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.exception)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.message)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.namespace)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.node)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.node.service)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.node.topic)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=rosgraph_msgs)(&amp;(version&gt;=1.11.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=std_srvs)(&amp;(version&gt;=1.11.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=be.iminds.iot.ros.api.Ros)"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=org.osgi.service.cm.ConfigurationAdmin)"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
     </requirement>
   </resource>
   <resource>
@@ -1802,10 +2051,10 @@
       <attribute name="osgi.wiring.package" value="simulation.xmpp"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="42143" type="Long"/>
+      <attribute name="size" value="41163" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.manager/it.ismb.pert.cpswarm.simulation.manager-1.0.48.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="6FC33E3D9C9AE77E676BC20FB3144D3D287C94DA0961405DB33455B35EF962BF"/>
+      <attribute name="osgi.content" value="10B76D341B130DBEDD7E3A566BD13670D803A3F450DFE5F567D08ADBA2AAFE88"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
@@ -3758,6 +4007,98 @@
   </resource>
   <resource>
     <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="it.ismb.pert.cpswarm.simulation.stage"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="1.0.43" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="1.0.43" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="it.ismb.pert.cpswarm.simulation.stage"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="1.0.43" type="Version"/>
+      <attribute name="osgi.wiring.host" value="it.ismb.pert.cpswarm.simulation.stage"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="java.lang.Runnable" type="List&lt;String&gt;"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="manager.FileLogFilter" type="List&lt;String&gt;"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="manager.StageSimulationManager" type="List&lt;String&gt;"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="33752" type="Long"/>
+      <attribute name="url" value="it.ismb.pert.cpswarm.simulation.stage/it.ismb.pert.cpswarm.simulation.stage-1.0.43.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="7BF6F1F90E17AC4C866BB26B380011D5E9F747B317CC47FBB0C4BD61256F61EC"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=eu.cpswarm.optimization.messages)(&amp;(version&gt;=0.0.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.xml.parsers))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=messages.server)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.packet)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.tcp)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smackx.disco)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid.impl)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(&amp;(version&gt;=1.7.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.service.component)(&amp;(version&gt;=1.3.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.w3c.dom))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=simulation)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=simulation.xmpp)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=manager.FileLogFilter)"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=org.osgi.service.component.ComponentFactory)"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="org.apache.commons.httpclient"/>
       <attribute name="type" value="osgi.bundle"/>
       <attribute name="version" value="3.1.0" type="Version"/>
@@ -3840,57 +4181,6 @@
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.logging)(&amp;(version&gt;=1.1.1)(!(version&gt;=2.0.0))))"/>
     </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="license" value="Apache 2.0"/>
-      <attribute name="osgi.identity" value="joda-time"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="2.10.1" type="Version"/>
-      <attribute name="documentation" value="https://www.joda.org/joda-time/"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="bundle-version" value="2.10.1" type="Version"/>
-      <attribute name="osgi.wiring.bundle" value="joda-time"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="2.10.1" type="Version"/>
-      <attribute name="osgi.wiring.host" value="joda-time"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="2.10.1" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.joda.time"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="2.10.1" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.joda.time.base"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="2.10.1" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.joda.time.chrono"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="2.10.1" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.joda.time.convert"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="2.10.1" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.joda.time.field"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="2.10.1" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.joda.time.format"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="2.10.1" type="Version"/>
-      <attribute name="osgi.wiring.package" value="org.joda.time.tz"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="size" value="640724" type="Long"/>
-      <attribute name="url" value="joda-time/joda-time-2.10.1.jar"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="D269671656767E05A58DD634CBAFC36ED70D417220B058D11C0D88DFD281616D"/>
-    </capability>
   </resource>
   <resource>
     <capability namespace="osgi.identity">
@@ -4245,6 +4535,66 @@
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="be.iminds.iot.ros.api"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="0.4.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.4.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="be.iminds.iot.ros.api"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.4.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="be.iminds.iot.ros.api"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.ros.node"/>
+      <attribute name="version" value="0.3.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="be.iminds.iot.ros.api"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.osgi.framework,org.osgi.service.component"/>
+      <attribute name="version" value="0.3.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="be.iminds.iot.ros.util"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="be.iminds.iot.ros.util.RosCommandInjection" type="List&lt;String&gt;"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="17973" type="Long"/>
+      <attribute name="url" value="be.iminds.iot.ros.api/be.iminds.iot.ros.api-0.4.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="D92CE266299D0B50C9F0B0DC006AB67EC7C6BD9CDD7513A6D97A460D0EFC21A8"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.api)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(&amp;(version&gt;=1.3.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.service.component)(&amp;(version&gt;=1.2.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.node)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=be.iminds.iot.ros.api.Ros)"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=org.osgi.service.component.ComponentFactory)"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
     </requirement>
   </resource>
   <resource>
@@ -5457,6 +5807,156 @@
   </resource>
   <resource>
     <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="be.iminds.iot.ros.core"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="0.3.0" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.3.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="be.iminds.iot.ros.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.3.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="be.iminds.iot.ros.core"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="org.ros.node"/>
+      <attribute name="version" value="0.3.0" type="Version"/>
+      <attribute name="osgi.wiring.package" value="be.iminds.iot.ros.api"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="be.iminds.iot.ros.api.Ros" type="List&lt;String&gt;"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="17158" type="Long"/>
+      <attribute name="url" value="be.iminds.iot.ros.core/be.iminds.iot.ros.core-0.3.0.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="9B58FBF2B5A5B6D632DA5C33DE6E4EBF3FB7572D9BF623FED138CA3072E292F7"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.api)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(&amp;(version&gt;=1.7.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.concurrent)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.master.client)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.namespace)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.node)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.node.parameter)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=org.ros.node.NodeMain)"/>
+      <directive name="effective" value="active"/>
+      <directive name="resolution" value="optional"/>
+      <directive name="cardinality" value="multiple"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="it.ismb.pert.cpswarm.simulation.gazebo"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="1.0.43" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="1.0.43" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="it.ismb.pert.cpswarm.simulation.gazebo"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="1.0.43" type="Version"/>
+      <attribute name="osgi.wiring.host" value="it.ismb.pert.cpswarm.simulation.gazebo"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="java.lang.Runnable" type="List&lt;String&gt;"/>
+    </capability>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="manager.GazeboSimulationManager" type="List&lt;String&gt;"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="23390" type="Long"/>
+      <attribute name="url" value="it.ismb.pert.cpswarm.simulation.gazebo/it.ismb.pert.cpswarm.simulation.gazebo-1.0.43.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="C74AC225CD52C1B12DE8E62C66111EE8310D8A2E848639EFF9A2AD64F38BFBD7"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=eu.cpswarm.optimization.messages)(&amp;(version&gt;=0.0.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.xml.parsers))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=messages.server)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.packet)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.tcp)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smackx.disco)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid.impl)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(&amp;(version&gt;=1.7.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.service.component)(&amp;(version&gt;=1.3.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.w3c.dom))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=simulation)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=simulation.xmpp)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
+    </requirement>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=org.osgi.service.component.ComponentFactory)"/>
+      <directive name="effective" value="active"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
       <attribute name="license" value="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
       <attribute name="osgi.identity" value="org.apache.felix.http.servlet-api"/>
       <attribute name="type" value="osgi.bundle"/>
@@ -5949,10 +6449,10 @@
       <attribute name="osgi.wiring.package" value="eu.cpswarm.optimization.messages"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="18155" type="Long"/>
+      <attribute name="size" value="18243" type="Long"/>
       <attribute name="url" value="optimization-messages/optimization-messages-0.0.1.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="16247F06B9CF1B04A6923C715C89B6706A8C5F0F1BCD30A358B67C8D7D918125"/>
+      <attribute name="osgi.content" value="782BFDD3C35A5C8F8D278129FBD0287FC2F6148A92E388673F82E7160BF4A4A2"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
@@ -6423,319 +6923,179 @@
   </resource>
   <resource>
     <capability namespace="osgi.identity">
-      <attribute name="license" value="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-      <attribute name="osgi.identity" value="io.kubernetes.client-java-api"/>
+      <attribute name="osgi.identity" value="it.ismb.pert.cpswarm.simulation.gazebo"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="3.0.0.beta3-SNAPSHOT" type="Version"/>
+      <attribute name="version" value="1.1.1" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
-      <attribute name="bundle-version" value="3.0.0.beta3-SNAPSHOT" type="Version"/>
-      <attribute name="osgi.wiring.bundle" value="io.kubernetes.client-java-api"/>
+      <attribute name="bundle-version" value="1.1.1" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="it.ismb.pert.cpswarm.simulation.gazebo"/>
     </capability>
     <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="3.0.0.beta3-SNAPSHOT" type="Version"/>
-      <attribute name="osgi.wiring.host" value="io.kubernetes.client-java-api"/>
+      <attribute name="bundle-version" value="1.1.1" type="Version"/>
+      <attribute name="osgi.wiring.host" value="it.ismb.pert.cpswarm.simulation.gazebo"/>
     </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="io.kubernetes.client"/>
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client.auth"/>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="java.lang.Runnable" type="List&lt;String&gt;"/>
     </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="com.google.gson,com.google.gson.stream,com.squareup.okhttp,io.kubernetes.client.auth,javax.net.ssl,okio,org.joda.time,org.joda.time.format"/>
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="com.google.gson,com.google.gson.annotations,com.google.gson.stream"/>
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client.custom"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client.fluent"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="com.squareup.okhttp,io.kubernetes.client,io.kubernetes.client.models"/>
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client.apis"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="io.kubernetes.client.custom,io.kubernetes.client.fluent,io.swagger.annotations,org.joda.time"/>
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client.models"/>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="manager.GazeboSimulationManager" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="9294012" type="Long"/>
-      <attribute name="url" value="io.kubernetes.client-java-api/io.kubernetes.client-java-api-3.0.0.jar"/>
+      <attribute name="size" value="24296" type="Long"/>
+      <attribute name="url" value="it.ismb.pert.cpswarm.simulation.gazebo/it.ismb.pert.cpswarm.simulation.gazebo-1.1.1.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="D7C5DE56F069E21684FB655457677E2B579E96FC1D430680E38E112BC17B42DC"/>
+      <attribute name="osgi.content" value="B227C59CE97E8347DF0EE1D468D2A1FE402F4CC7987C6340E788013CA047CAB4"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.6.0)(!(version&gt;=3.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.annotations)(&amp;(version&gt;=2.6.0)(!(version&gt;=3.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.reflect)(&amp;(version&gt;=2.6.0)(!(version&gt;=3.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=eu.cpswarm.optimization.messages)(&amp;(version&gt;=0.0.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.stream)(&amp;(version&gt;=2.6.0)(!(version&gt;=3.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.xml.parsers))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.squareup.okhttp))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=messages.server)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.squareup.okhttp.internal.http))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.squareup.okhttp.logging))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.packet)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.tcp)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.auth)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smackx.disco)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.custom)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.fluent)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid.impl)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.models)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(&amp;(version&gt;=1.7.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.swagger.annotations)(&amp;(version&gt;=1.5.0)(!(version&gt;=2.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.service.component)(&amp;(version&gt;=1.3.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.net.ssl))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.w3c.dom))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=okio))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=simulation)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.lang3)(&amp;(version&gt;=3.7.0)(!(version&gt;=4.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=simulation.xmpp)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.lang3.tuple)(&amp;(version&gt;=3.7.0)(!(version&gt;=4.0.0))))"/>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
     </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.joda.time)(&amp;(version&gt;=2.9.0)(!(version&gt;=3.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.joda.time.format)(&amp;(version&gt;=2.9.0)(!(version&gt;=3.0.0))))"/>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=org.osgi.service.component.ComponentFactory)"/>
+      <directive name="effective" value="active"/>
     </requirement>
     <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
     </requirement>
   </resource>
   <resource>
     <capability namespace="osgi.identity">
-      <attribute name="license" value="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-      <attribute name="osgi.identity" value="io.kubernetes.client-java"/>
+      <attribute name="osgi.identity" value="it.ismb.pert.cpswarm.simulation.stage"/>
       <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="3.0.0.beta3-SNAPSHOT" type="Version"/>
+      <attribute name="version" value="1.1.0" type="Version"/>
     </capability>
     <capability namespace="osgi.wiring.bundle">
-      <attribute name="bundle-version" value="3.0.0.beta3-SNAPSHOT" type="Version"/>
-      <attribute name="osgi.wiring.bundle" value="io.kubernetes.client-java"/>
+      <attribute name="bundle-version" value="1.1.0" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="it.ismb.pert.cpswarm.simulation.stage"/>
     </capability>
     <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="3.0.0.beta3-SNAPSHOT" type="Version"/>
-      <attribute name="osgi.wiring.host" value="io.kubernetes.client-java"/>
+      <attribute name="bundle-version" value="1.1.0" type="Version"/>
+      <attribute name="osgi.wiring.host" value="it.ismb.pert.cpswarm.simulation.stage"/>
     </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="com.google.gson,com.google.gson.stream,com.google.protobuf,com.squareup.okhttp,io.kubernetes.client.auth,io.kubernetes.client.models,io.kubernetes.client.proto,io.kubernetes.client.util,javax.net.ssl,okio,org.joda.time,org.joda.time.format"/>
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client"/>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="java.lang.Runnable" type="List&lt;String&gt;"/>
     </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="com.google.gson.annotations,com.squareup.okhttp,com.squareup.okhttp.ws,io.kubernetes.client,io.kubernetes.client.models,io.kubernetes.client.util.authenticators,io.kubernetes.client.util.credentials,javax.net.ssl,okio,org.yaml.snakeyaml,org.yaml.snakeyaml.constructor,org.yaml.snakeyaml.introspector,org.yaml.snakeyaml.nodes,org.yaml.snakeyaml.representer"/>
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client.util"/>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="manager.FileLogFilter" type="List&lt;String&gt;"/>
     </capability>
-    <capability namespace="osgi.wiring.package">
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client.util.authenticators"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="io.kubernetes.client,io.kubernetes.client.util"/>
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client.util.credentials"/>
+    <capability namespace="osgi.service">
+      <attribute name="objectClass" value="manager.StageSimulationManager" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="111548" type="Long"/>
-      <attribute name="url" value="io.kubernetes.client-java/io.kubernetes.client-java-3.0.0.jar"/>
+      <attribute name="size" value="34447" type="Long"/>
+      <attribute name="url" value="it.ismb.pert.cpswarm.simulation.stage/it.ismb.pert.cpswarm.simulation.stage-1.1.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="8CBFFB14E68B721DB8FDAEC7F1CBA6C6A0966D6CE235E38C937381DBC19675BE"/>
+      <attribute name="osgi.content" value="935FC208E699B911299CAF69D0C1590EF3900E90FAFCBEAE611EB770A3811591"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.common.base)(&amp;(version&gt;=25.1.0)(!(version&gt;=26.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.common.collect)(&amp;(version&gt;=25.1.0)(!(version&gt;=26.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.common.io)(&amp;(version&gt;=25.1.0)(!(version&gt;=26.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=eu.cpswarm.optimization.messages)(&amp;(version&gt;=0.0.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.common.primitives)(&amp;(version&gt;=25.1.0)(!(version&gt;=26.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.xml.parsers))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.common.reflect)(&amp;(version&gt;=25.1.0)(!(version&gt;=26.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=messages.server)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.6.0)(!(version&gt;=3.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.annotations)(&amp;(version&gt;=2.6.0)(!(version&gt;=3.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.packet)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.reflect)(&amp;(version&gt;=2.6.0)(!(version&gt;=3.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smack.tcp)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.stream)(&amp;(version&gt;=2.6.0)(!(version&gt;=3.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jivesoftware.smackx.disco)(&amp;(version&gt;=4.3.0)(!(version&gt;=5.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.protobuf)(&amp;(version&gt;=3.4.0)(!(version&gt;=4.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.microsoft.aad.adal4j))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid.impl)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.squareup.okhttp))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(&amp;(version&gt;=1.7.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.squareup.okhttp.internal.http))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.service.component)(&amp;(version&gt;=1.3.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.squareup.okhttp.logging))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.w3c.dom))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.squareup.okhttp.ws))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=simulation)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=simulation.xmpp)(&amp;(version&gt;=1.0.0)(!(version&gt;=2.0.0))))"/>
     </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.apis)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
+    <requirement namespace="osgi.extender">
+      <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
     </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.auth)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=manager.FileLogFilter)"/>
+      <directive name="effective" value="active"/>
     </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.custom)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.models)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.proto)(&amp;(version&gt;=3.0.0)(!(version&gt;=4.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.util))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.util.authenticators))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=io.kubernetes.client.util.credentials))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.net.ssl))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=javax.security.auth.x500))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=okio))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.codec.binary)(&amp;(version&gt;=1.11.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.compress.archivers)(&amp;(version&gt;=1.18.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.compress.archivers.tar)(&amp;(version&gt;=1.18.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.lang3)(&amp;(version&gt;=3.7.0)(!(version&gt;=4.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.apache.commons.lang3.tuple)(&amp;(version&gt;=3.7.0)(!(version&gt;=4.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.bouncycastle.jce.provider)(&amp;(version&gt;=1.59.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.bouncycastle.openssl)(&amp;(version&gt;=1.59.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.bouncycastle.openssl.jcajce)(&amp;(version&gt;=1.59.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.joda.time)(&amp;(version&gt;=2.9.0)(!(version&gt;=3.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.joda.time.format)(&amp;(version&gt;=2.9.0)(!(version&gt;=3.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.slf4j)(&amp;(version&gt;=1.7.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.yaml.snakeyaml)(&amp;(version&gt;=1.19.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.yaml.snakeyaml.constructor)(&amp;(version&gt;=1.19.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.yaml.snakeyaml.introspector)(&amp;(version&gt;=1.19.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.yaml.snakeyaml.nodes)(&amp;(version&gt;=1.19.0)(!(version&gt;=2.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.yaml.snakeyaml.representer)(&amp;(version&gt;=1.19.0)(!(version&gt;=2.0.0))))"/>
+    <requirement namespace="osgi.service">
+      <directive name="filter" value="(objectClass=org.osgi.service.component.ComponentFactory)"/>
+      <directive name="effective" value="active"/>
     </requirement>
     <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="license" value="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-      <attribute name="osgi.identity" value="io.kubernetes.client-java-proto"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="3.0.0.beta3-SNAPSHOT" type="Version"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="bundle-version" value="3.0.0.beta3-SNAPSHOT" type="Version"/>
-      <attribute name="osgi.wiring.bundle" value="io.kubernetes.client-java-proto"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="3.0.0.beta3-SNAPSHOT" type="Version"/>
-      <attribute name="osgi.wiring.host" value="io.kubernetes.client-java-proto"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="com.google.protobuf"/>
-      <attribute name="version" value="3.0.0" type="Version"/>
-      <attribute name="osgi.wiring.package" value="io.kubernetes.client.proto"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="size" value="6651114" type="Long"/>
-      <attribute name="url" value="io.kubernetes.client-java-proto/io.kubernetes.client-java-proto-3.0.0.jar"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="21054DEE0B0D8A9B7BB598C378D3E71925942142FBB7D6F4E81A1F9B26FF0857"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.protobuf)(&amp;(version&gt;=3.4.0)(!(version&gt;=4.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.7))"/>
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
     </requirement>
   </resource>
 </repository>
