@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1563273525000">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1563380437000">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="license" value="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
@@ -1802,10 +1802,10 @@
       <attribute name="osgi.wiring.package" value="simulation.xmpp"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="42125" type="Long"/>
+      <attribute name="size" value="42143" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.manager/it.ismb.pert.cpswarm.simulation.manager-1.0.48.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="C274D01D6A009AD7969BFAA3CB14B9012221EBBCB5D31EF8A823A09CEDDAFF86"/>
+      <attribute name="osgi.content" value="6FC33E3D9C9AE77E676BC20FB3144D3D287C94DA0961405DB33455B35EF962BF"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
@@ -5949,10 +5949,10 @@
       <attribute name="osgi.wiring.package" value="eu.cpswarm.optimization.messages"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="18154" type="Long"/>
+      <attribute name="size" value="18155" type="Long"/>
       <attribute name="url" value="optimization-messages/optimization-messages-0.0.1.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="2886F7A4E9A49C07D82FB9CC1EE0EC11DE3FD53C79F3F458B3F813408C243B46"/>
+      <attribute name="osgi.content" value="16247F06B9CF1B04A6923C715C89B6706A8C5F0F1BCD30A358B67C8D7D918125"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>

@@ -68,7 +68,6 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 				} else {
 					newFile = new File(dataFolder + fileName);
 				}
-				System.out.println("\n new file is = "+ newFile+"\n");
 				FileOutputStream fos = new FileOutputStream(newFile);
 				int len;
 				while ((len = zis.read(buffer)) > 0) {
