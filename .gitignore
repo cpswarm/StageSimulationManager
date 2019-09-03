@@ -7,6 +7,7 @@ RemoteSystemsTempFiles/
 **/generated/
 **/bin/
 **/stageManager.jar
+**/stage.bndrun
 git.sh
 red.sh
 

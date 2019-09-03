@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 
 import simulation.SimulationManager;
 
+import org.jivesoftware.smack.chat2.Chat;
+import org.jivesoftware.smack.chat2.ChatManager;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentFactory;
 import org.osgi.service.component.ComponentInstance;
@@ -17,6 +19,8 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 import be.iminds.iot.ros.util.RosCommand;
+import eu.cpswarm.optimization.messages.MessageSerializer;
+import eu.cpswarm.optimization.messages.SimulationResultMessage;
 
 
 @Component(factory = "it.ismb.pert.cpswarm.simulationLauncher.factory"
@@ -106,6 +110,16 @@ public class SimulationLauncher implements Runnable {
 				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) calculatorInstance.getInstance();
 				parent.publishFitness(
 						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), packageFolder));
+			} else {
+				try {  //send final result to SOO for setting simulation done
+					final ChatManager chatmanager = ChatManager.getInstanceFor(parent.getConnection());
+					final Chat newChat = chatmanager.chatWith(parent.getOrchestratorJID().asEntityBareJidIfPossible());
+					SimulationResultMessage reply = new SimulationResultMessage(parent.getOptimizationID(), true, parent.getSimulationID(), 100.0);
+					MessageSerializer serializer = new MessageSerializer();
+					newChat.send(serializer.toJson(reply));						
+				} catch(final Exception e) {
+					e.printStackTrace();
+				}
 			}
 
 		} catch (Exception e) {

@@ -89,7 +89,7 @@
 	ros.master.uri=http://localhost:11311,\
 	Manager.config.file.manager.xml=resources/manager.xml,\
 	javax.net.ssl.trustStorePassword=changeit,\
-	javax.net.ssl.trustStore=/usr/java/jdk1.8.0_171/jre/lib/security/cacerts
+	javax.net.ssl.trustStore=/usr/java/jdk1.8.0_221/jre/lib/security/cacerts
 
 -runsystempackages: \
 	javax.naming,\

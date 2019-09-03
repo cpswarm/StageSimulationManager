@@ -134,7 +134,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					System.out.println("Error");
 					return;
 				}
-			} else {
+			} else { // SOO
 				if (candidate.equals("test")) {
 					parent.setTestResult("simulation");
 					return;
