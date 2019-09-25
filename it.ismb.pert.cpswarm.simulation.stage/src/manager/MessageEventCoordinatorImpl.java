@@ -11,6 +11,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import org.jivesoftware.smack.chat2.Chat;
+import org.jivesoftware.smack.chat2.ChatManager;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.impl.JidCreate;
 import org.osgi.service.component.ComponentFactory;
@@ -20,6 +23,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import be.iminds.iot.ros.util.RosCommand;
+import eu.cpswarm.optimization.messages.MessageSerializer;
 import eu.cpswarm.optimization.messages.ReplyMessage;
 import eu.cpswarm.optimization.messages.SimulationResultMessage;
 import simulation.xmpp.AbstractMessageEventCoordinator;
@@ -121,17 +125,17 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				} finally {
 					if (instance != null)
 						instance.dispose();
-				}
-				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-					System.out.println("Compilation finished, "+result);
-				}
+				}			
 				if (result) {
+					if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+						System.out.println("Compilation finished, success = "+result);
+					}
 					runSimulation(true);
 					if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-						System.out.println("done "+this.parent.getSimulationID());
+						System.out.println("simulation "+this.parent.getSimulationID()+" done");
 					}
 				} else {
-					System.out.println("Error");
+					System.out.println("Compilation with error, success = "+result);
 					return;
 				}
 			} else { // SOO
@@ -140,8 +144,17 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					return;
 				}
 				if (!serializeCandidate(candidate)) {
-					parent.publishFitness(
-							new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS));
+					if (parent.isOrchestratorAvailable()) {
+						try { // send error result to SOO
+							final ChatManager chatmanager = ChatManager.getInstanceFor(parent.getConnection());
+							final Chat newChat = chatmanager.chatWith(parent.getOrchestratorJID().asEntityBareJidIfPossible());
+							SimulationResultMessage reply = new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS);
+							MessageSerializer serializer = new MessageSerializer();
+							newChat.send(serializer.toJson(reply));
+						} catch (final Exception e) {
+							e.printStackTrace();
+						}
+					}
 					return;
 				}
 				runSimulation(false);
