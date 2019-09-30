@@ -6,7 +6,6 @@
 * Documentation: [wiki](https://github.com/cpswarm/StageSimulationManager/wiki)
 
 ## Deployment
-Packages are built continuously with [Bamboo](https://pipelines.linksmart.eu/browse/CPSW-SOO/latest).
 
 
 ### Compile from source
