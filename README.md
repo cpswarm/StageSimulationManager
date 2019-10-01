@@ -2,7 +2,7 @@
 
 This is a Simulation Manager to be used in the [CPSwarm Simulation and Optimization Environment](https://github.com/cpswarm/SimulationOrchestrator/wiki/Simulation-and-Optimization-Enivornment). 
 Specifically this Simulation Manager is designed to integrate the [Stage](https://github.com/rtv/Stage) simulator. 
-This can be used in combination with the [Simulation Orchestrator](https://github.com/cpswarm/SimulationOrchestrator) to run a simulation 
+This can be used in combination with the [Simulation  and Optimization Orchestrator](https://github.com/cpswarm/SimulationOrchestrator) to run a simulation 
 and with an optimization tool, like [FREVO](https://github.com/cpswarm/FREVO) to run an optimiziation.
 
 
@@ -11,15 +11,27 @@ and with an optimization tool, like [FREVO](https://github.com/cpswarm/FREVO) to
 
 ## Deployment
 
-
+#TODO
 
 ### Compile from source
 
+In the root folder
+
+```bash
+bnd package stageManger.bndrun
+```
 
 ## Development
+
 ### Run tests
 
+The tests for this component are included in the [Simulation and Optimization Orchestrator](https://github.com/cpswarm/SimulationOrchestrator).
+
 ### Dependencies
+
+* [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
+* [BND](https://bnd.bndtools.org/).
+
 
 ## Contributing
 Contributions are welcome. 
