@@ -11,7 +11,9 @@ and with an optimization tool, like [FREVO](https://github.com/cpswarm/FREVO) to
 
 ## Deployment
 
-#TODO
+## Deployment
+
+Packages are built continuously with [Bamboo](https://pipelines.linksmart.eu/browse/CPSW-SMS/latest). The generated artifact is then packaged in a Docker image and pushed on DockerHub in the cpswarm organization.
 
 ### Compile from source
 
