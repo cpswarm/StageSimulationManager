@@ -1,0 +1,28 @@
+FROM stage-simulation-manager:latest
+
+WORKDIR $HOME
+
+COPY . $HOME
+
+RUN chmod +x $HOME/launch_SM.sh
+
+WORKDIR $HOME/ws/
+
+RUN catkin init --workspace .
+
+RUN chmod +x build.sh \
+&& /bin/bash build.sh
+
+RUN echo "source $HOME/ws/devel/setup.bash" >> ~/.bashrc \
+	&& /bin/bash -c "source ~/.bashrc"
+
+WORKDIR $HOME
+
+ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-amd64/
+
+RUN keytool -noprompt -importcert -trustcacerts \
+    -file <JVM-Certifivcation.pem> -alias <xmpp Server Name: pippo.pluto.it> \
+    -storepass changeit -keystore -J-Duser.language=en $JAVA_HOME/jre/lib/security/cacerts
+
+ENTRYPOINT ["/root/launch_SM.sh"]
+CMD []
