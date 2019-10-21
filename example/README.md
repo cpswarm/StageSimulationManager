@@ -1,24 +1,19 @@
-# stage-simulation-manager
-This repository provides a Stage Simulation Manager that includes a XMPP client and interfaces with a Stage simulator, and a `Dockerfile-Stage-Manager` file starting from Cpswarm pre-build images used to dockerize it for a further dockerization together with your ros simulations.
+# Usage of CPSWarm stage-simulation-manager Image
+This repository provides a Stage Simulation Manager that includes a XMPP client and interfaces with a Stage simulator. In this example folder, a `Dockerfile-Stage-Manager` file starting from Cpswarm pre-build images using Ubuntu16.04 and Openjdk-8 has been used to dockerize it as a [`stage-simulation-manager`](https://cloud.docker.com/u/cpswarm/repository/docker/cpswarm/stage-simulation-manager) image for a further dockerization together with your ros simulations.
 
-The guide was written using Ubuntu16.04 and Openjdk-8 is installed by default. Similar steps are available for other operating systems and may work.
-
-Before dockerizing the Stage simulation manager, the user has to change the configuration file `manager.xml` in `resources` folder according to the real use case. This file can be used to change some system parameters used by the Stage simulation manager to communicate with other components in the software.
+Similar steps are available for other operating systems and JDK may work.
 
 Build stage-simulation-manager image :
 ```bash
 sudo docker build . --tag=stage-simulation-manager:latest -f Dockerfile-Stage-Manager
 ```
 
-### Example Usage
+### Structure of example folder
 ``` java
-stage-simulation-manager/
-    Dockerfile-Stage-Manager          -- Docker file for creating the stage-simulation-manager image
-    stageManager.jar
-    README.md
-    resources/
-        manager.xml
     example/
+        resources/
+            manager.xml
+        Dockerfile-Stage-Manager      -- Docker file for creating the stage-simulation-manager image
 		Dockerfile-Stage-Simulation   -- Docker file for creating the stage-simulation image
 		JVM-Certifivcation.pem
 		launch_SM.sh    			  -- script for launching the simulation manager
@@ -29,13 +24,16 @@ stage-simulation-manager/
 ```
 
 
-The `example` folder provides an example about how to create a docker image based on above pre-build stage-simulation-manager that will include the Ros packages which can be used to simulate and optimize it using the CPSwarm Simulation and Optimization Environment.
+The `example` folder provides an example about how to create a docker image based on above pre-build stage-simulation-manager image that will include the Ros packages which can be used to simulate and optimize it using the CPSwarm Simulation and Optimization Environment.
 
-To use this example, the user have to firstly place his ros simulation packages in the `example/ws/src/` folder, and starts from the docker file `Dockerfile-Stage-simulation` to create a new stage-simulation image. Remember to replace the file `JVM-Certifivcation.pem` used in real case.
+Before dockerizing the ros simulation package starting from the stage-simulation-manager image, follow the steps:
 
-The `stageManager.jar` has some internal system properies already set inside for configuring its launching environment, so user can set individual System properties with the -D option for passing the command line parameters to override the properties listed below:
+1.  Change the configuration file `manager.xml` in `resources` folder according to the real use case. This file can be used to change some system parameters used by the Stage simulation manager to communicate with other components in the CPSWarm simulation environment.
+2.  place the ros simulation packages in the `example/ws/src/` folder
+3.  Replace the file `JVM-Certifivcation.pem` used in real case
+4.  (If using default setting, skip this step) The `stageManager.jar` has some internal system properies already set inside for configuring its launching environment, so user can set individual System properties with the -D option for passing the command line parameters to override the properties listed below:
 
-``` bash
+   ``` bash
    org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
    org.eclipse.jetty.LEVEL=WARN,\                           # Avoid verbose superfluous debug info printed on Stdin.
    logback.configurationFile=resources/logback.xml,\        # Configuration of ch.qos.logback.core bundle
@@ -48,7 +46,8 @@ The `stageManager.jar` has some internal system properies already set inside for
    javax.net.ssl.trustStorePassword=changeit,\
    javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts,\                 # Replace path of the JDK with the user's value in real use case
    org.osgi.framework.trust.repositories=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts      # Replace path of the JDK with the user's value in real use case
-```
+   ```
+5.  Create `stage-simulation` image
 
 *  Build stage-simulation image in repository root folder
    ``` bash
