@@ -1,0 +1,18 @@
+FROM cpswarm/stage-simulator:latest
+
+RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
+		  && /bin/bash -c "source ~/.bashrc"
+
+RUN git clone https://git.pertforge.ismb.it/rzhao/StageManagerBundle.git
+
+COPY . $HOME
+
+WORKDIR $HOME/it.ismb.pert.cpswarm.simulation.stage
+
+RUN bnd package stageManager.bndrun
+
+COPY stageManager.jar $HOME
+
+WORKDIR $HOME
+
+RUN apt-get install psmisc
