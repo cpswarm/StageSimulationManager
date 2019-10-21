@@ -16,7 +16,7 @@ sudo docker build . --tag=stage-simulation-manager:latest -f Dockerfile-Stage-Ma
         Dockerfile-Stage-Manager      -- Docker file for creating the stage-simulation-manager image
         Dockerfile-Stage-Simulation   -- Docker file for creating the stage-simulation image
         JVM-Certifivcation.pem
-		launch_SM.sh    			  -- script for launching the simulation manager
+        launch_SM.sh    			  -- script for launching the simulation manager
         ws/
             build.sh                  -- script for compiling the ros simulation
             src/
