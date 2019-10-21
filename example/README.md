@@ -14,13 +14,13 @@ sudo docker build . --tag=stage-simulation-manager:latest -f Dockerfile-Stage-Ma
         resources/
             manager.xml
         Dockerfile-Stage-Manager      -- Docker file for creating the stage-simulation-manager image
-		Dockerfile-Stage-Simulation   -- Docker file for creating the stage-simulation image
-		JVM-Certifivcation.pem
+        Dockerfile-Stage-Simulation   -- Docker file for creating the stage-simulation image
+        JVM-Certifivcation.pem
 		launch_SM.sh    			  -- script for launching the simulation manager
-		ws/
-			build.sh                  -- script for compiling the ros simulation
-			src/
-				Ros-package-name/     -- Please put your Ros packages in this src folder
+        ws/
+            build.sh                  -- script for compiling the ros simulation
+            src/
+                Ros-package-name/     -- Please put your Ros packages in this src folder
 ```
 
 
@@ -51,7 +51,7 @@ Before dockerizing the ros simulation package starting from the stage-simulation
 
 *  Build stage-simulation image in repository root folder
    ``` bash
-   sudo docker build example/ --tag=stage-simulation:latest -f Dockerfile-Stage-simulation
+   sudo docker build . --tag=stage-simulation:latest -f Dockerfile-Stage-simulation
    ```
 *  Run stage-simulation image and start Stage simulation manager
 
