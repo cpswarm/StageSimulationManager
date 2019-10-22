@@ -3,7 +3,7 @@ FROM cpswarm/stage-simulator:latest
 RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
 		  && /bin/bash -c "source ~/.bashrc"
 
-RUN git clone https://git.pertforge.ismb.it/rzhao/StageManagerBundle.git
+RUN git clone https://github.com/cpswarm/StageSimulationManager.git
 
 COPY . $HOME
 
