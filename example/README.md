@@ -1,22 +1,16 @@
 # Usage of CPSWarm stage-simulation-manager Image
-This repository provides a Stage Simulation Manager that includes a XMPP client and interfaces with a Stage simulator. In this example folder, a `Dockerfile-Stage-Manager` file starting from Cpswarm pre-build images using Ubuntu16.04 and Openjdk-8 has been used to dockerize it as a [`stage-simulation-manager`](https://cloud.docker.com/u/cpswarm/repository/docker/cpswarm/stage-simulation-manager) image for a further dockerization together with your ros simulations.
+The [`stage-simulation-manager`](https://cloud.docker.com/u/cpswarm/repository/docker/cpswarm/stage-simulation-manager) image provides a Stage Simulation Manager that includes a XMPP client and interfaces with a Stage simulator. It is a Cpswarm pre-build images using Ubuntu16.04 and Openjdk-8 and allows a further dockerization together with your ros simulations starting from it.
 
 Similar steps are available for other operating systems and JDK may work.
-
-Build stage-simulation-manager image :
-```bash
-sudo docker build . --tag=stage-simulation-manager:latest -f Dockerfile-Stage-Manager
-```
 
 ### Structure of example folder
 ``` java
     example/
         resources/
             manager.xml
-        Dockerfile-Stage-Manager      -- Docker file for creating the stage-simulation-manager image
         Dockerfile-Stage-Simulation   -- Docker file for creating the stage-simulation image
         JVM-Certifivcation.pem
-        launch_SM.sh    			  -- script for launching the simulation manager
+        launch_SM.sh    			     -- script for launching the simulation manager
         ws/
             build.sh                  -- script for compiling the ros simulation
             src/
