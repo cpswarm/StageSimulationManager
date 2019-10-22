@@ -45,7 +45,7 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
    ``` bash
    -runproperties: \
         org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
-	    org.eclipse.jetty.LEVEL=WARN,\                           # Avoid abose superfluous debug info printed on Stdin.
+	    org.eclipse.jetty.LEVEL=WARN,\                           # Avoid verbose superfluous debug info printed on Stdin.
 	    logback.configurationFile=resources/logback.xml,\        # Configuration of ch.qos.logback.core bundle
 	    org.apache.felix.log.storeDebug=false,\          # Configuration of org.apache.felix.log bundle to determine whether or not debug messages will be stored in the history
 	    org.osgi.service.http.port=8080,\                # The default port used for Felix servlets and resources available via HTTP
