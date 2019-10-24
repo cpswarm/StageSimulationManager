@@ -15,7 +15,7 @@ Packages are built continuously with [Bamboo](https://pipelines.linksmart.eu/bro
 
 ### Compile from source
 
-In the it.ismb.pert.cpswarm.simulation.stage folder
+In the it.ismb.pert.cpswarm.simulation.stage folder 
 
 ```bash
 bnd package stageManger.bndrun
