@@ -1,4 +1,4 @@
-# CPSwarm Stage Simulation Manager
+# CPSwarm Stage Simulation Manager 
 
 This is a Simulation Manager to be used in the [CPSwarm Simulation and Optimization Environment](https://github.com/cpswarm/SimulationOrchestrator/wiki/Simulation-and-Optimization-Enivornment). 
 Specifically this Simulation Manager is designed to integrate the [Stage](https://github.com/rtv/Stage) simulator. 
