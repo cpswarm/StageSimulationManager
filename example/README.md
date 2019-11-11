@@ -59,3 +59,7 @@ Before dockerizing the ros simulation package starting from the stage-simulation
    $ sudo docker run -it stage-simulation:latest --entrypoint /bin/bash
    ~# ./launch_SM.sh -Dverbosity=2
    ```
+   
+*  Update the image in dockerhub and then deploy it using kubernetes
+
+   This can be done using the features provided by the Simulation and Optimization Orchestrator
