@@ -1,0 +1,96 @@
+{
+  "deployments": [
+    {
+      "metadata": {
+        "name": "frevo",
+        "namespace": "default",
+        "generation": 1,
+        "labels": {
+          "k8s-app": "frevo"
+        }
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "k8s-app": "frevo"
+          }
+        }
+      },
+      "template": {
+        "metadata": {
+          "name": "frevo",
+          "labels": {
+            "k8s-app": "frevo"
+          }
+        },
+        "spec": {
+          "containers": [
+            {
+              "name": "frevo",
+              "image": "cpswarm/frevo-docker:1.0.3",
+              "args": [
+                "-n",
+                "pert-demoenergy-virtus.ismb.polito.it",
+                "-ip",
+                "130.192.86.237",
+                "-p",
+                "5222",
+                "-r",
+                "cpswarm",
+                "-cid",
+                "frevo",
+                "-cp",
+                "blah",
+                "-c",
+                "/home/"
+              ],
+              "stdin": "false"
+            }
+          ],
+          "nodeSelector": {
+            "component": "system"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "name": "stage",
+        "namespace": "default",
+        "generation": 1,
+        "labels": {
+          "k8s-app": "stage"
+        }
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "k8s-app": "stage"
+          }
+        }
+      },
+      "template": {
+        "metadata": {
+          "name": "stage",
+          "labels": {
+            "k8s-app": "stage"
+          }
+        },
+        "spec": {
+          "containers": [
+            {
+              "name": "stage",
+              "image": "xyz/stage-simulation:latest",
+              "stdin": "true"
+            }
+          ],
+          "nodeSelector": {
+            "component": "stage"
+          }
+        }
+      }
+    }
+  ]
+}

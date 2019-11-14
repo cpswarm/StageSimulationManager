@@ -1,0 +1,42 @@
+{
+  "deployments": [
+    {
+      "metadata": {
+        "name": "stage",
+        "namespace": "default",
+        "generation": 1,
+        "labels": {
+          "k8s-app": "stage"
+        }
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "k8s-app": "stage"
+          }
+        }
+      },
+      "template": {
+        "metadata": {
+          "name": "stage",
+          "labels": {
+            "k8s-app": "stage"
+          }
+        },
+        "spec": {
+          "containers": [
+            {
+              "name": "stage",
+              "image": "xyz/stage-simulation:latest",
+			  "stdin": "true"
+            }
+          ],
+          "nodeSelector": {
+            "component": "stage"
+          }
+        }
+      }
+    }
+  ]
+}
