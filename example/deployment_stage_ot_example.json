@@ -31,9 +31,9 @@
               "image": "cpswarm/frevo-docker:1.0.3",
               "args": [
                 "-n",
-                "pert-demoenergy-virtus.ismb.polito.it",
+                "pippo.pluto.it",
                 "-ip",
-                "130.192.86.237",
+                "123.123.123.123",
                 "-p",
                 "5222",
                 "-r",
