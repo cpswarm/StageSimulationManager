@@ -19,7 +19,7 @@ import org.osgi.service.component.annotations.Reference;
 import be.iminds.iot.ros.util.RosCommand;
 
 
-@Component(factory = "it.ismb.pert.cpswarm.simulationLauncher.factory"
+@Component(factory = "it.ismb.pert.cpswarm.stageSimulationLauncher.factory"
 )
 public class SimulationLauncher implements Runnable {
 
@@ -27,16 +27,9 @@ public class SimulationLauncher implements Runnable {
 	private String packageName = null;
 	private SimulationManager parent = null;
 	private String packageFolder = null;
-	private String rosWorkspace = null;
 	private boolean calcFitness = false;
 	private ComponentFactory fitnessCalculatorFactory;
 	private ComponentFactory rosCommandFactory; // used to roslaunch the simulation
-	private BundleContext context;
-
-	public void setSimulationManager(final SimulationManager manager) {
-		assert manager != null;
-		this.parent = manager;
-	}
 
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.fitnessCalculator.factory)")
 	public void getComponentFactory(final ComponentFactory s) {
@@ -50,13 +43,10 @@ public class SimulationLauncher implements Runnable {
 
 	@Activate
 	public void activate(BundleContext context, Map<String, Object> properties) throws Exception {
-		this.context = context;
 		for (Entry<String, Object> entry : properties.entrySet()) {
 			String key = entry.getKey();
 			if (key.equals("SimulationManager")) {
 				parent = (SimulationManager) entry.getValue();
-			} else if (key.equals("rosWorkspace")) {
-				this.rosWorkspace = (String) entry.getValue();
 			} else if (key.equals("packageFolder")) {
 				this.packageFolder = (String) entry.getValue();
 			} else if (key.equals("packageName")) {
@@ -68,10 +58,6 @@ public class SimulationLauncher implements Runnable {
 		assert (parent) != null;
 		assert (packageFolder) != null;
 		assert (packageName) != null;
-
-		if (parent != null) {
-			setSimulationManager(parent);
-		}
 		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println(" Instantiate a Simulation Launcher");
 		}	
@@ -89,9 +75,9 @@ public class SimulationLauncher implements Runnable {
 				}
 				// roslaunch emergency_exit stage.launch visual:=true
 				Properties props = new Properties();
-				props.put("rosWorkspace", rosWorkspace);
+				props.put("rosWorkspace", parent.getCatkinWS());
 				props.put("ros.package", packageName);
-				props.put("ros.node", "stage.launch");
+				props.put("ros.node", parent.getLaunchFile());
 				if (params != null) {
 					props.put("ros.mappings", params);
 				}

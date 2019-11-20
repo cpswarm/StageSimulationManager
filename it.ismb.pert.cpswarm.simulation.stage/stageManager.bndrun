@@ -86,10 +86,12 @@
 	org.osgi.service.http.port=8080,\
 	ros.core.native=true,\
 	verbosity=2,\
+	simulation.launch.file=stage.launch,\
 	ros.master.uri=http://localhost:11311,\
 	Manager.config.file.manager.xml=resources/manager.xml,\
 	javax.net.ssl.trustStorePassword=changeit,\
 	javax.net.ssl.trustStore=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/security/cacerts
+	
 	
 	
 	

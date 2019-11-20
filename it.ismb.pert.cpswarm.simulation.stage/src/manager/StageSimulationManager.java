@@ -67,6 +67,7 @@ public class StageSimulationManager extends SimulationManager {
 		String mqttBroker = "";
 		boolean fake = false;
 		String verbosity = "2";
+		String launchFile = null;
 
 		Server serverInfo = new Server();
 		try {
@@ -78,6 +79,9 @@ public class StageSimulationManager extends SimulationManager {
 				System.out.println("Invalid verbosity level, using the default one: ALL");
 			} else {
 				CURRENT_VERBOSITY_LEVEL = VERBOSITY_LEVELS.values()[verbosityI];
+			}
+			if(context.getProperty("simulation.launch.file")!=null){
+				launchFile = context.getProperty("simulation.launch.file");
 			}
 			if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 				System.out.println("Instantiate a StageSimulationManager .....");
@@ -139,7 +143,7 @@ public class StageSimulationManager extends SimulationManager {
 			e.printStackTrace();
 		}
 		connectToXMPPserver(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
-				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout, fake);
+				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout, fake, launchFile);
 		publishPresence(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
 				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout);
 		while (true) {

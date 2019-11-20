@@ -35,7 +35,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	private int timeout;
 	private boolean fake;
 	private ComponentFactory fitnessCalculatorFactory;
-	private ComponentFactory simulationLauncherFactory;
+	private ComponentFactory stageSimulationLauncherFactory;
 	private ComponentFactory rosCommandFactory; // used to catkin build the workspace
 
 	@Activate
@@ -68,9 +68,9 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 
 	}
 
-	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.simulationLauncher.factory)")
+	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.stageSimulationLauncher.factory)")
 	public void getSimulationLauncherFactory(final ComponentFactory s) {
-		this.simulationLauncherFactory = s;
+		this.stageSimulationLauncherFactory = s;
 	}
 
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.rosCommand.factory)")
@@ -123,7 +123,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 						instance.dispose();
 				}
 				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-					System.out.println("Compilation finished, "+result);
+					System.out.println("Compilation finished, with succeed = "+result);
 				}
 				if (result) {
 					runSimulation(true);
@@ -131,7 +131,6 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 						System.out.println("done "+this.parent.getSimulationID());
 					}
 				} else {
-					System.out.println("Error");
 					return;
 				}
 			} else {
@@ -157,12 +156,11 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Properties props = new Properties();
 		props.put("SimulationManager", parent);
-		props.put("rosWorkspace", parent.getCatkinWS());
 		props.put("packageFolder", packageFolder);
 		props.put("packageName", packageName);
 		props.put("calcFitness", calcFitness);
 
-		ComponentInstance instance = this.simulationLauncherFactory.newInstance((Dictionary) props);
+		ComponentInstance instance = this.stageSimulationLauncherFactory.newInstance((Dictionary) props);
 		SimulationLauncher simulationLauncher = (SimulationLauncher) instance.getInstance();
 		try {
 			final Future<?> handler = executor.submit(simulationLauncher);
