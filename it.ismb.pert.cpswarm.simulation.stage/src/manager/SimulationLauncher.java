@@ -91,7 +91,7 @@ public class SimulationLauncher implements Runnable {
 				calculatorInstance = this.fitnessCalculatorFactory.newInstance(null);
 				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) calculatorInstance.getInstance();
 				parent.publishFitness(
-						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), packageFolder));
+						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(), parent.getTimeout()));
 			}
 
 		} catch (Exception e) {

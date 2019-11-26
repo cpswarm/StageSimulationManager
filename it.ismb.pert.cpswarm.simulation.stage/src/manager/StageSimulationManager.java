@@ -182,7 +182,7 @@ public class StageSimulationManager extends SimulationManager {
 		final Presence presence = new Presence(Presence.Type.available);
 		Gson gson = new Gson();
 		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-			System.out.println(" \n MA : the server info is " + gson.toJson(serverInfo, Server.class));
+			System.out.println("\nStage MA : the server info is " + gson.toJson(serverInfo, Server.class));
 		}
 		presence.setStatus(gson.toJson(serverInfo, Server.class));
 		try {

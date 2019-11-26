@@ -3,12 +3,14 @@ package manager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.NavigableMap;
 import java.util.Random;
+import java.util.StringTokenizer;
 import java.util.TreeMap;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
@@ -20,12 +22,9 @@ import eu.cpswarm.optimization.messages.ReplyMessage;
 import eu.cpswarm.optimization.messages.SimulationResultMessage;
 import simulation.SimulationManager;
 
-
 //factory component for creating instance per request
-@Component(factory = "it.ismb.pert.cpswarm.fitnessCalculator.factory"
-)
+@Component(factory = "it.ismb.pert.cpswarm.fitnessCalculator.factory")
 public class FitnessFunctionCalculator {
-	private static ArrayList<NavigableMap<Integer, Double>> logs;
 	private static final double TIMEOUT = 90;
 	private static final double MAX_DISTANCE = 50.0;
 	private static final double DISTANCE_THRESHOLD = 0.2;
@@ -34,14 +33,14 @@ public class FitnessFunctionCalculator {
 
 	@Activate
 	public void activate(BundleContext context) {
-		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println("Instantiate a fitnessFunctionCalculator");
 		}
 	}
 
 	@Deactivate
 	public void deactivate() {
-		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println("Stoping the fitnessFunctionCalculator");
 		}
 	}
@@ -54,48 +53,28 @@ public class FitnessFunctionCalculator {
 	 * @return ArrayList<NavigableMap<Integer,Double>>: An array with one map entry
 	 *         for each log file.
 	 */
-	private boolean readLogs(final String packageFolder) {
-		// container for data of all log files
-		logs = new ArrayList<NavigableMap<Integer, Double>>();
-		String logsFolder = packageFolder + File.separator + "log" + File.separator;
-		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-			System.out.println("Reading logs from :" + logsFolder);
+
+	private double readBag(final String dataFolder, final String bagFile, final int timeout) {
+		double fitness = 0.0;
+		Process proc = null;
+		try {
+			proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash ; "
+					+ " python " + dataFolder + "fitness.py " + bagFile + " " + timeout });
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-
-		// path to log directory
-		File logPath = new File(logsFolder);
-
-		// iterate through all log files
-		String[] logFiles = logPath.list(fileLogFilter);
-		for (int i = 0; i < logFiles.length; i++) {
-			if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-	    		System.out.println("Reading log file: "+logFiles[i]);
-	    	}
-
-			// container for data of one log file
-			NavigableMap<Integer, Double> log = new TreeMap<Integer, Double>();
-
-			// read log file
-			Path logFile = Paths.get(logPath + "/" + logFiles[i]);
-			try {
-				BufferedReader logReader = Files.newBufferedReader(logFile);
-
-				// store every line
-				String line;
-				while ((line = logReader.readLine()) != null) {
-					if (line.length() <= 1 || line.startsWith("#"))
-						continue;
-
-					log.put(Integer.parseInt(line.split("\t")[0]), Double.parseDouble(line.split("\t")[1]));
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+		Runtime.getRuntime().addShutdownHook(new Thread(proc::destroy));
+		String line = "";
+		BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+		try {
+			if ((line = input.readLine()) != null) {
+				fitness = Double.valueOf(line.trim());
 			}
-
-			// store contents of log file
-			logs.add(log);
+		} catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
 		}
-		return true;
+
+		return fitness;
 	}
 
 	/**
@@ -104,47 +83,27 @@ public class FitnessFunctionCalculator {
 	 * @return boolean: result of the method.
 	 */
 	public SimulationResultMessage calcFitness(final String optimizationID, final String simulationID,
-			final String packageFolder) {
-
-		if (!readLogs(packageFolder)) {
-			return new SimulationResultMessage(optimizationID, "Error reading the logs", ReplyMessage.Status.ERROR,
-					simulationID, BAD_FITNESS_VALUE);
-		}
-
+			final String dataFolder, final int timeout) {
+		ProcessBuilder builder = new ProcessBuilder();
+		String home = builder.environment().get("HOME");
+		String rosPath = home + File.separator + ".ros" + File.separator;		
+		File rosFolder = new File(rosPath); // path to ~/.ros directory
+		String[] bagFiles = rosFolder.list(fileLogFilter);
 		double fitnessSum = 0;
-		double totalTimeTaken = 0;
-		double totalDistance = 0;
-		for (NavigableMap<Integer, Double> log : logs) {
-			double agentTimeTaken = TIMEOUT;
-			double agentDistance = MAX_DISTANCE;
-			if (log.size() > 0) {
-				agentTimeTaken = Math.min(log.size(), TIMEOUT);
-				agentDistance = Math.min(log.lastEntry().getValue(), MAX_DISTANCE);
+		for (int i = 0; i < bagFiles.length; i++) {
+			String bagFile = rosPath+ bagFiles[i];
+			double fitness = readBag(dataFolder, bagFile, timeout);
+			if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+				System.out.println(bagFiles[i] + " fitness score : " + fitness);
 			}
-			totalDistance += agentDistance;
-
-			// basic fitness is dependent on distance to exit
-			double fitness = (MAX_DISTANCE - agentDistance) / MAX_DISTANCE * 100;
-
-			// award additional points for time taken if the agent got close to exit
-			if (agentDistance < DISTANCE_THRESHOLD) {
-				fitness += (TIMEOUT - agentTimeTaken) / TIMEOUT * 100;
-			} else {
-				agentTimeTaken = TIMEOUT;
-			}
-			totalTimeTaken += agentTimeTaken;
-			if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-		    	System.out.println("Fitness score for agent "+fitness+", distance: "+agentDistance +", time:"+ agentTimeTaken);
-		    }
-		    fitnessSum += fitness;
+			fitnessSum += fitness;
 		}
-		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-			System.out.println("Total fitness calculated "+fitnessSum);
+		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println("Total fitness calculated " + fitnessSum);
 		}
 		// overall fitness is average fitness of agents
-		return new SimulationResultMessage(optimizationID,
-				"distance:" + (totalDistance / logs.size()) + " time:" + (totalTimeTaken / logs.size()),
-				ReplyMessage.Status.OK, simulationID, fitnessSum / logs.size());
+		return new SimulationResultMessage(optimizationID, "Total fitness calculated:" + fitnessSum +" for "+bagFiles.length+ " robots",
+				ReplyMessage.Status.OK, simulationID, fitnessSum / bagFiles.length);
 	}
 
 	public SimulationResultMessage randomFitness(final String optimizationID, final String simulationID) {
@@ -158,10 +117,10 @@ public class FitnessFunctionCalculator {
 	void setFileLogFilter(FileLogFilter filter) {
 		// make sure a file log filer is available before starting to calculate fitness
 		this.fileLogFilter = filter;
-		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println("get a file log filter ");
 		}
-		
+
 	}
 
 }

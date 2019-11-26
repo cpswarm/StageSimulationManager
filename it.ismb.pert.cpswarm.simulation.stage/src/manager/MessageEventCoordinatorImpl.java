@@ -167,7 +167,6 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 			try {
 				handler.get(parent.getTimeout(), TimeUnit.MILLISECONDS);
 			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (TimeoutException e) {
 				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
@@ -179,7 +178,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					// create an instance per request on demand by using a Factory Component
 					instance = this.fitnessCalculatorFactory.newInstance(null);
 					FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
-					if (calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), packageFolder)
+					if (calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(), parent.getTimeout())
 							.getOperationStatus().equals(ReplyMessage.Status.ERROR)) {
 						System.out.println("Error");
 						return;
