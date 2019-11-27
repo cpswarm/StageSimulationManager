@@ -30,14 +30,13 @@ import simulation.SimulationManager;
 )
 public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator {
 
-	private String packageName = null;
 	private SimulationManager parent = null;
 	private int timeout;
 	private boolean fake;
+	private Process process;
 	private ComponentFactory fitnessCalculatorFactory;
 	private ComponentFactory stageSimulationLauncherFactory;
-	private ComponentFactory rosCommandFactory; // used to catkin build the workspace
-
+	
 	@Activate
 	protected void activate(Map<String, Object> properties) throws Exception {
 		for (Entry<String, Object> entry : properties.entrySet()) {
@@ -73,11 +72,6 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		this.stageSimulationLauncherFactory = s;
 	}
 
-	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.rosCommand.factory)")
-	public void getRosCommandFactory(final ComponentFactory s) {
-		this.rosCommandFactory = s;
-	}
-
 	@Override
 	protected void handleCandidate(final EntityBareJid sender, final String candidate) {
 		try {
@@ -90,7 +84,6 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				return;
 			}
 			packageName = parent.getOptimizationID().substring(0, parent.getOptimizationID().indexOf("!"));
-			packageFolder = parent.getRosFolder() + packageName;
 			if (sender.equals(JidCreate.entityBareFromOrThrowUnchecked(parent.getOptimizationJID()))) {
 				if (candidate.equals("test")) {
 					parent.setTestResult("optimization");
@@ -102,37 +95,10 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 									ReplyMessage.Status.ERROR, parent.getSimulationID(), BAD_FITNESS));
 					return;
 				}
-				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-					System.out.println("Compiling the package, using the 'catkin build' service provided by the RosCommand factory component \n");
-				}
-				String catkinWS = parent.getCatkinWS();
-				Properties props = new Properties();
-				props.put("ros.buildWorkspace", catkinWS);
-				ComponentInstance instance = null;
-				boolean result = true;
-				try {
-					instance = this.rosCommandFactory.newInstance((Dictionary) props);
-					RosCommand catkinBuild = (RosCommand) instance.getInstance();
-					catkinBuild.buildWorkspace();
-				} catch (Exception err) {
-					result = false;
-					System.err.println("Error when building workspace: " + catkinWS);
-					err.printStackTrace();
-				} finally {
-					if (instance != null)
-						instance.dispose();
-				}
-				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-					System.out.println("Compilation finished, with succeed = "+result);
-				}
-				if (result) {
-					runSimulation(true);
-					if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-						System.out.println("done "+this.parent.getSimulationID());
-					}
-				} else {
-					return;
-				}
+				runSimulation(true);
+				if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+					System.out.println("done " + this.parent.getSimulationID());
+				}	
 			} else {
 				if (candidate.equals("test")) {
 					parent.setTestResult("simulation");
@@ -153,10 +119,17 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	}
 
 	private void runSimulation(boolean calcFitness) throws IOException, InterruptedException {
+		
+		try {
+			process = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "rosclean purge -y; rm "+parent.getBagPath()+"*.bag" });
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		Runtime.getRuntime().addShutdownHook(new Thread(process::destroy));
+		
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Properties props = new Properties();
 		props.put("SimulationManager", parent);
-		props.put("packageFolder", packageFolder);
 		props.put("packageName", packageName);
 		props.put("calcFitness", calcFitness);
 
@@ -178,7 +151,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					// create an instance per request on demand by using a Factory Component
 					instance = this.fitnessCalculatorFactory.newInstance(null);
 					FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
-					if (calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(), parent.getTimeout())
+					if (calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout())
 							.getOperationStatus().equals(ReplyMessage.Status.ERROR)) {
 						System.out.println("Error");
 						return;

@@ -25,14 +25,10 @@ import simulation.SimulationManager;
 //factory component for creating instance per request
 @Component(factory = "it.ismb.pert.cpswarm.fitnessCalculator.factory")
 public class FitnessFunctionCalculator {
-	private static final double TIMEOUT = 90;
-	private static final double MAX_DISTANCE = 50.0;
-	private static final double DISTANCE_THRESHOLD = 0.2;
-	private static final double BAD_FITNESS_VALUE = 0.0;
 	private FileLogFilter fileLogFilter = null;
 
 	@Activate
-	public void activate(BundleContext context) {
+	public void activate(BundleContext context) {		
 		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println("Instantiate a fitnessFunctionCalculator");
 		}
@@ -46,12 +42,8 @@ public class FitnessFunctionCalculator {
 	}
 
 	/**
-	 * Read the log files produced by ROS. It assumes log files with two columns,
-	 * separated by tabulator. The first column must be an integer, the second a
-	 * double value.
-	 * 
-	 * @return ArrayList<NavigableMap<Integer,Double>>: An array with one map entry
-	 *         for each log file.
+	 * Read the bag files produced during simulation. The bag files contain some information on specific topics that will be read by the fitness function script to calculate fitness value.
+	 * @return double: the fitness value of a bag file
 	 */
 
 	private double readBag(final String dataFolder, final String bagFile, final int timeout) {
@@ -80,18 +72,15 @@ public class FitnessFunctionCalculator {
 	/**
 	 * Calculate the fitness score of the last simulation run.
 	 * 
-	 * @return boolean: result of the method.
+	 * @return SimulationResultMessage: simulation result last simulation run to be send back to optimization tool.
 	 */
 	public SimulationResultMessage calcFitness(final String optimizationID, final String simulationID,
-			final String dataFolder, final int timeout) {
-		ProcessBuilder builder = new ProcessBuilder();
-		String home = builder.environment().get("HOME");
-		String rosPath = home + File.separator + ".ros" + File.separator;		
-		File rosFolder = new File(rosPath); // path to ~/.ros directory
-		String[] bagFiles = rosFolder.list(fileLogFilter);
+			final String dataFolder, String bagPath, final int timeout) {
+		File bagFolder = new File(bagPath); // path to ~/.ros/ directory
+		String[] bagFiles = bagFolder.list(fileLogFilter);
 		double fitnessSum = 0;
 		for (int i = 0; i < bagFiles.length; i++) {
-			String bagFile = rosPath+ bagFiles[i];
+			String bagFile = bagPath+ bagFiles[i];
 			double fitness = readBag(dataFolder, bagFile, timeout);
 			if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 				System.out.println(bagFiles[i] + " fitness score : " + fitness);

@@ -26,7 +26,6 @@ public class SimulationLauncher implements Runnable {
 	private boolean canRun = true;
 	private String packageName = null;
 	private SimulationManager parent = null;
-	private String packageFolder = null;
 	private boolean calcFitness = false;
 	private ComponentFactory fitnessCalculatorFactory;
 	private ComponentFactory rosCommandFactory; // used to roslaunch the simulation
@@ -47,8 +46,6 @@ public class SimulationLauncher implements Runnable {
 			String key = entry.getKey();
 			if (key.equals("SimulationManager")) {
 				parent = (SimulationManager) entry.getValue();
-			} else if (key.equals("packageFolder")) {
-				this.packageFolder = (String) entry.getValue();
 			} else if (key.equals("packageName")) {
 				this.packageName = (String) entry.getValue();
 			} else if (key.equals("calcFitness")) {
@@ -56,7 +53,6 @@ public class SimulationLauncher implements Runnable {
 			}
 		}
 		assert (parent) != null;
-		assert (packageFolder) != null;
 		assert (packageName) != null;
 		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println(" Instantiate a Simulation Launcher");
@@ -91,7 +87,7 @@ public class SimulationLauncher implements Runnable {
 				calculatorInstance = this.fitnessCalculatorFactory.newInstance(null);
 				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) calculatorInstance.getInstance();
 				parent.publishFitness(
-						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(), parent.getTimeout()));
+						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout()));
 			}
 
 		} catch (Exception e) {
