@@ -3,7 +3,7 @@
 This is a Simulation Manager to be used in the [CPSwarm Simulation and Optimization Environment](https://github.com/cpswarm/SimulationOrchestrator/wiki/Simulation-and-Optimization-Enivornment). 
 Specifically this Simulation Manager is designed to integrate the [Stage](https://github.com/rtv/Stage) simulator. 
 This can be used in combination with the [Simulation  and Optimization Orchestrator](https://github.com/cpswarm/SimulationOrchestrator) to run a simulation 
-and with an optimization tool, like [FREVO](https://github.com/cpswarm/FREVO) to run an optimiziation.
+and with an optimization tool, like [FREVO](https://github.com/cpswarm/FREVO) to run an optimiziation. 
  
 
 ## Getting Started
