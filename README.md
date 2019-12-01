@@ -30,7 +30,7 @@ The tests for this component are included in the [Simulation and Optimization Or
 ### Dependencies
 
 * [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
-* [BND](https://bnd.bndtools.org/).
+* [BND](https://bnd.bndtools.org/)
 
 
 ## Contributing
