@@ -11,7 +11,7 @@ Bundle-Version: 1.1.0
 	org.jxmpp.jid,\
 	com.google.gson.bundle;version=2.8,\
 	be.iminds.iot.ros.api,\
-	optimization-messages;version=latest,\
-	it.ismb.pert.cpswarm.simulation.manager;version=latest
+	it.ismb.pert.cpswarm.simulation.manager;version=latest,\
+	optimization-messages;version=0.0.2
 
 Private-Package: manager

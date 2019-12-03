@@ -1,9 +1,11 @@
 package manager;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -53,31 +55,46 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 
 	@Override
 	protected boolean unzipFiles(final String fileToReceive) {
+		String packagePath = "";
 		try {
 			byte[] buffer = new byte[1024];
 			ZipInputStream zis = new ZipInputStream(new FileInputStream(fileToReceive));
 			ZipEntry zipEntry = zis.getNextEntry();
-			while (zipEntry != null) {
-				String fileName = zipEntry.getName();
-				File newFile = null;
-				// The wrapper is copied to the ROS folder
-				if (fileName.endsWith(".cpp")) {
-					newFile = new File(rosFolder + packageName + File.separator + "world" + File.separator + fileName);
-				} else if (fileName.equals("frevo.yaml")) {
-					newFile = new File(rosFolder + packageName + File.separator + "config" + File.separator + fileName);
+			Process proc = null;
+			File newFile = null;
+			FileOutputStream fos = null;			
+				proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c",
+						"source " + parent.getCatkinWS() + "devel/setup.bash ; rospack find " +packageName});
+
+				Runtime.getRuntime().addShutdownHook(new Thread(proc::destroy));
+				BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+				if ((packagePath = input.readLine()) != null && !packagePath.startsWith("[rospack]")) {
+					while (zipEntry != null) {
+						String fileName = zipEntry.getName();
+						// The wrapper is copied to the ROS folder
+						if (fileName.endsWith(".cpp")) {
+							newFile = new File(packagePath + File.separator + "world" + File.separator + fileName);
+							System.out.println("new file = "+newFile);
+						} else if (fileName.equals("frevo.yaml")) {
+							newFile = new File(packagePath + File.separator + "config" + File.separator + fileName);
+						} else {
+							newFile = new File(dataFolder + fileName);
+						}
+						fos = new FileOutputStream(newFile);
+						int len;
+						while ((len = zis.read(buffer)) > 0) {
+							fos.write(buffer, 0, len);
+						}
+						fos.close();
+						zipEntry = zis.getNextEntry();
+					}
+					zis.closeEntry();
+					zis.close();
 				} else {
-					newFile = new File(dataFolder + fileName);
-				}
-				FileOutputStream fos = new FileOutputStream(newFile);
-				int len;
-				while ((len = zis.read(buffer)) > 0) {
-					fos.write(buffer, 0, len);
-				}
-				fos.close();
-				zipEntry = zis.getNextEntry();
-			}
-			zis.closeEntry();
-			zis.close();
+					System.out.println("Error: the " + packageName +" package doesn't exist");
+					return false;
+				}			
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -89,7 +106,7 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 		supportedExtensions.add("world");
 		supportedExtensions.add("xcf");
 		supportedExtensions.add("yaml");
-		this.copy(supportedExtensions, dataFolder, rosFolder + packageName + File.separator + "world" + File.separator);
+		this.copy(supportedExtensions, dataFolder, packagePath + File.separator + "world" + File.separator);
 		return true;
 	}
 }

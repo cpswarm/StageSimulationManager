@@ -85,6 +85,10 @@ public class StageSimulationManager extends SimulationManager {
 			if(context.getProperty("simulation.launch.file")!=null){
 				launchFile = context.getProperty("simulation.launch.file");
 			}
+			if (launchFile == null) {
+				System.out.println("launchFile = null");
+				deactivate();
+			}
 			if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 				System.out.println("Instantiate a StageSimulationManager .....");
 			}

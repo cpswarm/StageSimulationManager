@@ -1,6 +1,8 @@
 package manager;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Dictionary;
 import java.util.Map;
 import java.util.Properties;
@@ -20,6 +22,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import be.iminds.iot.ros.util.RosCommand;
+import eu.cpswarm.optimization.messages.ParameterSet;
 import eu.cpswarm.optimization.messages.ReplyMessage;
 import eu.cpswarm.optimization.messages.SimulationResultMessage;
 import simulation.xmpp.AbstractMessageEventCoordinator;
@@ -73,7 +76,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	}
 
 	@Override
-	protected void handleCandidate(final EntityBareJid sender, final String candidate) {
+	protected void handleCandidate(final EntityBareJid sender, final ParameterSet parameterSet) {
 		try {
 			if (fake) {
 				Thread.sleep(timeout);
@@ -85,11 +88,11 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 			}
 			packageName = parent.getOptimizationID().substring(0, parent.getOptimizationID().indexOf("!"));
 			if (sender.equals(JidCreate.entityBareFromOrThrowUnchecked(parent.getOptimizationJID()))) {
-				if (candidate.equals("test")) {
+				if (parameterSet.getParameters().get(0).getName().equals("test")) {
 					parent.setTestResult("optimization");
 					return;
 				}
-				if (!serializeCandidate(candidate)) {
+				if (!serializeCandidate(parameterSet)) {
 					parent.publishFitness(
 							new SimulationResultMessage(parent.getOptimizationID(), "Error serializing the candidate",
 									ReplyMessage.Status.ERROR, parent.getSimulationID(), BAD_FITNESS));
@@ -97,20 +100,20 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				}
 				runSimulation(true);
 				if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-					System.out.println("done " + this.parent.getSimulationID());
+					System.out.println("done simulation " + this.parent.getSimulationID());
 				}	
 			} else {
-				if (candidate.equals("test")) {
+				if (parameterSet.getParameters().get(0).getName().equals("test")) {
 					parent.setTestResult("simulation");
 					return;
 				}
-				if (!serializeCandidate(candidate)) {
+				if (!serializeCandidate(parameterSet)) {
 					parent.publishFitness(
 							new SimulationResultMessage(parent.getOptimizationID(), "Error serializing the candidate",
 									ReplyMessage.Status.ERROR, parent.getSimulationID(), BAD_FITNESS));
 					return;
 				}
-				runSimulation(false);
+				runSimulation(true); // false
 			}
 		} catch (IOException | InterruptedException e) {
 			parent.publishFitness(new SimulationResultMessage(parent.getOptimizationID(),
@@ -121,12 +124,10 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	private void runSimulation(boolean calcFitness) throws IOException, InterruptedException {
 		
 		try {
-			process = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "rosclean purge -y; rm "+parent.getBagPath()+"*.bag" });
+			process = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; rosclean purge -y; rm "+parent.getBagPath()+"*.bag" });
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		Runtime.getRuntime().addShutdownHook(new Thread(process::destroy));
-		
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Properties props = new Properties();
 		props.put("SimulationManager", parent);
@@ -159,7 +160,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				}
 				Process proc;
 				try {
-					proc = Runtime.getRuntime().exec("killall " + packageName);
+					proc = Runtime.getRuntime().exec("killall -9 stageros");
 					proc.waitFor();
 					proc.destroy();
 					proc = null;
@@ -182,7 +183,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		}	
 		Process proc;
 		try {
-			proc = Runtime.getRuntime().exec("killall " + packageName);
+			proc = Runtime.getRuntime().exec("killall -9 stageros");
 			proc.waitFor();
 			proc.destroy();
 			proc = null;

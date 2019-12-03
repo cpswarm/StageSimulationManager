@@ -27,6 +27,8 @@ public class SimulationLauncher implements Runnable {
 	private String packageName = null;
 	private SimulationManager parent = null;
 	private boolean calcFitness = false;
+	private ComponentInstance commandInstance = null;
+	private ComponentInstance calculatorInstance = null;
 	private ComponentFactory fitnessCalculatorFactory;
 	private ComponentFactory rosCommandFactory; // used to roslaunch the simulation
 
@@ -61,8 +63,8 @@ public class SimulationLauncher implements Runnable {
 
 	@Override
 	public void run() {
-		ComponentInstance commandInstance = null;
-		ComponentInstance calculatorInstance = null;
+//		ComponentInstance commandInstance = null;
+//		ComponentInstance calculatorInstance = null;
 		try {
 			try {
 				String params = parent.getSimulationConfiguration();
@@ -86,8 +88,10 @@ public class SimulationLauncher implements Runnable {
 			if (calcFitness) {
 				calculatorInstance = this.fitnessCalculatorFactory.newInstance(null);
 				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) calculatorInstance.getInstance();
-				parent.publishFitness(
-						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout()));
+		/*		parent.publishFitness(
+						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout()));*/
+				
+						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout());
 			}
 
 		} catch (Exception e) {
@@ -106,9 +110,16 @@ public class SimulationLauncher implements Runnable {
 		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println("Simulation launcher is deactived");
 		}
+		if (commandInstance != null)
+			commandInstance.dispose();
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 		Process proc;
 		try {
-			proc = Runtime.getRuntime().exec("killall " + packageName);
+			proc = Runtime.getRuntime().exec("killall -9 stageros");
 			proc.waitFor();
 			proc.destroy();
 			proc = null;
