@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1574268241000">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1575308849000">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="gson-extras-bundle"/>
@@ -996,10 +996,10 @@
       <attribute name="objectClass" value="java.lang.Object" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="5334" type="Long"/>
+      <attribute name="size" value="5295" type="Long"/>
       <attribute name="url" value="be.iminds.iot.ros.msgs.generator/be.iminds.iot.ros.msgs.generator-0.2.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="F6B66A66293077A4337B1F85B4316E5257B3651CDDF1E4D455115DE7FE90276E"/>
+      <attribute name="osgi.content" value="E2C05AAD24D6ED678A9C780133F7C277680EE224BBC72C85FBE2509E3395340E"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.internal.message)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
@@ -2409,10 +2409,10 @@
       <attribute name="osgi.wiring.package" value="be.iminds.iot.simulator.api"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="8377" type="Long"/>
+      <attribute name="size" value="8376" type="Long"/>
       <attribute name="url" value="be.iminds.iot.simulator.api/be.iminds.iot.simulator.api-0.3.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="6264B0B8AE3C69FBA1E247488945BF893E7FA6B3674801F7F46E6F1FCE4257E6"/>
+      <attribute name="osgi.content" value="5EF8E077F3FE45E1A5B2166DC497FFE7B20EA38400082056339F519933935C0E"/>
     </capability>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
@@ -2665,10 +2665,10 @@
       <attribute name="objectClass" value="be.iminds.iot.ros.util.RosCommandInjection" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="18197" type="Long"/>
+      <attribute name="size" value="18295" type="Long"/>
       <attribute name="url" value="be.iminds.iot.ros.api/be.iminds.iot.ros.api-0.4.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="512F1589072842576D76255AF085831A8C3451D3E298FCE73B47D019ACB1072D"/>
+      <attribute name="osgi.content" value="1AB888A187AC3E1FB79E5CDAA74B0D5EBE42DA91251B7A26BC216BB2CFD27BF9"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.api)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -2756,10 +2756,10 @@
       <attribute name="objectClass" value="manager.StageSimulationManager" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="34382" type="Long"/>
+      <attribute name="size" value="33600" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.stage/it.ismb.pert.cpswarm.simulation.stage-1.1.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="8C0475672F37C32148C89C2174214272D0724339B796CB1B08E16C6B8068C3BC"/>
+      <attribute name="osgi.content" value="7A29F0FFFF1393860E7A36ADFF7835E3ABF4149F53CAE6590F031E5C830B7C05"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -2790,9 +2790,6 @@
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.jxmpp.jid.impl)(&amp;(version&gt;=0.6.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=org.osgi.framework)(&amp;(version&gt;=1.7.0)(!(version&gt;=2.0.0))))"/>
@@ -3495,10 +3492,10 @@
       <attribute name="objectClass" value="manager.GazeboSimulationManager" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="24407" type="Long"/>
+      <attribute name="size" value="25033" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.gazebo/it.ismb.pert.cpswarm.simulation.gazebo-1.1.1.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="BB40C9FDC5C83561EB7E93B6C803EEC1E02ADBB12A7FE049C90F4E9C13B6B6E2"/>
+      <attribute name="osgi.content" value="7BE67D05D163E40C5D6523FB979A002815A181389B64C5A14B1D7D3C7A70A2D1"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -3622,10 +3619,10 @@
       <attribute name="osgi.wiring.package" value="be.iminds.iot.simulator.api"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="30364" type="Long"/>
+      <attribute name="size" value="30084" type="Long"/>
       <attribute name="url" value="be.iminds.iot.simulator.vrep/be.iminds.iot.simulator.vrep-0.3.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="232F65DF66BB35A7D7E40C89ACE7D9D34EB82FE16FE657995132300430A8C3D9"/>
+      <attribute name="osgi.content" value="1AA2A3A508BEF9D40FDDDA0F93E92989B0189F189C153FB10E36D199829A920A"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.simulator.api)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -3971,15 +3968,15 @@
       <attribute name="osgi.wiring.package" value="simulation"/>
     </capability>
     <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="org.jivesoftware.smack,org.jivesoftware.smack.chat2,org.jivesoftware.smack.packet,org.jivesoftware.smack.roster,org.jivesoftware.smackx.filetransfer,org.jxmpp.jid,simulation"/>
+      <directive name="uses" value="eu.cpswarm.optimization.messages,org.jivesoftware.smack,org.jivesoftware.smack.chat2,org.jivesoftware.smack.packet,org.jivesoftware.smack.roster,org.jivesoftware.smackx.filetransfer,org.jxmpp.jid,simulation"/>
       <attribute name="version" value="1.0.48" type="Version"/>
       <attribute name="osgi.wiring.package" value="simulation.xmpp"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="41260" type="Long"/>
+      <attribute name="size" value="44577" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.manager/it.ismb.pert.cpswarm.simulation.manager-1.0.48.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="FA305943E3CCDED42C7A6D56175599F9300F7DB9ECF244668141F2CACB03848E"/>
+      <attribute name="osgi.content" value="2DB0A1A8459CB812EA8E114C5DC02FBAFEFABB45F5BE501AF73207BF71BCB7E8"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
@@ -4070,10 +4067,10 @@
       <attribute name="objectClass" value="org.ros.node.NodeMain" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="36079" type="Long"/>
+      <attribute name="size" value="36028" type="Long"/>
       <attribute name="url" value="be.iminds.iot.simulator.gazebo/be.iminds.iot.simulator.gazebo-0.4.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="791E3B49D290B1D88BC77701713E30CB2D9E82E09A8D76B309ADDA009188F1AA"/>
+      <attribute name="osgi.content" value="B56A35F8F608C9E3975B2AF9D49A4B0DE1F1513278EA6FC3B5F29EDEF4968FAE"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.api)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -4410,16 +4407,13 @@
       <attribute name="osgi.wiring.package" value="std_srvs"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="5433" type="Long"/>
+      <attribute name="size" value="2763" type="Long"/>
       <attribute name="url" value="org.ros.rosjava_messages.std_srvs/org.ros.rosjava_messages.std_srvs-1.11.1.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="BEE18C123CD9307E3C8239C5F416271FF7D82A48EDEFAC4FABE71C005B28A3B9"/>
+      <attribute name="osgi.content" value="82A33FBF9D3F41C90E7B642EA653CA3443440570998172E30B392802F6ACF54E"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.internal.message)(&amp;(version&gt;=0.2.0)(!(version&gt;=1.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+      <directive name="filter" value="(&amp;(osgi.wiring.package=org.ros.internal.message))"/>
     </requirement>
   </resource>
   <resource>
@@ -5197,10 +5191,10 @@
       <attribute name="objectClass" value="be.iminds.iot.ros.api.Ros" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="17158" type="Long"/>
+      <attribute name="size" value="17065" type="Long"/>
       <attribute name="url" value="be.iminds.iot.ros.core/be.iminds.iot.ros.core-0.3.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="9B58FBF2B5A5B6D632DA5C33DE6E4EBF3FB7572D9BF623FED138CA3072E292F7"/>
+      <attribute name="osgi.content" value="3510EF9B07034AFCD1B93C3EE496F062DB7292E27FBFE5C046968BF96EC4A0C8"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.api)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -5672,10 +5666,10 @@
       <attribute name="objectClass" value="manager.VrepSimulationManager" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="33652" type="Long"/>
+      <attribute name="size" value="34391" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.vrep/it.ismb.pert.cpswarm.simulation.vrep-1.1.1.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="80E52CAB8283830089330428C46DB9483F1C3BAF2B6BBC45915D6D73D868F6C9"/>
+      <attribute name="osgi.content" value="B1160F53863FD50A4C090E8D05DA17E5F31377EB3D15386DBB68292E445A4D45"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -6593,16 +6587,16 @@
       <attribute name="osgi.wiring.package" value="coppelia"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="88120" type="Long"/>
+      <attribute name="size" value="140715" type="Long"/>
       <attribute name="url" value="coppelia/coppelia-3.3.1.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="3CE52B732CCDF08A9E7688F758EF8651D18AA632E5A48264ECCE6E83F7AC2A09"/>
+      <attribute name="osgi.content" value="4FEF9A32350E2F10F2D638634EF8862240A8B9D3F86DC73DF1B1604E4DE89F5B"/>
     </capability>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
     </requirement>
     <requirement namespace="osgi.native">
-      <directive name="filter" value="(&amp;(osgi.native.osname~=Linux)(osgi.native.processor~=x86_64))"/>
+      <directive name="filter" value="(|(&amp;(osgi.native.osname~=Linux)(osgi.native.processor~=x86_64))(&amp;(osgi.native.osname~=macosx)(osgi.native.processor~=x86_64)))"/>
     </requirement>
   </resource>
   <resource>
@@ -6908,6 +6902,44 @@
   </resource>
   <resource>
     <capability namespace="osgi.identity">
+      <attribute name="osgi.identity" value="optimization-messages"/>
+      <attribute name="type" value="osgi.bundle"/>
+      <attribute name="version" value="0.0.2.SNAPSHOT" type="Version"/>
+    </capability>
+    <capability namespace="osgi.wiring.bundle">
+      <attribute name="bundle-version" value="0.0.2.SNAPSHOT" type="Version"/>
+      <attribute name="osgi.wiring.bundle" value="optimization-messages"/>
+    </capability>
+    <capability namespace="osgi.wiring.host">
+      <attribute name="bundle-version" value="0.0.2.SNAPSHOT" type="Version"/>
+      <attribute name="osgi.wiring.host" value="optimization-messages"/>
+    </capability>
+    <capability namespace="osgi.wiring.package">
+      <directive name="uses" value="com.google.gson,com.google.gson.annotations"/>
+      <attribute name="version" value="0.0.2" type="Version"/>
+      <attribute name="osgi.wiring.package" value="eu.cpswarm.optimization.messages"/>
+    </capability>
+    <capability namespace="osgi.content">
+      <attribute name="size" value="14371" type="Long"/>
+      <attribute name="url" value="optimization-messages/optimization-messages-0.0.2.jar"/>
+      <attribute name="mime" value="application/vnd.osgi.bundle"/>
+      <attribute name="osgi.content" value="3ACC861CB792EB02A37573824CB1C6491CE1D32C8B691B1243DCC3663DF2D974"/>
+    </capability>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.annotations)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
+    </requirement>
+    <requirement namespace="osgi.wiring.package">
+      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.typeadapters))"/>
+    </requirement>
+    <requirement namespace="osgi.ee">
+      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
+    </requirement>
+  </resource>
+  <resource>
+    <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="com.google.gson.bundle"/>
       <attribute name="type" value="osgi.bundle"/>
       <attribute name="version" value="2.8.5" type="Version"/>
@@ -7000,44 +7032,6 @@
     </requirement>
     <requirement namespace="osgi.ee">
       <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.5))"/>
-    </requirement>
-  </resource>
-  <resource>
-    <capability namespace="osgi.identity">
-      <attribute name="osgi.identity" value="optimization-messages"/>
-      <attribute name="type" value="osgi.bundle"/>
-      <attribute name="version" value="0.0.1" type="Version"/>
-    </capability>
-    <capability namespace="osgi.wiring.bundle">
-      <attribute name="bundle-version" value="0.0.1" type="Version"/>
-      <attribute name="osgi.wiring.bundle" value="optimization-messages"/>
-    </capability>
-    <capability namespace="osgi.wiring.host">
-      <attribute name="bundle-version" value="0.0.1" type="Version"/>
-      <attribute name="osgi.wiring.host" value="optimization-messages"/>
-    </capability>
-    <capability namespace="osgi.wiring.package">
-      <directive name="uses" value="com.google.gson,com.google.gson.annotations"/>
-      <attribute name="version" value="0.0.1" type="Version"/>
-      <attribute name="osgi.wiring.package" value="eu.cpswarm.optimization.messages"/>
-    </capability>
-    <capability namespace="osgi.content">
-      <attribute name="size" value="18243" type="Long"/>
-      <attribute name="url" value="optimization-messages/optimization-messages-0.0.1.jar"/>
-      <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="782BFDD3C35A5C8F8D278129FBD0287FC2F6148A92E388673F82E7160BF4A4A2"/>
-    </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.annotations)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson.typeadapters)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
-    </requirement>
-    <requirement namespace="osgi.ee">
-      <directive name="filter" value="(&amp;(osgi.ee=JavaSE)(version=1.8))"/>
     </requirement>
   </resource>
   <resource>

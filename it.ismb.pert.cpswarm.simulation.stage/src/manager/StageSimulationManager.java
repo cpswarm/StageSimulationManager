@@ -138,7 +138,7 @@ public class StageSimulationManager extends SimulationManager {
 			}
 			if (!new File(dataFolder).isDirectory()) {
 				System.out.println("Data folder must be a folder");
-				return;
+				deactivate();
 			}
 
 		} catch (ParserConfigurationException e1) {
@@ -148,17 +148,13 @@ public class StageSimulationManager extends SimulationManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		connectToXMPPserver(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
+		boolean connected = connectToXMPPserver(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
 				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout, fake, launchFile);
-		publishPresence(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
+		if(connected) {
+			publishPresence(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
 				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout);
-		while (true) {
-			try {
-				Thread.sleep(60000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		} else {
+			deactivate();				
 		}
 	}
 

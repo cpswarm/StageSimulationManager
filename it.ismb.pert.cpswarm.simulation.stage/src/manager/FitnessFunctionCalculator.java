@@ -48,22 +48,22 @@ public class FitnessFunctionCalculator {
 
 	private double readBag(final String dataFolder, final String bagFile, final int timeout) {
 		double fitness = 0.0;
-		Process proc = null;
 		try {
-			proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash ; "
-					+ " python " + dataFolder + "fitness.py " + bagFile + " " + timeout });
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		Runtime.getRuntime().addShutdownHook(new Thread(proc::destroy));
-		String line = "";
-		BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-		try {
+			Process proc = Runtime.getRuntime()
+					.exec(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash ; " + " python "
+							+ dataFolder + "fitness.py " + bagFile + " " + timeout });
+			Runtime.getRuntime().addShutdownHook(new Thread(proc::destroy));
+			String line = "";
+			BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			if ((line = input.readLine()) != null) {
 				fitness = Double.valueOf(line.trim());
 			}
+
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
+		}
+		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println(bagFile + " fitness score : " + fitness);
 		}
 
 		return fitness;
@@ -81,14 +81,11 @@ public class FitnessFunctionCalculator {
 		double fitnessSum = 0;
 		for (int i = 0; i < bagFiles.length; i++) {
 			String bagFile = bagPath+ bagFiles[i];
-			double fitness = readBag(dataFolder, bagFile, timeout);
-			if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-				System.out.println(bagFiles[i] + " fitness score : " + fitness);
-			}
+			double fitness = readBag(dataFolder, bagFile, timeout);			
 			fitnessSum += fitness;
 		}
 		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-			System.out.println("Total fitness calculated " + fitnessSum);
+			System.out.println("Total fitness calculated " + fitnessSum+" for "+bagFiles.length+ " robots, average = "+fitnessSum / bagFiles.length);
 		}
 		// overall fitness is average fitness of agents
 		return new SimulationResultMessage(optimizationID, "Total fitness calculated:" + fitnessSum +" for "+bagFiles.length+ " robots",

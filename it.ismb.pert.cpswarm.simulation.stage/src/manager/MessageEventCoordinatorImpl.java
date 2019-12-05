@@ -128,6 +128,8 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		Runtime.getRuntime().addShutdownHook(new Thread(process::destroy));
+		
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Properties props = new Properties();
 		props.put("SimulationManager", parent);
@@ -136,7 +138,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 
 		ComponentInstance instance = this.stageSimulationLauncherFactory.newInstance((Dictionary) props);
 		SimulationLauncher simulationLauncher = (SimulationLauncher) instance.getInstance();
-		try {
+		
 			final Future<?> handler = executor.submit(simulationLauncher);
 			try {
 				handler.get(parent.getTimeout(), TimeUnit.MILLISECONDS);
@@ -149,31 +151,31 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				executor.shutdown();
 				if (calcFitness) {
 					instance.dispose();
+				//	simulationLauncher.deactivate();
 					// create an instance per request on demand by using a Factory Component
 					instance = this.fitnessCalculatorFactory.newInstance(null);
 					FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
+					System.out.println("calculator is calculating.....1");
 					if (calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout())
 							.getOperationStatus().equals(ReplyMessage.Status.ERROR)) {
 						System.out.println("Error");
 						return;
 					}
 				}
-				Process proc;
-				try {
-					proc = Runtime.getRuntime().exec("killall -9 stageros");
-					proc.waitFor();
-					proc.destroy();
-					proc = null;
-				} catch (IOException | InterruptedException ex) {
-					ex.printStackTrace();
-				}
+				executor.shutdown();
+				instance.dispose();
+				return;
 			}
 			executor.shutdown();
-		} finally {
-			if (instance != null)
-				instance.dispose();
-		}
-
+			if (calcFitness) {
+				instance = this.fitnessCalculatorFactory.newInstance(null);
+				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
+		/*		parent.publishFitness(
+						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout()));*/
+				System.out.println("calculator is calculating.....2");
+						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout());
+						instance.dispose();
+			}
 	}
 
 	@Deactivate

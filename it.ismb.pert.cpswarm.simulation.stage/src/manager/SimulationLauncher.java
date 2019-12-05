@@ -31,7 +31,8 @@ public class SimulationLauncher implements Runnable {
 	private ComponentInstance calculatorInstance = null;
 	private ComponentFactory fitnessCalculatorFactory;
 	private ComponentFactory rosCommandFactory; // used to roslaunch the simulation
-
+	private RosCommand roslaunch = null;
+	
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.fitnessCalculator.factory)")
 	public void getComponentFactory(final ComponentFactory s) {
 		this.fitnessCalculatorFactory = s;
@@ -81,41 +82,24 @@ public class SimulationLauncher implements Runnable {
 				}
 
 				commandInstance = this.rosCommandFactory.newInstance((Dictionary) props);
-				RosCommand roslaunch = (RosCommand) commandInstance.getInstance();
+				roslaunch = (RosCommand) commandInstance.getInstance();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if (calcFitness) {
-				calculatorInstance = this.fitnessCalculatorFactory.newInstance(null);
-				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) calculatorInstance.getInstance();
-		/*		parent.publishFitness(
-						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout()));*/
-				
-						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout());
-			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (commandInstance != null)
+			if (commandInstance != null) {
 				commandInstance.dispose();
-			if (calculatorInstance != null)
-				calculatorInstance.dispose();
+			}
 		}
 
 	}
 
 	@Deactivate
-	void deactivate() {
+	void deactivate() {		
 		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println("Simulation launcher is deactived");
-		}
-		if (commandInstance != null)
-			commandInstance.dispose();
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
 		}
 		Process proc;
 		try {
@@ -126,6 +110,11 @@ public class SimulationLauncher implements Runnable {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}			
 	}
 
 	public void setCanRun(boolean canRun) {

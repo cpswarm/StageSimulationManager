@@ -83,7 +83,7 @@
 	org.eclipse.jetty.LEVEL=WARN,\
 	logback.configurationFile=resources/logback.xml,\
 	org.apache.felix.log.storeDebug=false,\
-	org.osgi.service.http.port=8080,\
+	org.osgi.service.http.port=8081,\
 	ros.core.native=true,\
 	verbosity=2,\
 	simulation.launch.file=stage.launch,\

@@ -55,13 +55,14 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 
 	@Override
 	protected boolean unzipFiles(final String fileToReceive) {
-		String packagePath = "";
+		String packagePath = null;
 		try {
 			byte[] buffer = new byte[1024];
 			ZipInputStream zis = new ZipInputStream(new FileInputStream(fileToReceive));
 			ZipEntry zipEntry = zis.getNextEntry();
 			Process proc = null;
 			File newFile = null;
+			String fileName =null;
 			FileOutputStream fos = null;			
 				proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c",
 						"source " + parent.getCatkinWS() + "devel/setup.bash ; rospack find " +packageName});
@@ -71,7 +72,7 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 
 				if ((packagePath = input.readLine()) != null && !packagePath.startsWith("[rospack]")) {
 					while (zipEntry != null) {
-						String fileName = zipEntry.getName();
+						fileName = zipEntry.getName();
 						// The wrapper is copied to the ROS folder
 						if (fileName.endsWith(".cpp")) {
 							newFile = new File(packagePath + File.separator + "world" + File.separator + fileName);
@@ -88,6 +89,7 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 						}
 						fos.close();
 						zipEntry = zis.getNextEntry();
+						fileName = null;
 					}
 					zis.closeEntry();
 					zis.close();
