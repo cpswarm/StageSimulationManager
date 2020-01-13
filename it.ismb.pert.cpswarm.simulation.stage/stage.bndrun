@@ -86,7 +86,7 @@
 	org.osgi.service.http.port=8081,\
 	ros.core.native=true,\
 	verbosity=2,\
-	simulation.launch.file=stage.launch,\
+	simulation.launch.file=stage_complete.launch,\
 	ros.master.uri=http://localhost:11311,\
 	Manager.config.file.manager.xml=resources/manager.xml,\
 	javax.net.ssl.trustStorePassword=changeit,\

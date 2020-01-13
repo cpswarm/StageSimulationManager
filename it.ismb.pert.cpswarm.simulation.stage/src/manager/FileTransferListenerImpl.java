@@ -55,6 +55,9 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 
 	@Override
 	protected boolean unzipFiles(final String fileToReceive) {
+		if(parent.isFake()) {
+			return true;
+		}
 		String packagePath = null;
 		try {
 			byte[] buffer = new byte[1024];

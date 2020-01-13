@@ -178,17 +178,16 @@ public class StageSimulationManager extends SimulationManager {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		ProcessBuilder builder = null;
-		Process process = null;
 		boolean result = true;
+		if(!isFake()) {
+		ProcessBuilder builder = null;
+		Process process = null;		
 		try {		
 			builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; cd " + this.getCatkinWS() + " ; catkin build " });
-			builder.inheritIO();
+			if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(VERBOSITY_LEVELS.ALL))
+				builder.inheritIO();
 			process = builder.start();
 			process.waitFor();
-			if(CURRENT_VERBOSITY_LEVEL.equals(VERBOSITY_LEVELS.ALL)) {
-				System.out.println("build workspace finished");
-			}
 		} catch (IOException |InterruptedException err) {
 			result = false;
 			System.err.println("Error when building workspace: " + this.getCatkinWS());
@@ -199,15 +198,17 @@ public class StageSimulationManager extends SimulationManager {
 				process = null;
 			}
 		}
-		System.out.println("Compilation finished, with succeed = " + result);
-		if (result) {
+		}
+		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(VERBOSITY_LEVELS.ALL))
+			System.out.println("Compilation finished, with succeed = " + result);
+		if (result || isFake()) {
 			serverInfo.setServer(clientJID.asUnescapedString());
 			ServiceDiscoveryManager disco = ServiceDiscoveryManager.getInstanceFor(this.getConnection());
 			disco.addFeature("http://jabber.org/protocol/si/profile/file-transfer");
 			final Presence presence = new Presence(Presence.Type.available);
 			Gson gson = new Gson();
-			if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-				System.out.println("\nStage MA : the server info is " + gson.toJson(serverInfo, Server.class));
+			if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(VERBOSITY_LEVELS.ALL)) {
+				System.out.println("\nStage SM : the server info is " + gson.toJson(serverInfo, Server.class));
 			}
 			presence.setStatus(gson.toJson(serverInfo, Server.class));
 			try {

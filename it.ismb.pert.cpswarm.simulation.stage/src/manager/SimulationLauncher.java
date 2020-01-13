@@ -1,6 +1,8 @@
 package manager;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Dictionary;
 import java.util.Map;
 import java.util.Properties;
@@ -26,17 +28,8 @@ public class SimulationLauncher implements Runnable {
 	private boolean canRun = true;
 	private String packageName = null;
 	private SimulationManager parent = null;
-	private boolean calcFitness = false;
 	private ComponentInstance commandInstance = null;
-	private ComponentInstance calculatorInstance = null;
-	private ComponentFactory fitnessCalculatorFactory;
 	private ComponentFactory rosCommandFactory; // used to roslaunch the simulation
-	private RosCommand roslaunch = null;
-	
-	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.fitnessCalculator.factory)")
-	public void getComponentFactory(final ComponentFactory s) {
-		this.fitnessCalculatorFactory = s;
-	}
 
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.rosCommand.factory)")
 	public void getRosCommandFactory(final ComponentFactory s) {
@@ -51,8 +44,6 @@ public class SimulationLauncher implements Runnable {
 				parent = (SimulationManager) entry.getValue();
 			} else if (key.equals("packageName")) {
 				this.packageName = (String) entry.getValue();
-			} else if (key.equals("calcFitness")) {
-				this.calcFitness = (boolean) entry.getValue();
 			}
 		}
 		assert (parent) != null;
@@ -64,28 +55,21 @@ public class SimulationLauncher implements Runnable {
 
 	@Override
 	public void run() {
-//		ComponentInstance commandInstance = null;
-//		ComponentInstance calculatorInstance = null;
 		try {
-			try {
-				String params = parent.getSimulationConfiguration();
-				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-					System.out.println("Launching the simulation for package: "+packageName + " with params: "+ params);
-				}
-				// roslaunch emergency_exit stage.launch visual:=true
-				Properties props = new Properties();
-				props.put("rosWorkspace", parent.getCatkinWS());
-				props.put("ros.package", packageName);
-				props.put("ros.node", parent.getLaunchFile());
-				if (params != null) {
-					props.put("ros.mappings", params);
-				}
-
-				commandInstance = this.rosCommandFactory.newInstance((Dictionary) props);
-				roslaunch = (RosCommand) commandInstance.getInstance();
-			} catch (Exception e) {
-				e.printStackTrace();
+			String params = parent.getSimulationConfiguration();
+			/*	if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+			System.out.println("Launching the simulation for package: "+packageName + " with params: "+ params);
+			}*/
+			// roslaunch storage stage_complete.launch gui:=true
+			Properties props = new Properties();
+			props.put("rosWorkspace", parent.getCatkinWS());
+			props.put("ros.package", packageName);
+			props.put("ros.node", parent.getLaunchFile());
+			if (params != null) {
+				props.put("ros.mappings", params);
 			}
+			commandInstance = this.rosCommandFactory.newInstance((Dictionary) props);
+			RosCommand roslaunch = (RosCommand) commandInstance.getInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -102,19 +86,35 @@ public class SimulationLauncher implements Runnable {
 			System.out.println("Simulation launcher is deactived");
 		}
 		Process proc;
-		try {
+			try {
 			proc = Runtime.getRuntime().exec("killall -9 stageros");
 			proc.waitFor();
 			proc.destroy();
 			proc = null;
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
-		}
+		}		
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(25000);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
-		}			
+		}	
+		try {
+			proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "killall -9 roslaunch; killall -9 python" });
+			String line="";
+			BufferedReader input =  
+					new BufferedReader  
+					(new InputStreamReader(proc.getInputStream()));  
+			while ((line = input.readLine()) != null) {  
+					System.out.println(line);
+			} 
+			proc.waitFor();
+			proc.destroy();
+			proc = null;
+			input.close();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	public void setCanRun(boolean canRun) {

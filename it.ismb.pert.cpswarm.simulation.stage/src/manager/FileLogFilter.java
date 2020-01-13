@@ -14,7 +14,13 @@ import org.osgi.service.component.annotations.Deactivate;
 public class FileLogFilter implements FilenameFilter {
 
 	public boolean accept(File dir, String name) {
-		return name.toLowerCase().endsWith("bag");
+		
+		if(name.toLowerCase().endsWith("bag")) {
+			String[] fields = name.split("_");
+			if(fields[3].equals("worker"))
+				return true;
+		}
+		return false;
 	}
 
 	@Activate

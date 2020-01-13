@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1575308849000">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1578920724000">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="gson-extras-bundle"/>
@@ -2665,10 +2665,10 @@
       <attribute name="objectClass" value="be.iminds.iot.ros.util.RosCommandInjection" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="18295" type="Long"/>
+      <attribute name="size" value="18449" type="Long"/>
       <attribute name="url" value="be.iminds.iot.ros.api/be.iminds.iot.ros.api-0.4.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="1AB888A187AC3E1FB79E5CDAA74B0D5EBE42DA91251B7A26BC216BB2CFD27BF9"/>
+      <attribute name="osgi.content" value="21D9E0FEC081CACB7BB3D17B1835632DF47FD4BA9546FC033D6C80E6C9AAF6AC"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.api)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -3973,10 +3973,10 @@
       <attribute name="osgi.wiring.package" value="simulation.xmpp"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="44577" type="Long"/>
+      <attribute name="size" value="45225" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.manager/it.ismb.pert.cpswarm.simulation.manager-1.0.48.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="2DB0A1A8459CB812EA8E114C5DC02FBAFEFABB45F5BE501AF73207BF71BCB7E8"/>
+      <attribute name="osgi.content" value="D4FF3C756EEB4390CC3AC102FBF7E5656EE6579809D59D2C384EB651DEC05C94"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>

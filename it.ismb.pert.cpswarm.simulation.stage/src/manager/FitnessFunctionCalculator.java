@@ -26,6 +26,7 @@ import simulation.SimulationManager;
 @Component(factory = "it.ismb.pert.cpswarm.fitnessCalculator.factory")
 public class FitnessFunctionCalculator {
 	private FileLogFilter fileLogFilter = null;
+	public int counter = 0;
 
 	@Activate
 	public void activate(BundleContext context) {		
@@ -55,15 +56,23 @@ public class FitnessFunctionCalculator {
 			Runtime.getRuntime().addShutdownHook(new Thread(proc::destroy));
 			String line = "";
 			BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-			if ((line = input.readLine()) != null) {
-				fitness = Double.valueOf(line.trim());
+			while ((line = input.readLine()) != null ) {
+			//	System.out.println(line);
+				if(line.startsWith("box_count=")) {
+					counter += Integer.valueOf(line.trim().split("=")[1]).intValue();
+				}
+				if(line.startsWith("fitness=")) {
+					fitness = Double.valueOf(line.trim().split("=")[1]);
+			//		break;
+				}
 			}
+			input.close();
 
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
 		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-			System.out.println(bagFile + " fitness score : " + fitness);
+			System.out.println(bagFile + " fitness score : " + fitness+"  box_count = "+counter);
 		}
 
 		return fitness;
@@ -78,6 +87,40 @@ public class FitnessFunctionCalculator {
 			final String dataFolder, String bagPath, final int timeout) {
 		File bagFolder = new File(bagPath); // path to ~/.ros/ directory
 		String[] bagFiles = bagFolder.list(fileLogFilter);
+		int counter = 3;
+		while(bagFiles.length==0 && counter>0) {  // wait the simulation stops for maximum 2 times to generate the bags
+			try {
+				if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+					System.out.println("No bag files, Waiting another 15s for simulation stop!");
+				}
+				Thread.sleep(15000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			bagFiles = bagFolder.list(fileLogFilter);
+			counter-=1;
+		}
+		if(bagFiles.length ==0) {
+		//	if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+				System.out.println("Simulation "+simulationID+" Error: No any bag files found for all robots!");
+		//	}
+				try {
+					Process proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "ls /home/.ros/" });	
+					String line="";
+					BufferedReader input =  
+							new BufferedReader  
+							(new InputStreamReader(proc.getInputStream()));  
+					while ((line = input.readLine()) != null) {  
+							System.out.println(line);
+					} 
+					input.close();
+					Runtime.getRuntime().addShutdownHook(new Thread(proc::destroy));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			return new SimulationResultMessage(optimizationID, "No any bag files found for all robots",
+					ReplyMessage.Status.ERROR, simulationID, 0.0);
+		}
 		double fitnessSum = 0;
 		for (int i = 0; i < bagFiles.length; i++) {
 			String bagFile = bagPath+ bagFiles[i];
@@ -85,10 +128,10 @@ public class FitnessFunctionCalculator {
 			fitnessSum += fitness;
 		}
 		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-			System.out.println("Total fitness calculated " + fitnessSum+" for "+bagFiles.length+ " robots, average = "+fitnessSum / bagFiles.length);
+			System.out.println("Total fitness calculated " + fitnessSum+" for "+bagFiles.length+ " workers, average = "+fitnessSum / bagFiles.length);
 		}
 		// overall fitness is average fitness of agents
-		return new SimulationResultMessage(optimizationID, "Total fitness calculated:" + fitnessSum +" for "+bagFiles.length+ " robots",
+		return new SimulationResultMessage(optimizationID, "Total fitness calculated:" + fitnessSum +" for "+bagFiles.length+ " workers",
 				ReplyMessage.Status.OK, simulationID, fitnessSum / bagFiles.length);
 	}
 
