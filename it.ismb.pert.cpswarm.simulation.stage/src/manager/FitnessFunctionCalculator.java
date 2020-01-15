@@ -52,13 +52,13 @@ public class FitnessFunctionCalculator {
 		try {
 			Process proc = Runtime.getRuntime()
 					.exec(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash ; " + " python "
-							+ dataFolder + "fitness.py " + bagFile + " " + timeout });
+							+ dataFolder + "fitness_modified.py " + bagFile + " " + timeout+" 5" });
 			Runtime.getRuntime().addShutdownHook(new Thread(proc::destroy));
 			String line = "";
 			BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			while ((line = input.readLine()) != null ) {
 			//	System.out.println(line);
-				if(line.startsWith("box_count=")) {
+				if(line.startsWith("box_count_done=")) {
 					counter += Integer.valueOf(line.trim().split("=")[1]).intValue();
 				}
 				if(line.startsWith("fitness=")) {
@@ -128,11 +128,12 @@ public class FitnessFunctionCalculator {
 			fitnessSum += fitness;
 		}
 		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-			System.out.println("Total fitness calculated " + fitnessSum+" for "+bagFiles.length+ " workers, average = "+fitnessSum / bagFiles.length);
+		//	System.out.println("Total fitness calculated " + fitnessSum+" for "+bagFiles.length+ " workers, average = "+fitnessSum / bagFiles.length);
+			System.out.println("Total fitness calculated " + fitnessSum+" for "+bagFiles.length+ " workers");
 		}
 		// overall fitness is average fitness of agents
 		return new SimulationResultMessage(optimizationID, "Total fitness calculated:" + fitnessSum +" for "+bagFiles.length+ " workers",
-				ReplyMessage.Status.OK, simulationID, fitnessSum / bagFiles.length);
+				ReplyMessage.Status.OK, simulationID, fitnessSum/* / bagFiles.length*/);
 	}
 
 	public SimulationResultMessage randomFitness(final String optimizationID, final String simulationID) {
