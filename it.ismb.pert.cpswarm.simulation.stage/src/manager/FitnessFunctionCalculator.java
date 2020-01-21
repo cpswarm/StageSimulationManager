@@ -87,7 +87,7 @@ public class FitnessFunctionCalculator {
 			final String dataFolder, String bagPath, final int timeout) {
 		File bagFolder = new File(bagPath); // path to ~/.ros/ directory
 		String[] bagFiles = bagFolder.list(fileLogFilter);
-		int counter = 3;
+		int counter = 2;
 		while(bagFiles.length==0 && counter>0) {  // wait the simulation stops for maximum 2 times to generate the bags
 			try {
 				if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
@@ -105,17 +105,24 @@ public class FitnessFunctionCalculator {
 				System.out.println("Simulation "+simulationID+" Error: No any bag files found for all robots!");
 		//	}
 				try {
-					Process proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "ls /home/.ros/" });	
+					Process proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "ls /home/.ros/; killall -s SIGINT roslaunch; killall -s SIGINT stageros; killall -s SIGINT python; killall -s SIGINT record; rosnode kill -a; killall -s SIGINT roscore; killall -s SIGINT rosmaster" });	
 					String line="";
 					BufferedReader input =  
 							new BufferedReader  
-							(new InputStreamReader(proc.getInputStream()));  
+							(new InputStreamReader(proc.getErrorStream()));  
 					while ((line = input.readLine()) != null) {  
 							System.out.println(line);
-					} 
+					}
+					proc.waitFor();
+					proc = null;
 					input.close();
-					Runtime.getRuntime().addShutdownHook(new Thread(proc::destroy));
-				} catch (IOException e1) {
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				try {
+					Thread.sleep(25000);
+				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
 			return new SimulationResultMessage(optimizationID, "No any bag files found for all robots",

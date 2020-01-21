@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1579110287000">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1579597368000">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="gson-extras-bundle"/>
@@ -2665,14 +2665,11 @@
       <attribute name="objectClass" value="be.iminds.iot.ros.util.RosCommandInjection" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="18448" type="Long"/>
+      <attribute name="size" value="18910" type="Long"/>
       <attribute name="url" value="be.iminds.iot.ros.api/be.iminds.iot.ros.api-0.4.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="91CA6F770C731DB69D0C5D6A875A4E4A8690FCB7A960242B939FDEAA4EB67624"/>
+      <attribute name="osgi.content" value="66707E4F55C6535EBC5973525742CB8F1BFA5BC393D9E6A7EC2C4062D5C8D604"/>
     </capability>
-    <requirement namespace="osgi.wiring.package">
-      <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.api)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
-    </requirement>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
     </requirement>
@@ -2687,10 +2684,6 @@
     </requirement>
     <requirement namespace="osgi.extender">
       <directive name="filter" value="(&amp;(osgi.extender=osgi.component)(version&gt;=1.3.0)(!(version&gt;=2.0.0)))"/>
-    </requirement>
-    <requirement namespace="osgi.service">
-      <directive name="filter" value="(objectClass=be.iminds.iot.ros.api.Ros)"/>
-      <directive name="effective" value="active"/>
     </requirement>
     <requirement namespace="osgi.service">
       <directive name="filter" value="(objectClass=org.osgi.service.component.ComponentFactory)"/>

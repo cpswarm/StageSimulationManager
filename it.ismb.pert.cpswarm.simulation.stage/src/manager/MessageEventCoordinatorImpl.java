@@ -137,23 +137,28 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	private void runSimulation(boolean calcFitness) throws IOException, InterruptedException {
 		
 		try {
-			process = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; killall -9 roslaunch; killall -9 python; rosclean purge -y; rm "+parent.getBagPath()+"*.bag" });
+			process = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; killall -2 roscore; rosclean purge -y; rm "+parent.getBagPath()+"*.bag; rm "+parent.getBagPath()+"*.active" });
 		/*	String line="";
 			BufferedReader input =  
 					new BufferedReader  
-					(new InputStreamReader(process.getInputStream()));  
+					(new InputStreamReader(process.getErrorStream()));  
 			while ((line = input.readLine()) != null) {  
 					System.out.println(line);
 			} */
-			process.waitFor();
-			process.destroy();
+			int exit = process.waitFor();
+			//	if(exit!=0)
+			//	System.out.println("clean bags failed");
 			process = null;
 		//	input.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
-	//	Runtime.getRuntime().addShutdownHook(new Thread(process::destroy));
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 		
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Properties props = new Properties();
@@ -172,9 +177,9 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 					System.out.println(" MessageEventCoordinator handler is timeout! ");
 				}				
+				instance.dispose();
 				executor.shutdown();
 				if (calcFitness) {
-					instance.dispose();
 					// create an instance per request on demand by using a Factory Component
 					instance = this.fitnessCalculatorFactory.newInstance(null);
 					FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
@@ -186,12 +191,16 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 						parent.publishFitness(result, params.toString(), calculator.counter);
 					//}
 				}
-				executor.shutdown();
-				instance.dispose();
 				return;
 			}
+			instance.dispose();
 			executor.shutdown();
 			if (calcFitness) {
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
 				instance = this.fitnessCalculatorFactory.newInstance(null);
 				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
 				parent.publishFitness(

@@ -73,10 +73,10 @@
 	it.ismb.pert.cpswarm.simulation.manager;version=latest,\
 	it.ismb.pert.cpswarm.simulation.stage;version=latest,\
 	optimization-messages;version=0.0.2,\
-	be.iminds.iot.ros.core;version=0.3.0,\
 	be.iminds.iot.ros.msgs.generator;version=0.2.0,\
 	be.iminds.iot.ros.api;version=latest
 
+#	be.iminds.iot.ros.core;version=0.3.0,\
 
 -runproperties: \
 	org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
