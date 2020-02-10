@@ -29,6 +29,6 @@ public class FileLogFilter implements FilenameFilter {
 
 	@Deactivate
 	public void deactivate() {
-		System.out.println("stoping a file log filter ... \n");
+		System.out.println("stoping a file log filter ...");
 	}
 }

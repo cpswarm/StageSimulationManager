@@ -6,6 +6,5 @@ RemoteSystemsTempFiles/
 *.git/
 **/generated/
 **/bin/
-**/stageManager.jar
 git.sh
 

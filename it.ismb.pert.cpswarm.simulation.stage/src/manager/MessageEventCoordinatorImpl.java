@@ -137,19 +137,11 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	private void runSimulation(boolean calcFitness) throws IOException, InterruptedException {
 		
 		try {
-			process = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; killall -2 roscore; rosclean purge -y; rm "+parent.getBagPath()+"*.bag; rm "+parent.getBagPath()+"*.active" });
-		/*	String line="";
-			BufferedReader input =  
-					new BufferedReader  
-					(new InputStreamReader(process.getErrorStream()));  
-			while ((line = input.readLine()) != null) {  
-					System.out.println(line);
-			} */
-			int exit = process.waitFor();
-			//	if(exit!=0)
-			//	System.out.println("clean bags failed");
+			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; rosclean purge -y; rm "+parent.getBagPath()+"*.bag; rm "+parent.getBagPath()+"*.active" });
+			builder.inheritIO();
+			process = builder.start();
+			process.waitFor();
 			process = null;
-		//	input.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -189,23 +181,50 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					//	return;
 					}// else {
 						parent.publishFitness(result, params.toString(), calculator.counter);
+				//	System.out.println("get fitness = " +result.getFitnessValue()+",  with carts: "+calculator.counter);
 					//}
+					instance.dispose();
 				}
 				return;
 			}
 			instance.dispose();
 			executor.shutdown();
 			if (calcFitness) {
+				System.out.println("Unnormally quit simulation without timeout! ");
 				try {
 					Thread.sleep(10000);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
+				Process proc;
+				ProcessBuilder builder;
+				try {
+					builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 rosout; killall -2 record"});
+					builder.inheritIO();
+					proc = builder.start();
+					proc.waitFor();
+					proc = null;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				try {
+					builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 stageros"});
+					builder.inheritIO();
+					proc = builder.start();
+					proc.waitFor();
+					proc = null;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				instance = this.fitnessCalculatorFactory.newInstance(null);
 				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
 				parent.publishFitness(
 						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout()), params.toString(), calculator.counter);
-						instance.dispose();
+				
+				/*	SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout());
+				System.out.println("get fitness = " +result.getFitnessValue()+",  with carts: "+calculator.counter);		
+				*/
+				instance.dispose();
 			}
 	}
 
@@ -218,7 +237,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 			calculator = null;
 		Process proc;
 		try {
-			proc = Runtime.getRuntime().exec("killall -9 stageros");
+			proc = Runtime.getRuntime().exec("killall -2 stageros");
 			proc.waitFor();
 			proc.destroy();
 			proc = null;

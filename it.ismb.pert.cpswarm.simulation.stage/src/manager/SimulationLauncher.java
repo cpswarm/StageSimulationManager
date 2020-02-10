@@ -1,8 +1,5 @@
 package manager;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Dictionary;
 import java.util.Map;
 import java.util.Properties;
@@ -71,7 +68,7 @@ public class SimulationLauncher implements Runnable {
 				props.put("ros.mappings", params);
 			}
 			commandInstance = this.rosCommandFactory.newInstance((Dictionary) props);
-			 roslaunch = (RosCommand) commandInstance.getInstance();
+			roslaunch = (RosCommand) commandInstance.getInstance();
 			roslaunch.startSimulation();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,41 +84,12 @@ public class SimulationLauncher implements Runnable {
 		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println("Simulation launcher is deactived");
 		}
-		
-	/*	Process proc;
-		try {
-			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 roslaunch"});
-				proc = builder.start();
-				proc.waitFor();
-				proc = null;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	
-		try {
-			Thread.sleep(25000);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}*/
-	/*	if (roslaunch != null) {
-			roslaunch.deactivate();
-		}*/
 		if (commandInstance != null) {
 			commandInstance.dispose();
 		}
-	/*	try {
-			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "ps -aux; killall -2 stageros; killall -2 python;killall -s SIGINT record"});
-		
-				builder.inheritIO();
-				proc = builder.start();
-				proc.waitFor();
-				proc = null;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
 		Process proc;
 		try {
-			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -s SIGINT roscore"});	
+			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 rosmaster"});	
 				builder.inheritIO();
 				proc = builder.start();
 				proc.waitFor();
@@ -129,29 +97,6 @@ public class SimulationLauncher implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-	/*	
-		
-		try {
-			System.out.println("killing rosnode\n");
-			proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "ps -aux;rosnode kill -a; ps -aux;killall -s SIGINT roscore; ps -aux;killall -s SIGINT rosmaster;ps -aux;"});
-			String line="";
-			BufferedReader input =  
-					new BufferedReader  
-					(new InputStreamReader(proc.getInputStream()));  
-			while ((line = input.readLine()) != null) { 
-				//    if(line.contains("record"))
-				    	System.out.println(line);
-			}
-			int exit = proc.waitFor();
-			if(exit!=0)
-				System.out.println("killall -9 python failed");
-		//	proc.destroy;
-			proc = null;
-			input.close();
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}	*/	
 		
 	}
 

@@ -69,21 +69,25 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 			FileOutputStream fos = null;			
 				proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c",
 						"source " + parent.getCatkinWS() + "devel/setup.bash ; rospack find " +packageName});
-
-				Runtime.getRuntime().addShutdownHook(new Thread(proc::destroy));
 				BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
 				if ((packagePath = input.readLine()) != null && !packagePath.startsWith("[rospack]")) {
+					proc.waitFor();
+					proc = null;
+					input.close();
+					input = null;
 					while (zipEntry != null) {
 						fileName = zipEntry.getName();
 						// The wrapper is copied to the ROS folder
 						if (fileName.endsWith(".cpp")) {
 							newFile = new File(packagePath + File.separator + "world" + File.separator + fileName);
-							System.out.println("new file = "+newFile);
 						} else if (fileName.equals("frevo.yaml")) {
 							newFile = new File(packagePath + File.separator + "config" + File.separator + fileName);
 						} else {
 							newFile = new File(dataFolder + fileName);
+							if(fileName.equals("fitness_modified.py")) {
+								System.out.println("manager received file: "+fileName);
+							}
 						}
 						fos = new FileOutputStream(newFile);
 						int len;
@@ -96,6 +100,9 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 					}
 					zis.closeEntry();
 					zis.close();
+					zis = null;
+					zipEntry = null;
+					
 				} else {
 					System.out.println("Error: the " + packageName +" package doesn't exist");
 					return false;
@@ -103,7 +110,9 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
-		}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} 
 		// Transfer the models in the world folder
 		Set<String> supportedExtensions = new HashSet<String>();
 		supportedExtensions.add("pgm");
