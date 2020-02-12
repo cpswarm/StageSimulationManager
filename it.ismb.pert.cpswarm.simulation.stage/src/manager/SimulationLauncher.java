@@ -72,11 +72,7 @@ public class SimulationLauncher implements Runnable {
 			roslaunch.startSimulation();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}/* finally {
-			if (commandInstance != null) {
-				commandInstance.dispose();
-			}
-		}*/
+		}
 	}
 
 	@Deactivate

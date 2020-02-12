@@ -126,7 +126,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					}
 					return;
 				}
-				runSimulation(true); // false
+				runSimulation(false);
 			}
 		} catch (IOException | InterruptedException e) {
 			parent.publishFitness(new SimulationResultMessage(parent.getOptimizationID(),
@@ -171,25 +171,21 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				}				
 				instance.dispose();
 				executor.shutdown();
-				if (calcFitness) {
 					// create an instance per request on demand by using a Factory Component
-					instance = this.fitnessCalculatorFactory.newInstance(null);
-					FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
-					SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout());
-					if (result.getOperationStatus().equals(ReplyMessage.Status.ERROR)) {
-						System.out.println("Error fitness " +parent.getSimulationID());
-					//	return;
-					}// else {
-						parent.publishFitness(result, params.toString(), calculator.counter);
-				//	System.out.println("get fitness = " +result.getFitnessValue()+",  with carts: "+calculator.counter);
-					//}
-					instance.dispose();
+				instance = this.fitnessCalculatorFactory.newInstance(null);
+				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
+				SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout());
+				if (result.getOperationStatus().equals(ReplyMessage.Status.ERROR)) {
+					System.out.println("Error fitness " +parent.getSimulationID());
 				}
+				if (calcFitness) {
+					parent.publishFitness(result, params.toString(), calculator.counter);
+				}
+				instance.dispose();				
 				return;
 			}
 			instance.dispose();
 			executor.shutdown();
-			if (calcFitness) {
 				System.out.println("Unnormally quit simulation without timeout! ");
 				try {
 					Thread.sleep(10000);
@@ -218,14 +214,11 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				}
 				instance = this.fitnessCalculatorFactory.newInstance(null);
 				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
-				parent.publishFitness(
-						calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout()), params.toString(), calculator.counter);
-				
-				/*	SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout());
-				System.out.println("get fitness = " +result.getFitnessValue()+",  with carts: "+calculator.counter);		
-				*/
+				SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout());
+				if (calcFitness) {
+					parent.publishFitness(result, params.toString(), calculator.counter);	
+				}
 				instance.dispose();
-			}
 	}
 
 	@Deactivate
