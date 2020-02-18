@@ -1,16 +1,18 @@
 FROM stage-simulation-manager:latest
 
+ENV HOME=/home
 COPY . $HOME
 
-RUN chmod a+x $HOME/launch_SM.sh $HOME/ws/build.sh
+RUN chmod a+x $HOME/launch_SM.sh
+RUN mv $HOME/Ros-simulation-package $HOME/catkin_ws/src/
 
-WORKDIR $HOME/ws/
+WORKDIR $HOME/catkin_ws/
 
-RUN catkin init --workspace .
+RUN /bin/bash -c "source /home/catkin_ws/devel/setup.bash \
+    && catkin build"
 
-RUN /bin/bash build.sh
-
-RUN echo "source $HOME/ws/devel/setup.bash" >> ~/.bashrc
+RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
+    && echo "source /home/catkin_ws/devel/setup.bash" >> ~/.bashrc
 
 WORKDIR $HOME
 
