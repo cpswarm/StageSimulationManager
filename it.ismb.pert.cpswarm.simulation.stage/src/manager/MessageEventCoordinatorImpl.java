@@ -2,6 +2,7 @@ package manager;
 
 import java.io.IOException;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
@@ -12,8 +13,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.jivesoftware.smack.SmackException.NotConnectedException;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
+import org.jivesoftware.smack.packet.Presence;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.impl.JidCreate;
 import org.osgi.service.component.ComponentFactory;
@@ -22,10 +25,11 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
-import be.iminds.iot.ros.util.RosCommand;
+import com.google.gson.Gson;
 import eu.cpswarm.optimization.messages.MessageSerializer;
-import eu.cpswarm.optimization.messages.ReplyMessage;
 import eu.cpswarm.optimization.messages.SimulationResultMessage;
+import eu.cpswarm.optimization.parameters.Parameter;
+import eu.cpswarm.optimization.statuses.SimulationManagerStatus;
 import simulation.xmpp.AbstractMessageEventCoordinator;
 import simulation.SimulationManager;
 
@@ -34,13 +38,13 @@ import simulation.SimulationManager;
 )
 public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator {
 
-	private String packageName = null;
 	private SimulationManager parent = null;
 	private int timeout;
 	private boolean fake;
+	private Process process;
 	private ComponentFactory fitnessCalculatorFactory;
-	private ComponentFactory simulationLauncherFactory;
-	private ComponentFactory rosCommandFactory; // used to catkin build the workspace
+	private ComponentFactory stageSimulationLauncherFactory;
+	private FitnessFunctionCalculator calculator = null;
 
 	@Activate
 	protected void activate(Map<String, Object> properties) throws Exception {
@@ -72,78 +76,42 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 
 	}
 
-	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.simulationLauncher.factory)")
+	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.stageSimulationLauncher.factory)")
 	public void getSimulationLauncherFactory(final ComponentFactory s) {
-		this.simulationLauncherFactory = s;
-	}
-
-	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.rosCommand.factory)")
-	public void getRosCommandFactory(final ComponentFactory s) {
-		this.rosCommandFactory = s;
+		this.stageSimulationLauncherFactory = s;
 	}
 
 	@Override
-	protected void handleCandidate(final EntityBareJid sender, final String candidate, final String candidateType) {
+	protected void handleCandidate(final EntityBareJid sender, final List<Parameter> parameters) {
 		try {
+			if(calculator == null) {
+				ComponentInstance instance = this.fitnessCalculatorFactory.newInstance(null);
+				calculator = (FitnessFunctionCalculator) instance.getInstance();
+			}
 			if (fake) {
 				Thread.sleep(timeout);
-				ComponentInstance instance = this.fitnessCalculatorFactory.newInstance(null);
-				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
-				parent.publishFitness(calculator.randomFitness(parent.getOptimizationID(), parent.getSimulationID()));
-				instance.dispose();
+				parent.publishFitness(calculator.randomFitness(parent.getOptimizationID(), parent.getSimulationID()), null, 0);
+				parent.setSimulationID(null);
 				return;
 			}
-	//		packageName = parent.getOptimizationID().substring(0, parent.getOptimizationID().indexOf("!"));
 			packageName = parent.getSCID();
-			packageFolder = parent.getRosFolder() + packageName;
 			if (sender.equals(JidCreate.entityBareFromOrThrowUnchecked(parent.getOptimizationJID()))) {
-				if (candidate.equals("test")) {
+				if (parameters.get(0).getName().equals("test")) {
 					parent.setTestResult("optimization");
 					return;
 				}
-				if (!serializeCandidate(candidate)) {
+				if (!serializeCandidate(parameters)) {
 					parent.publishFitness(
-							new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS));
+							new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS), null, 0);
 					return;
-				}
-				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-					System.out.println("Compiling the package, using the 'catkin build' service provided by the RosCommand factory component \n");
-				}
-				String catkinWS = parent.getCatkinWS();
-				Properties props = new Properties();
-				props.put("ros.buildWorkspace", catkinWS);
-				ComponentInstance instance = null;
-				boolean result = true;
-				try {
-					instance = this.rosCommandFactory.newInstance((Dictionary) props);
-					RosCommand catkinBuild = (RosCommand) instance.getInstance();
-					catkinBuild.buildWorkspace();
-				} catch (Exception err) {
-					result = false;
-					System.err.println("Error when building workspace: " + catkinWS);
-					err.printStackTrace();
-				} finally {
-					if (instance != null)
-						instance.dispose();
-				}			
-				if (result) {
-					if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-						System.out.println("Compilation finished, success = "+result);
-					}
-					runSimulation(true);
-					if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-						System.out.println("simulation "+this.parent.getSimulationID()+" done");
-					}
-				} else {
-					System.out.println("Compilation with error, success = "+result);
-					return;
-				}
+				}				
+				runSimulation(true);
 			} else { // SOO
-				if (candidate.equals("test")) {
+				if (parameters.get(0).getName().equals("test")) {
 					parent.setTestResult("simulation");
 					return;
 				}
-				if (!serializeCandidate(candidate)) {
+				if (!serializeCandidate(parameters)) {
 					if (parent.isOrchestratorAvailable()) {
 						try { // send error result to SOO
 							final ChatManager chatmanager = ChatManager.getInstanceFor(parent.getConnection());
@@ -160,60 +128,102 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				runSimulation(false);
 			}
 		} catch (IOException | InterruptedException e) {
-			parent.publishFitness(new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS));
+			parent.publishFitness(new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS), null, 0);
 		}
 	}
 
 	private void runSimulation(boolean calcFitness) throws IOException, InterruptedException {
+		try {
+			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; rosclean purge -y; rm "+parent.getBagPath()+"*.bag; rm "+parent.getBagPath()+"*.active" });
+		//	builder.inheritIO();
+			process = builder.start();
+			process.waitFor();
+			process = null;
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}		
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Properties props = new Properties();
 		props.put("SimulationManager", parent);
-		props.put("rosWorkspace", parent.getCatkinWS());
-		props.put("packageFolder", packageFolder);
 		props.put("packageName", packageName);
-		props.put("calcFitness", calcFitness);
 
-		ComponentInstance instance = this.simulationLauncherFactory.newInstance((Dictionary) props);
+		ComponentInstance instance = this.stageSimulationLauncherFactory.newInstance((Dictionary) props);
 		SimulationLauncher simulationLauncher = (SimulationLauncher) instance.getInstance();
+		final Future<?> handler = executor.submit(simulationLauncher);
 		try {
-			final Future<?> handler = executor.submit(simulationLauncher);
-			try {
-				handler.get(parent.getTimeout(), TimeUnit.MILLISECONDS);
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TimeoutException e) {
-				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-					System.out.println(" MessageEventCoordinator handler is timeout! ");
-				}				
-				executor.shutdown();
-				if (calcFitness) {
-					instance.dispose();
-					// create an instance per request on demand by using a Factory Component
-					instance = this.fitnessCalculatorFactory.newInstance(null);
-					FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
-					if (calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), packageFolder)
-							.getSuccess().equals(false)) {
-						System.out.println("Error");
-						return;
-					}
-				}
-				Process proc;
-				try {
-					proc = Runtime.getRuntime().exec("killall " + packageName);
-					proc.waitFor();
-					proc.destroy();
-					proc = null;
-				} catch (IOException | InterruptedException ex) {
-					ex.printStackTrace();
+			handler.get(parent.getTimeout(), TimeUnit.MILLISECONDS);
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (TimeoutException e) {
+			if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+				System.out.println(" MessageEventCoordinator handler is timeout! ");
+			}
+			instance.dispose();
+			executor.shutdown();
+			SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(), parent.getBagPath(), parent.getTimeout(), parent.getFitnessFunction(), parent.getMaxNumberOfCarts());
+			if (!result.getSuccess()) {
+				System.out.println("Error fitness " + parent.getSimulationID());
+			}
+			if (calcFitness) {
+				parent.publishFitness(result, params.toString(), calculator.counter);
+			}
+			System.out.println("done simulation " + this.parent.getSimulationID());
+			parent.setSimulationID(null);
+			result = null;
+			return;
+		}
+		instance.dispose();
+		executor.shutdown();
+		System.out.println("Simulation " + parent.getSimulationID() + " unnormally quit without timeout! ");
+		Process proc;
+		ProcessBuilder builder;
+		try {
+			builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 rosout; killall -2 record" });
+			builder.inheritIO();
+			proc = builder.start();
+			proc.waitFor();
+			proc = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 stageros" });
+			builder.inheritIO();
+			proc = builder.start();
+			proc.waitFor();
+			proc = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		SimulationResultMessage reply = new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS);
+		if (calcFitness) {
+			System.out.println("publish ERROR result to OT");
+			parent.publishFitness(reply, params.toString(), 0);
+			System.out.println("done simulation " + this.parent.getSimulationID());
+			parent.setSimulationID(null);
+		} else {
+			if (parent.isOrchestratorAvailable()) {
+				try { // send final result to SOO for setting simulation done
+					final ChatManager chatmanager = ChatManager.getInstanceFor(parent.getConnection());
+					final Chat newChat = chatmanager.chatWith(parent.getOrchestratorJID().asEntityBareJidIfPossible());
+					MessageSerializer serializer = new MessageSerializer();
+					newChat.send(serializer.toJson(reply));
+					System.out.println("send ERROR result to SOO");
+				} catch (final Exception e) {
+					e.printStackTrace();
 				}
 			}
-			executor.shutdown();
-		} finally {
-			if (instance != null)
-				instance.dispose();
 		}
-
 	}
 
 	@Deactivate
@@ -223,7 +233,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		}	
 		Process proc;
 		try {
-			proc = Runtime.getRuntime().exec("killall " + packageName);
+			proc = Runtime.getRuntime().exec("killall -2 roslaunch");
 			proc.waitFor();
 			proc.destroy();
 			proc = null;
