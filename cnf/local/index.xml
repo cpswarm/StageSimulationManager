@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1582050732000">
+<repository xmlns="http://www.osgi.org/xmlns/repository/v1.0.0" name="Local" increment="1582756387000">
   <resource>
     <capability namespace="osgi.identity">
       <attribute name="osgi.identity" value="gson-extras-bundle"/>
@@ -2482,7 +2482,7 @@
       <attribute name="size" value="19122" type="Long"/>
       <attribute name="url" value="be.iminds.iot.ros.api/be.iminds.iot.ros.api-0.4.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="764B35E900671593C9B0781E4932D535A9BFE05FDF2B6985D74737F16FB028D6"/>
+      <attribute name="osgi.content" value="A79C181E151AB00E814908F18A7C60DEA608DAF10D6CD98CE84B61EE0A9D76B1"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -2563,10 +2563,10 @@
       <attribute name="objectClass" value="manager.StageSimulationManager" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="36342" type="Long"/>
+      <attribute name="size" value="36625" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.stage/it.ismb.pert.cpswarm.simulation.stage-1.1.0.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="1A888598A9DDF57263B3E12E669D11F6738FEE205345D2A61AD3ACB90DF18BCA"/>
+      <attribute name="osgi.content" value="57DC6F999565390D14FCECC1D7A23644D0B2A53044317E7D5A0E454824184F0A"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -3305,10 +3305,10 @@
       <attribute name="objectClass" value="manager.GazeboSimulationManager" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="26289" type="Long"/>
+      <attribute name="size" value="26552" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.gazebo/it.ismb.pert.cpswarm.simulation.gazebo-1.1.1.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="44005F008BDE3CF232CFFE5A2C0D756C46E73D53D9D1145FA793B9EBF5510095"/>
+      <attribute name="osgi.content" value="DFB4164DDAE70C7DC2D0106DCC8059F6BA301C9AD2DBACF158E86F53581A3BAF"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.ros.util)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>
@@ -3789,10 +3789,10 @@
       <attribute name="osgi.wiring.package" value="simulation.xmpp"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="45216" type="Long"/>
+      <attribute name="size" value="45386" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.manager/it.ismb.pert.cpswarm.simulation.manager-1.0.48.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="4B539970C01F3670A88171FF59DFED3221A5D3740F860BECD9E58195C3E17E4A"/>
+      <attribute name="osgi.content" value="FC912976ED1BF8802B5DA4358273EAD0685B4AB461B89FBE499FC98DBB15A695"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=com.google.gson)(&amp;(version&gt;=2.8.0)(!(version&gt;=3.0.0))))"/>
@@ -5479,10 +5479,10 @@
       <attribute name="objectClass" value="manager.VrepSimulationManager" type="List&lt;String&gt;"/>
     </capability>
     <capability namespace="osgi.content">
-      <attribute name="size" value="35671" type="Long"/>
+      <attribute name="size" value="36030" type="Long"/>
       <attribute name="url" value="it.ismb.pert.cpswarm.simulation.vrep/it.ismb.pert.cpswarm.simulation.vrep-1.1.1.jar"/>
       <attribute name="mime" value="application/vnd.osgi.bundle"/>
-      <attribute name="osgi.content" value="75AF4F1CC67C262521CF6EF9519CEB2E40E7DB650879FE7B53F8D82534510FB6"/>
+      <attribute name="osgi.content" value="B88A956755F1052D502427F3A27A7847465878C8872B5483B5C48C52CD9B7969"/>
     </capability>
     <requirement namespace="osgi.wiring.package">
       <directive name="filter" value="(&amp;(osgi.wiring.package=be.iminds.iot.simulator.api)(&amp;(version&gt;=0.3.0)(!(version&gt;=1.0.0))))"/>

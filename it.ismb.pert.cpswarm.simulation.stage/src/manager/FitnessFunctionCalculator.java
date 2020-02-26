@@ -47,12 +47,12 @@ public class FitnessFunctionCalculator {
 	 * @return double: the fitness value of a bag file
 	 */
 
-	private double readBag(final String dataFolder, final String bagFile, final int timeout) {
+	private double readBag(final String dataFolder, final String bagFile, final int timeout, final String fitnessFunction, final int maxNumberOfCarts) {
 		double fitness = 0.0;
 		try {
 			Process proc = Runtime.getRuntime()
 					.exec(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash ; " + " python "
-							+ dataFolder + "fitness_modified.py " + bagFile + " " + timeout+" 5" });
+							+ dataFolder + fitnessFunction+" " + bagFile + " " + timeout+" "+ maxNumberOfCarts});
 			String line = "";
 			BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			while ((line = input.readLine()) != null ) {
@@ -84,7 +84,8 @@ public class FitnessFunctionCalculator {
 	 * @return SimulationResultMessage: simulation result last simulation run to be send back to optimization tool.
 	 */
 	public SimulationResultMessage calcFitness(final String optimizationID, final String simulationID,
-			final String dataFolder, String bagPath, final int timeout) {
+			final String dataFolder, String bagPath, final int timeout, final String fitnessFunction, final int maxNumberOfCarts) {
+		this.counter=0;
 		File bagFolder = new File(bagPath); // path to ~/.ros/ directory
 		String[] bagFiles = bagFolder.list(fileLogFilter);
 		int counter = 2;
@@ -101,42 +102,40 @@ public class FitnessFunctionCalculator {
 			counter-=1;
 		}
 		bagFolder = null;
-		if(bagFiles.length ==0) {
-		//	if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-				System.out.println("Simulation "+simulationID+" Error: No any worker bag files found for all robots!");
-		//	}
-				try {
-					ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "ls /home/.ros/; killall -2 roslaunch; killall -2 roscore; killall -2 rosout" });	
-					builder.inheritIO();
-					Process proc = builder.start();
-					proc.waitFor();
-					proc = null;
+		if (bagFiles.length == 0) {
+			System.out.println("Simulation " + simulationID + " Error: No any worker bag files found for all robots!");
+			try {
+				ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c",
+						"ls /home/.ros/; killall -2 roslaunch; killall -2 roscore; killall -2 rosout" });
+				builder.inheritIO();
+				Process proc = builder.start();
+				proc.waitFor();
+				proc = null;
 
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				try {
-					Thread.sleep(25000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				System.out.println("fitness = 0.0 sent");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			try {
+				Thread.sleep(25000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			System.out.println("fitness = 0.0 sent");
 			return new SimulationResultMessage(optimizationID, "No any worker bag files found for all robots",
 					ReplyMessage.Status.ERROR, simulationID, 0.0);
 		}
 		double fitnessSum = 0;
+		String bagFile = null;
 		for (int i = 0; i < bagFiles.length; i++) {
-			String bagFile = bagPath+ bagFiles[i];
-			double fitness = readBag(dataFolder, bagFile, timeout);			
+			bagFile = bagPath+ bagFiles[i];
+			double fitness = readBag(dataFolder, bagFile, timeout, fitnessFunction, maxNumberOfCarts);			
 			fitnessSum += fitness;
 		}
-	/*	if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-			System.out.println("Total fitness calculated " + fitnessSum+" for "+bagFiles.length+ " workers");
-		}*/
 		System.out.println("fitness = "+ fitnessSum + " sent for "+bagFiles.length+ " workers");
 		SimulationResultMessage result = new SimulationResultMessage(optimizationID, "Total fitness calculated:" + fitnessSum +" for "+bagFiles.length+ " workers",
 				ReplyMessage.Status.OK, simulationID, fitnessSum);
 		bagFiles = null;
+		bagFile = null;
 		return result;
 		
 	}

@@ -76,8 +76,6 @@
 	it.ismb.pert.cpswarm.simulation.manager;version=1.0.48,\
 	it.ismb.pert.cpswarm.simulation.stage;version=1.1.0
 
-#	be.iminds.iot.ros.core;version=0.3.0,\
-
 -runproperties: \
 	org.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog,\
 	org.eclipse.jetty.LEVEL=WARN,\
@@ -86,6 +84,8 @@
 	org.osgi.service.http.port=8081,\
 	ros.core.native=true,\
 	verbosity=2,\
+	maxNumber.carts=5,\
+	fitness.function=fitness.py,\
 	simulation.launch.file=stage_complete.launch,\
 	ros.master.uri=http://localhost:11311,\
 	Manager.config.file.manager.xml=resources/manager.xml,\

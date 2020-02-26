@@ -83,12 +83,12 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	@Override
 	protected void handleCandidate(final EntityBareJid sender, final ParameterSet parameterSet) {
 		try {
+			if(calculator == null) {
+				ComponentInstance instance = this.fitnessCalculatorFactory.newInstance(null);
+				calculator = (FitnessFunctionCalculator) instance.getInstance();
+			}
 			if (fake) {
 				Thread.sleep(timeout);
-				if(calculator == null) {
-					ComponentInstance instance = this.fitnessCalculatorFactory.newInstance(null);
-					calculator = (FitnessFunctionCalculator) instance.getInstance();
-				}
 				parent.publishFitness(calculator.randomFitness(parent.getOptimizationID(), parent.getSimulationID()), null, 0);
 				return;
 			}
@@ -105,9 +105,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					return;
 				}
 				runSimulation(true);
-			//	if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-					System.out.println("done simulation " + this.parent.getSimulationID());
-			//	}	
+				System.out.println("done simulation " + this.parent.getSimulationID());
 			} else { // SOO
 				if (parameterSet.getParameters().get(0).getName().equals("test")) {
 					parent.setTestResult("simulation");
@@ -137,8 +135,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	private void runSimulation(boolean calcFitness) throws IOException, InterruptedException {
 		
 		try {
-			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; rosclean purge -y; rm "+parent.getBagPath()+"*.bag; rm "+parent.getBagPath()+"*.active" });
-			builder.inheritIO();
+			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; rosclean purge -y; rm "+parent.getBagPath()+"*.bag" });
 			process = builder.start();
 			process.waitFor();
 			process = null;
@@ -171,17 +168,14 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				}				
 				instance.dispose();
 				executor.shutdown();
-					// create an instance per request on demand by using a Factory Component
-				instance = this.fitnessCalculatorFactory.newInstance(null);
-				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
-				SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout());
+				SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout(), parent.getFitnessFunction(), parent.getMaxNumberOfCarts());
 				if (result.getOperationStatus().equals(ReplyMessage.Status.ERROR)) {
 					System.out.println("Error fitness " +parent.getSimulationID());
 				}
 				if (calcFitness) {
 					parent.publishFitness(result, params.toString(), calculator.counter);
 				}
-				instance.dispose();				
+				result = null;
 				return;
 			}
 			instance.dispose();
@@ -200,6 +194,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					proc = builder.start();
 					proc.waitFor();
 					proc = null;
+					builder = null;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -209,12 +204,13 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 					proc = builder.start();
 					proc.waitFor();
 					proc = null;
+					builder = null;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				instance = this.fitnessCalculatorFactory.newInstance(null);
 				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
-				SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout());
+				SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout(), parent.getFitnessFunction(), parent.getMaxNumberOfCarts());
 				if (calcFitness) {
 					parent.publishFitness(result, params.toString(), calculator.counter);	
 				}
