@@ -12,11 +12,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import org.jivesoftware.smack.SmackException.NotConnectedException;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
-import org.jivesoftware.smack.packet.Presence;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.impl.JidCreate;
 import org.osgi.service.component.ComponentFactory;
@@ -25,11 +22,9 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
-import com.google.gson.Gson;
 import eu.cpswarm.optimization.messages.MessageSerializer;
 import eu.cpswarm.optimization.messages.SimulationResultMessage;
 import eu.cpswarm.optimization.parameters.Parameter;
-import eu.cpswarm.optimization.statuses.SimulationManagerStatus;
 import simulation.xmpp.AbstractMessageEventCoordinator;
 import simulation.SimulationManager;
 
@@ -73,7 +68,6 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.fitnessCalculator.factory)")
 	public void getFitnessCalculatorFactory(final ComponentFactory s) {
 		this.fitnessCalculatorFactory = s;
-
 	}
 
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.stageSimulationLauncher.factory)")
@@ -90,7 +84,11 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 			}
 			if (fake) {
 				Thread.sleep(timeout);
+				serializeCandidate(parameters);
+			//	SimulationResultMessage result = new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS);
+			//	parent.publishFitness(result, null, 0);
 				parent.publishFitness(calculator.randomFitness(parent.getOptimizationID(), parent.getSimulationID()), null, 0);
+				System.out.println("done simulation " + this.parent.getSimulationID().split("_")[2]);
 				parent.setSimulationID(null);
 				return;
 			}
@@ -135,7 +133,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	private void runSimulation(boolean calcFitness) throws IOException, InterruptedException {
 		try {
 			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; rosclean purge -y; rm "+parent.getBagPath()+"*.bag; rm "+parent.getBagPath()+"*.active" });
-		//	builder.inheritIO();
+			builder.inheritIO();
 			process = builder.start();
 			process.waitFor();
 			process = null;
@@ -167,19 +165,19 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 			executor.shutdown();
 			SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(), parent.getBagPath(), parent.getTimeout(), parent.getFitnessFunction(), parent.getMaxNumberOfCarts());
 			if (!result.getSuccess()) {
-				System.out.println("Error fitness " + parent.getSimulationID());
+				System.out.println("Error fitness " + parent.getSimulationID().split("_")[2]);
 			}
 			if (calcFitness) {
 				parent.publishFitness(result, params.toString(), calculator.counter);
 			}
-			System.out.println("done simulation " + this.parent.getSimulationID());
+			System.out.println("done simulation " + this.parent.getSimulationID().split("_")[2]);
 			parent.setSimulationID(null);
 			result = null;
 			return;
 		}
 		instance.dispose();
 		executor.shutdown();
-		System.out.println("Simulation " + parent.getSimulationID() + " unnormally quit without timeout! ");
+		System.out.println("Simulation " + parent.getSimulationID().split("_")[2] + " unnormally quit without timeout! ");
 		Process proc;
 		ProcessBuilder builder;
 		try {
@@ -188,6 +186,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 			proc = builder.start();
 			proc.waitFor();
 			proc = null;
+			builder = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -197,6 +196,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 			proc = builder.start();
 			proc.waitFor();
 			proc = null;
+			builder = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -209,7 +209,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		if (calcFitness) {
 			System.out.println("publish ERROR result to OT");
 			parent.publishFitness(reply, params.toString(), 0);
-			System.out.println("done simulation " + this.parent.getSimulationID());
+			System.out.println("done simulation " + this.parent.getSimulationID().split("_")[2]);
 			parent.setSimulationID(null);
 		} else {
 			if (parent.isOrchestratorAvailable()) {

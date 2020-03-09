@@ -74,7 +74,7 @@
 	be.iminds.iot.ros.api;version=0.4.0,\
 	it.ismb.pert.cpswarm.simulation.manager;version=1.0.48,\
 	it.ismb.pert.cpswarm.simulation.stage;version=1.1.0,\
-	optimization-messages;version=0.0.2
+	optimization-messages;version=2.0.0
 
 #	be.iminds.iot.ros.core;version=0.3.0,\
 
