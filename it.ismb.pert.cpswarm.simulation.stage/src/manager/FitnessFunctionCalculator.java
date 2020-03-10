@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.NavigableMap;
 import java.util.Random;
-import java.util.StringTokenizer;
 import java.util.TreeMap;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
@@ -22,22 +21,24 @@ import eu.cpswarm.optimization.messages.ReplyMessage;
 import eu.cpswarm.optimization.messages.SimulationResultMessage;
 import simulation.SimulationManager;
 
+
 //factory component for creating instance per request
-@Component(factory = "it.ismb.pert.cpswarm.fitnessCalculator.factory")
+@Component(factory = "it.ismb.pert.cpswarm.fitnessCalculator.factory"
+)
 public class FitnessFunctionCalculator {
 	private FileLogFilter fileLogFilter = null;
 	public int counter = 0;
 
 	@Activate
-	public void activate(BundleContext context) {		
-		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+	public void activate(BundleContext context) {
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println("Instantiate a fitnessFunctionCalculator");
 		}
 	}
 
 	@Deactivate
 	public void deactivate() {
-		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println("Stoping the fitnessFunctionCalculator");
 		}
 	}
@@ -52,7 +53,7 @@ public class FitnessFunctionCalculator {
 		try {
 			Process proc = Runtime.getRuntime()
 					.exec(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash ; " + " python "
-							+ dataFolder + fitnessFunction+" " + bagFile + " " + timeout+" "+ maxNumberOfCarts});
+							+ dataFolder + fitnessFunction+" " + bagFile + " " + timeout+" "+ maxNumberOfCarts });
 			String line = "";
 			BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			while ((line = input.readLine()) != null ) {
@@ -74,7 +75,6 @@ public class FitnessFunctionCalculator {
 		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println(bagFile + " fitness score : " + fitness+"  box_count = "+counter);
 		}
-
 		return fitness;
 	}
 
@@ -101,28 +101,26 @@ public class FitnessFunctionCalculator {
 			bagFiles = bagFolder.list(fileLogFilter);
 			counter-=1;
 		}
-		bagFolder = null;
-		if (bagFiles.length == 0) {
-			System.out.println("Simulation " + simulationID + " Error: No any worker bag files found for all robots!");
-			try {
-				ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c",
-						"ls /home/.ros/; killall -2 roslaunch; killall -2 roscore; killall -2 rosout" });
-				builder.inheritIO();
-				Process proc = builder.start();
-				proc.waitFor();
-				proc = null;
+		if(bagFiles.length ==0) {
+				System.out.println("Simulation "+simulationID+" Error: No any worker bag files found for all robots!");
+				try {
+					ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "ls /home/.ros/; killall -2 roslaunch; killall -2 roscore; killall -2 rosout" });	
+					builder.inheritIO();
+					Process proc = builder.start();
+					proc.waitFor();
+					proc = null;
+					builder = null;
 
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-			try {
-				Thread.sleep(25000);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			System.out.println("fitness = 0.0 sent");
-			return new SimulationResultMessage(optimizationID, "No any worker bag files found for all robots",
-					ReplyMessage.Status.ERROR, simulationID, 0.0);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				try {
+					Thread.sleep(25000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				System.out.println("fitness = 0.0 sent");
+			return new SimulationResultMessage(simulationID, false, simulationID, 0.0);
 		}
 		double fitnessSum = 0;
 		String bagFile = null;
@@ -132,19 +130,17 @@ public class FitnessFunctionCalculator {
 			fitnessSum += fitness;
 		}
 		System.out.println("fitness = "+ fitnessSum + " sent for "+bagFiles.length+ " workers");
-		SimulationResultMessage result = new SimulationResultMessage(optimizationID, "Total fitness calculated:" + fitnessSum +" for "+bagFiles.length+ " workers",
-				ReplyMessage.Status.OK, simulationID, fitnessSum);
 		bagFiles = null;
 		bagFile = null;
-		return result;
-		
+		// overall fitness is average fitness of agents
+		return new SimulationResultMessage(optimizationID, true, simulationID, fitnessSum);
 	}
+
+
 
 	public SimulationResultMessage randomFitness(final String optimizationID, final String simulationID) {
 		Random random = new Random();
-		return new SimulationResultMessage(optimizationID,
-				"distance:" + random.nextDouble() + " time:" + random.nextDouble(), ReplyMessage.Status.OK,
-				simulationID, random.nextDouble());
+		return new SimulationResultMessage(optimizationID, true, simulationID, random.nextDouble());
 	}
 
 	@Reference

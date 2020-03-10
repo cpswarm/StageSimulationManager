@@ -2,7 +2,6 @@ package manager;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 
@@ -23,12 +22,9 @@ public class FileLogFilter implements FilenameFilter {
 		return false;
 	}
 
-	@Activate
-	public void activate() {
-	}
-
 	@Deactivate
 	public void deactivate() {
-		System.out.println("stoping a file log filter ...");
+		System.out.println("stoping a file log filter ... \n");
 	}
 }
+

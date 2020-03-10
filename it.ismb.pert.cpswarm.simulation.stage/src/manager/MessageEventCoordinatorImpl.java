@@ -1,9 +1,8 @@
 package manager;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
@@ -13,7 +12,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
 import org.jxmpp.jid.EntityBareJid;
@@ -24,12 +22,9 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
-import be.iminds.iot.ros.util.RosCommand;
 import eu.cpswarm.optimization.messages.MessageSerializer;
-import eu.cpswarm.optimization.messages.ParameterSet;
-import eu.cpswarm.optimization.messages.ReplyMessage;
-import eu.cpswarm.optimization.messages.ReplyMessage.Status;
 import eu.cpswarm.optimization.messages.SimulationResultMessage;
+import eu.cpswarm.optimization.parameters.Parameter;
 import simulation.xmpp.AbstractMessageEventCoordinator;
 import simulation.SimulationManager;
 
@@ -45,7 +40,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	private ComponentFactory fitnessCalculatorFactory;
 	private ComponentFactory stageSimulationLauncherFactory;
 	private FitnessFunctionCalculator calculator = null;
-	
+
 	@Activate
 	protected void activate(Map<String, Object> properties) throws Exception {
 		for (Entry<String, Object> entry : properties.entrySet()) {
@@ -67,7 +62,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 				System.out.println(" Instantiate a stage MessageEventCoordinatorImpl");
 			}
 			setSimulationManager(parent);
-		}		
+		}
 	}
 
 	@Reference(target = "(component.factory=it.ismb.pert.cpswarm.fitnessCalculator.factory)")
@@ -81,7 +76,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 	}
 
 	@Override
-	protected void handleCandidate(final EntityBareJid sender, final ParameterSet parameterSet) {
+	protected void handleCandidate(final EntityBareJid sender, final List<Parameter> parameters) {
 		try {
 			if(calculator == null) {
 				ComponentInstance instance = this.fitnessCalculatorFactory.newInstance(null);
@@ -89,66 +84,67 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 			}
 			if (fake) {
 				Thread.sleep(timeout);
+				serializeCandidate(parameters);
+			//	SimulationResultMessage result = new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS);
+			//	parent.publishFitness(result, null, 0);
 				parent.publishFitness(calculator.randomFitness(parent.getOptimizationID(), parent.getSimulationID()), null, 0);
+				System.out.println("done simulation " + this.parent.getSimulationID().split("_")[2]);
+				parent.setSimulationID(null);
 				return;
 			}
-			packageName = parent.getOptimizationID().substring(0, parent.getOptimizationID().indexOf("!"));
+			packageName = parent.getSCID();
 			if (sender.equals(JidCreate.entityBareFromOrThrowUnchecked(parent.getOptimizationJID()))) {
-				if (parameterSet.getParameters().get(0).getName().equals("test")) {
+				if (parameters.get(0).getName().equals("test")) {
 					parent.setTestResult("optimization");
 					return;
 				}
-				if (!serializeCandidate(parameterSet)) {
+				if (!serializeCandidate(parameters)) {
 					parent.publishFitness(
-							new SimulationResultMessage(parent.getOptimizationID(), "Error serializing the candidate",
-									ReplyMessage.Status.ERROR, parent.getSimulationID(), BAD_FITNESS), null, 0);
+							new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS), null, 0);
 					return;
-				}
+				}				
 				runSimulation(true);
-				System.out.println("done simulation " + this.parent.getSimulationID());
 			} else { // SOO
-				if (parameterSet.getParameters().get(0).getName().equals("test")) {
+				if (parameters.get(0).getName().equals("test")) {
 					parent.setTestResult("simulation");
 					return;
 				}
-				if (!serializeCandidate(parameterSet)) {
-					try { // send error result to SOO
-						final ChatManager chatmanager = ChatManager.getInstanceFor(parent.getConnection());
-						final Chat newChat = chatmanager.chatWith(parent.getOrchestratorJID().asEntityBareJidIfPossible());
-						SimulationResultMessage reply = new SimulationResultMessage(parent.getOptimizationID(), "Error serializing the candidate",
-								ReplyMessage.Status.ERROR, parent.getSimulationID(), BAD_FITNESS);
-						MessageSerializer serializer = new MessageSerializer();
-						newChat.send(serializer.toJson(reply));
-					} catch (final Exception e) {
-						e.printStackTrace();
+				if (!serializeCandidate(parameters)) {
+					if (parent.isOrchestratorAvailable()) {
+						try { // send error result to SOO
+							final ChatManager chatmanager = ChatManager.getInstanceFor(parent.getConnection());
+							final Chat newChat = chatmanager.chatWith(parent.getOrchestratorJID().asEntityBareJidIfPossible());
+							SimulationResultMessage reply = new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS);
+							MessageSerializer serializer = new MessageSerializer();
+							newChat.send(serializer.toJson(reply));
+						} catch (final Exception e) {
+							e.printStackTrace();
+						}
 					}
 					return;
 				}
 				runSimulation(false);
 			}
 		} catch (IOException | InterruptedException e) {
-			parent.publishFitness(new SimulationResultMessage(parent.getOptimizationID(),
-					"Error handling the candidate", ReplyMessage.Status.ERROR, parent.getSimulationID(), BAD_FITNESS), null, 0);
+			parent.publishFitness(new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS), null, 0);
 		}
 	}
 
 	private void runSimulation(boolean calcFitness) throws IOException, InterruptedException {
-		
 		try {
-			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; rosclean purge -y; rm "+parent.getBagPath()+"*.bag" });
+			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; rosclean purge -y; rm "+parent.getBagPath()+"*.bag; rm "+parent.getBagPath()+"*.active" });
+			builder.inheritIO();
 			process = builder.start();
 			process.waitFor();
 			process = null;
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
-		
+		}		
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Properties props = new Properties();
 		props.put("SimulationManager", parent);
@@ -156,65 +152,78 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 
 		ComponentInstance instance = this.stageSimulationLauncherFactory.newInstance((Dictionary) props);
 		SimulationLauncher simulationLauncher = (SimulationLauncher) instance.getInstance();
-		
-			final Future<?> handler = executor.submit(simulationLauncher);
-			try {
-				handler.get(parent.getTimeout(), TimeUnit.MILLISECONDS);
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			} catch (TimeoutException e) {
-				if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
-					System.out.println(" MessageEventCoordinator handler is timeout! ");
-				}				
-				instance.dispose();
-				executor.shutdown();
-				SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout(), parent.getFitnessFunction(), parent.getMaxNumberOfCarts());
-				if (result.getOperationStatus().equals(ReplyMessage.Status.ERROR)) {
-					System.out.println("Error fitness " +parent.getSimulationID());
-				}
-				if (calcFitness) {
-					parent.publishFitness(result, params.toString(), calculator.counter);
-				}
-				result = null;
-				return;
+		final Future<?> handler = executor.submit(simulationLauncher);
+		try {
+			handler.get(parent.getTimeout(), TimeUnit.MILLISECONDS);
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (TimeoutException e) {
+			if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
+				System.out.println(" MessageEventCoordinator handler is timeout! ");
 			}
 			instance.dispose();
 			executor.shutdown();
-				System.out.println("Unnormally quit simulation without timeout! ");
-				try {
-					Thread.sleep(10000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				Process proc;
-				ProcessBuilder builder;
-				try {
-					builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 rosout; killall -2 record"});
-					builder.inheritIO();
-					proc = builder.start();
-					proc.waitFor();
-					proc = null;
-					builder = null;
-				} catch (Exception e) {
+			SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(), parent.getBagPath(), parent.getTimeout(), parent.getFitnessFunction(), parent.getMaxNumberOfCarts());
+			if (!result.getSuccess()) {
+				System.out.println("Error fitness " + parent.getSimulationID().split("_")[2]);
+			}
+			if (calcFitness) {
+				parent.publishFitness(result, params.toString(), calculator.counter);
+			}
+			System.out.println("done simulation " + this.parent.getSimulationID().split("_")[2]);
+			parent.setSimulationID(null);
+			result = null;
+			return;
+		}
+		instance.dispose();
+		executor.shutdown();
+		System.out.println("Simulation " + parent.getSimulationID().split("_")[2] + " unnormally quit without timeout! ");
+		Process proc;
+		ProcessBuilder builder;
+		try {
+			builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 rosout; killall -2 record" });
+			builder.inheritIO();
+			proc = builder.start();
+			proc.waitFor();
+			proc = null;
+			builder = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 stageros" });
+			builder.inheritIO();
+			proc = builder.start();
+			proc.waitFor();
+			proc = null;
+			builder = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		SimulationResultMessage reply = new SimulationResultMessage(parent.getOptimizationID(), false, parent.getSimulationID(), BAD_FITNESS);
+		if (calcFitness) {
+			System.out.println("publish ERROR result to OT");
+			parent.publishFitness(reply, params.toString(), 0);
+			System.out.println("done simulation " + this.parent.getSimulationID().split("_")[2]);
+			parent.setSimulationID(null);
+		} else {
+			if (parent.isOrchestratorAvailable()) {
+				try { // send final result to SOO for setting simulation done
+					final ChatManager chatmanager = ChatManager.getInstanceFor(parent.getConnection());
+					final Chat newChat = chatmanager.chatWith(parent.getOrchestratorJID().asEntityBareJidIfPossible());
+					MessageSerializer serializer = new MessageSerializer();
+					newChat.send(serializer.toJson(reply));
+					System.out.println("send ERROR result to SOO");
+				} catch (final Exception e) {
 					e.printStackTrace();
 				}
-				try {
-					builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 stageros"});
-					builder.inheritIO();
-					proc = builder.start();
-					proc.waitFor();
-					proc = null;
-					builder = null;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				instance = this.fitnessCalculatorFactory.newInstance(null);
-				FitnessFunctionCalculator calculator = (FitnessFunctionCalculator) instance.getInstance();
-				SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(),parent.getBagPath(), parent.getTimeout(), parent.getFitnessFunction(), parent.getMaxNumberOfCarts());
-				if (calcFitness) {
-					parent.publishFitness(result, params.toString(), calculator.counter);	
-				}
-				instance.dispose();
+			}
+		}
 	}
 
 	@Deactivate
@@ -222,11 +231,9 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 			System.out.println(" MessageEventCoordinator is deactived ");
 		}	
-		if(calculator != null)
-			calculator = null;
 		Process proc;
 		try {
-			proc = Runtime.getRuntime().exec("killall -2 stageros");
+			proc = Runtime.getRuntime().exec("killall -2 roslaunch");
 			proc.waitFor();
 			proc.destroy();
 			proc = null;

@@ -1,0 +1,10 @@
+-classpath: android-2.3.3.jar
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: android-bundle
+Bundle-SymbolicName: android-bundle
+ver: 2.3.3
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+-output: ${bsn}-${ver}.jar
+Bundle-Version: ${ver}
+Export-Package: android.os;android.util;android.content;android.accounts;android.app;android.*;version=${ver}

@@ -1,0 +1,10 @@
+-classpath: automaton-1.11-8.jar
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: automation-bundle
+Bundle-SymbolicName: automation-bundle
+ver: 1.11-8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+-output: ${bsn}-${ver}.jar
+Bundle-Version: ${ver}
+Export-Package: *;version=${ver}
