@@ -15,14 +15,8 @@ import org.jivesoftware.smackx.disco.ServiceDiscoveryManager;
 import org.w3c.dom.Document;
 import com.google.gson.Gson;
 
-<<<<<<< HEAD
-import be.iminds.iot.ros.util.NativeRosNode.VERBOSITY_LEVELS;
-import messages.server.Capabilities;
-import messages.server.Server;
-=======
 import eu.cpswarm.optimization.statuses.SimulationManagerCapabilities;
 import eu.cpswarm.optimization.statuses.SimulationManagerStatus;
->>>>>>> refs/remotes/origin/api2.0
 import simulation.SimulationManager;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.ComponentFactory;
@@ -88,10 +82,6 @@ public class StageSimulationManager extends SimulationManager {
 			} else {
 				CURRENT_VERBOSITY_LEVEL = VERBOSITY_LEVELS.values()[verbosityI];
 			}
-<<<<<<< HEAD
-			if(context.getProperty("simulation.launch.file")!=null){
-				launchFile = context.getProperty("simulation.launch.file");
-=======
 			if(context.getProperty("launch.file")!=null){
 				launchFile = context.getProperty("launch.file");
 			}
@@ -116,26 +106,8 @@ public class StageSimulationManager extends SimulationManager {
 
 			if(SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(SimulationManager.VERBOSITY_LEVELS.ALL)) {
 				System.out.println("Instantiate a StageSimulationManager .....");
->>>>>>> refs/remotes/origin/api2.0
 			}
-			if (launchFile == null) {
-				System.out.println("launchFile = null");
-				deactivate();
-			}
-			if(context.getProperty("fitness.function")!=null){
-				fitnessFunction = context.getProperty("fitness.function");
-			}
-			if (fitnessFunction == null) {
-				System.out.println("path of fitness function = null");
-				deactivate();
-			}
-			if(context.getProperty("maxNumber.carts")!=null){
-				maxNumberOfCarts = Integer.parseInt(context.getProperty("maxNumber.carts"));
-			}
-			if (maxNumberOfCarts == 0) {
-				System.out.println("the number of carts can not be 0");
-				deactivate();
-			}
+			
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			String managerConfigFile = context.getProperty("Manager.config.file.manager.xml");
 			if (managerConfigFile == null) {
@@ -189,17 +161,10 @@ public class StageSimulationManager extends SimulationManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
-		boolean connected = connectToXMPPserver(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
-				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout, fake, launchFile, fitnessFunction, maxNumberOfCarts);
-		if(connected) {
-			publishPresence(serverURI, serverName, serverPassword, dataFolder, rosFolder, serverInfo, optimizationUser,
-=======
 		boolean connected = connectToXMPPserver(serverURI, serverName, serverPassword, dataFolder, rosFolder, simulationManagerStatus, optimizationUser,
 				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout, fake, launchFile, fitnessFunction, maxNumberOfCarts);
 		if(connected) {
 			publishPresence(serverURI, serverName, serverPassword, dataFolder, rosFolder, optimizationUser,
->>>>>>> refs/remotes/origin/api2.0
 				orchestratorUser, uuid, debug, monitoring, mqttBroker, timeout);
 		} else {
 			deactivate();				
@@ -228,24 +193,6 @@ public class StageSimulationManager extends SimulationManager {
 		}
 		boolean result = true;
 		if(!isFake()) {
-<<<<<<< HEAD
-		ProcessBuilder builder = null;
-		Process process = null;		
-		try {		
-			builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; cd " + this.getCatkinWS() + " ; catkin build " });
-			if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(VERBOSITY_LEVELS.ALL))
-				builder.inheritIO();
-			process = builder.start();
-			process.waitFor();
-		} catch (IOException |InterruptedException err) {
-			result = false;
-			System.err.println("Error when building workspace: " + this.getCatkinWS());
-			err.printStackTrace();
-		} finally {
-			if (process != null) {
-				process.destroy();
-				process = null;
-=======
 			ProcessBuilder builder = null;
 			Process process = null;	
 			try {
@@ -264,24 +211,8 @@ public class StageSimulationManager extends SimulationManager {
 					process.destroy();
 					process = null;
 				}
->>>>>>> refs/remotes/origin/api2.0
 			}
 		}
-<<<<<<< HEAD
-		}
-		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(VERBOSITY_LEVELS.ALL))
-			System.out.println("Compilation finished, with succeed = " + result);
-		if (result || isFake()) {
-			serverInfo.setServer(clientJID.asUnescapedString());
-			ServiceDiscoveryManager disco = ServiceDiscoveryManager.getInstanceFor(this.getConnection());
-			disco.addFeature("http://jabber.org/protocol/si/profile/file-transfer");
-			final Presence presence = new Presence(Presence.Type.available);
-			Gson gson = new Gson();
-			if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(VERBOSITY_LEVELS.ALL)) {
-				System.out.println("\nStage SM : the server info is " + gson.toJson(serverInfo, Server.class));
-			}
-			presence.setStatus(gson.toJson(serverInfo, Server.class));
-=======
 		if (SimulationManager.CURRENT_VERBOSITY_LEVEL.equals(VERBOSITY_LEVELS.ALL))
 			System.out.println("Compilation finished, with succeed = " + result);
 		if (result || isFake()) {
@@ -292,7 +223,6 @@ public class StageSimulationManager extends SimulationManager {
 			String statusToSend = gson.toJson(this.getSimulationManagerStatus(), SimulationManagerStatus.class);
 			System.out.println("\nStage SM : the server info is " + statusToSend);
 			presence.setStatus(statusToSend);
->>>>>>> refs/remotes/origin/api2.0
 			try {
 				this.getConnection().sendStanza(presence);
 			} catch (final NotConnectedException | InterruptedException e) {

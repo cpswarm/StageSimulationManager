@@ -55,12 +55,6 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 
 	@Override
 	protected boolean unzipFiles(final String fileToReceive) {
-<<<<<<< HEAD
-		if(parent.isFake()) {
-			return true;
-		}
-=======
->>>>>>> refs/remotes/origin/api2.0
 		String packagePath = null;
 		try {
 			byte[] buffer = new byte[1024];
@@ -88,10 +82,6 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 							newFile = new File(packagePath + File.separator + "config" + File.separator + fileName);
 						} else {
 							newFile = new File(dataFolder + fileName);
-<<<<<<< HEAD
-							if(fileName.equals("fitness_modified.py")) {
-								System.out.println("manager received file: "+fileName);
-							}
 						}
 						fos = new FileOutputStream(newFile);
 						int len;
@@ -104,31 +94,10 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 					}
 					zis.closeEntry();
 					zis.close();
-					zis = null;
-					zipEntry = null;
-					
-=======
-						}
-						fos = new FileOutputStream(newFile);
-						int len;
-						while ((len = zis.read(buffer)) > 0) {
-							fos.write(buffer, 0, len);
-						}
-						fos.close();
-						zipEntry = zis.getNextEntry();
-						fileName = null;
-					}
-					zis.closeEntry();
-					zis.close();
->>>>>>> refs/remotes/origin/api2.0
 				} else {
 					System.out.println("Error: the " + packageName +" package doesn't exist");
 					return false;
-<<<<<<< HEAD
-				}			
-=======
 				}				
->>>>>>> refs/remotes/origin/api2.0
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
