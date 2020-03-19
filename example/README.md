@@ -1,5 +1,5 @@
 # Usage of CPSWarm stage-simulation-manager Image
-The [`cpswarm/stage-simulation-manager`](https://cloud.docker.com/u/cpswarm/repository/docker/cpswarm/stage-simulation-manager) image provides a Stage Simulation Manager that includes a XMPP client and interfaces with a Stage simulator. It is a Cpswarm pre-build images using Ubuntu16.04 and Openjdk-8 and allows a further dockerization together with your ros simulations starting from it.
+The [`cpswarm/stage-simulation-manager`](https://cloud.docker.com/u/cpswarm/repository/docker/cpswarm/stage-simulation-manager) image provides a Stage Simulation Manager that includes a XMPP client and interfaces with a Stage simulator. It is a Cpswarm pre-build image using Ubuntu16.04 and Openjdk-8 and allows a further containerization together with your ros simulations starting from it.
 
 Similar steps are available for other OS and JDK versions.
 
@@ -9,19 +9,19 @@ Similar steps are available for other OS and JDK versions.
         resources/
             manager.xml               -- Configuration file for connecting to XMPP server and simulation tool capability
         Dockerfile-Stage-Simulation   -- Dockerfile for creating the stage-simulation image
-        JVM-Certifivcation.pem        -- Certificate extracted from the XMPP server
+        XMPP-Certifivcation.pem        -- Certificate extracted from the XMPP server
         launch_SM.sh                  -- Script for launching the simulation manager
-        Ros-simulation-package/       -- This is the Ros packages folder
+        Stage-simulation-package/       -- This is the Ros packages folder
 ```
 
 
-The `example` folder provides an example about how to create a docker image based on above pre-build stage-simulation-manager image that will include the Ros packages which can be used to simulate and optimize it using the CPSwarm Simulation and Optimization Environment.
+The `example` folder provides an example about how to create a docker image based on above pre-build stage-simulation-manager:latest image that will include the Ros packages which can be used to simulate and optimize it using the CPSwarm Simulation and Optimization Environment.
 
-Before dockerizing the ros simulation package starting from the stage-simulation-manager image, follow the steps:
+Before containerizing the ros simulation package starting from the stage-simulation-manager image, follow the steps:
 
 1.  Change the configuration file `manager.xml` in `resources` folder according to the real use case. This file can be used to change some system parameters used by the Stage simulation manager to communicate with other components in the CPSWarm simulation environment.
-2.  place the ros simulation packages here in the `example` folder, it will be moved to an existing ros workspace `/home/catkin_ws/src/` folder coming from the `cpswarm/stage-simulation-manager` image.
-3.  Replace the file `JVM-Certifivcation.pem` used in real case
+2.  place the Stage simulation packages here in the `example` folder, it will be moved to an existing ros workspace `/home/catkin_ws/src/` folder coming from the `cpswarm/stage-simulation-manager:latest` image.
+3.  Replace the file `XMPP-Certifivcation.pem` used in real case.
 4.  (If using default setting, skip this step) The `stageManager.jar` has some internal system properies already set inside for configuring its launching environment, so user can set individual System properties with the -D option for passing the command line parameters to override the properties listed below:
 
       ``` bash

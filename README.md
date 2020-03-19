@@ -51,6 +51,9 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
 	    org.osgi.service.http.port=8080,\                # The default port used for Felix servlets and resources available via HTTP
 	    ros.core.native=true,\                      # Indicating if launching the installed ROS system or the rosjava ROScore implementation of the rosjava_core project
 	    verbosity=2,\                               # Selected verbosity level: 0 NO_OUTPUT, 1 ONLY_FITNESS_SCORE, 2 ALL
+       maxNumber.carts=5,\                         # The total number of carts to be scouted, used by fitness function
+       fitness.function=fitness.py,\               # The name of the fitness function script
+       launch.file=stage_complete.launch,\         # The launch file in the simulation
 	    ros.master.uri=http://localhost:11311,\     # It is used to manually indicate the Ros environment variable in case the user doesn't set it during the Ros installation
 	    Manager.config.file.manager.xml=resources/manager.xml,\     # Specify the location of the configuration file of the Gazebo simulation manager
 	    javax.net.ssl.trustStorePassword=changeit,\
@@ -68,12 +71,12 @@ Go to project `it.ismb.pert.cpswarm.simulation.stage`
    <serverURI>123.123.123.123</serverURI>  <!-- URI of the XMPP server  -->
    <serverName>pippo.pluto.it</serverName>  <!-- name of the XMPP server  -->
    <serverPassword>server</serverPassword>  <!-- Password to be used to connect to the XMPP server -->
-   <dataFolder>/home/cpswarm/Desktop/output/</dataFolder> <!-- Data folder where to store the data -->
+   <dataFolder>/home/cpswarm/</dataFolder> <!-- Data folder where to store the data -->
    <dimensions>2</dimensions> <!-- dimensions supported by the wrapped simulator -->
    <maxAgents>8</maxAgents> <!-- max agents supported by the wrapped simulator -->
    <optimizationUser>frevo</optimizationUser> <!-- XMPP user of the optimization tool -->
    <orchestratorUser>orchestrator</orchestratorUser> <!-- XMPP user of the orchestrator -->
-   <rosFolder>/home/cpswarm/Desktop/test/src/</rosFolder> <!-- folder of the ROS workspace, it must be the <src> folder -->
+   <rosFolder>/home/catkin_ws/src/</rosFolder> <!-- folder of the ROS workspace, it must be the <src> folder -->
    <monitoring>true</monitoring> <!--  indication if the monitoring GUI has to be used or not  -->
    <mqttBroker>tcp://123.123.123.123:1883</mqttBroker> <!--  MQTT broker to be used if the monitoring is set to true  -->
    <timeout>90000</timeout> <!-- Timeout in milliseconds for one simulation -->

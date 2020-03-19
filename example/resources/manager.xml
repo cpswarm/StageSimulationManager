@@ -9,7 +9,7 @@
 	<maxAgents>8</maxAgents> <!-- max agents supported by the wrapped simulator -->
 	<optimizationUser>frevo</optimizationUser> <!-- XMPP user of the optimization tool -->
 	<orchestratorUser>orchestrator</orchestratorUser> <!-- XMPP user of the orchestrator -->
-	<rosFolder>/home/ws/src</rosFolder> <!-- folder of the ROS workspace, it must be the <src> folder -->
+	<rosFolder>/home/catkin_ws/src</rosFolder> <!-- folder of the ROS workspace, it must be the <src> folder -->
 	<monitoring>false</monitoring> <!--  indication if the monitoring GUI has to be used or not  -->
 	<mqttBroker>tcp://123.123.123.123:1883</mqttBroker> <!--  MQTT broker to be used if the monitoring is set to true  -->
 	<timeout>90000</timeout> <!-- Timeout in milliseconds for one simulation -->

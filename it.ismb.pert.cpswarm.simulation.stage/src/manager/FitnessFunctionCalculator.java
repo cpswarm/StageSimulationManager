@@ -101,29 +101,38 @@ public class FitnessFunctionCalculator {
 			bagFiles = bagFolder.list(fileLogFilter);
 			counter-=1;
 		}
-		if(bagFiles.length ==0) {
-				System.out.println("Simulation "+simulationID+" Error: No any worker bag files found for all robots!");
-				try {
-					ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "ls /home/.ros/; killall -2 roslaunch; killall -2 roscore; killall -2 rosout" });	
-					builder.inheritIO();
-					Process proc = builder.start();
-					proc.waitFor();
-					proc = null;
-					builder = null;
+		if (bagFiles.length == 0) {
+			System.out.println("Simulation " + simulationID + " Error: No any worker bag files found for all robots!");
+			try {
+				ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c",
+						"ls /home/.ros/; killall -2 roslaunch; killall -2 roscore; killall -2 rosout" });
+				builder.inheritIO();
+				Process proc = builder.start();
+				proc.waitFor();
+				proc = null;
+				builder = null;
 
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				try {
-					Thread.sleep(25000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				System.out.println("fitness = 0.0 sent");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			try {
+				Thread.sleep(25000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			System.out.println("fitness = 0.0 sent");
 			return new SimulationResultMessage(simulationID, false, simulationID, 0.0);
 		}
 		double fitnessSum = 0;
 		String bagFile = null;
+		File fitnessFile = new File(dataFolder + fitnessFunction);
+		if(!fitnessFile.exists()) {
+			fitnessFile = null;
+			System.out.println("Error: the fitness script file doesn't exist");
+			System.out.println("fitness = 0.0 sent");
+			return new SimulationResultMessage(simulationID, false, simulationID, 0.0);
+		}
+		fitnessFile = null;
 		for (int i = 0; i < bagFiles.length; i++) {
 			bagFile = bagPath+ bagFiles[i];
 			double fitness = readBag(dataFolder, bagFile, timeout, fitnessFunction, maxNumberOfCarts);			

@@ -1,4 +1,4 @@
-FROM stage-simulation-manager:latest
+FROM cpswarm/stage-simulation-manager:latest
 
 ENV HOME=/home
 COPY . $HOME
@@ -11,9 +11,6 @@ WORKDIR $HOME/catkin_ws/
 RUN /bin/bash -c "source /home/catkin_ws/devel/setup.bash \
     && catkin build"
 
-RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
-    && echo "source /home/catkin_ws/devel/setup.bash" >> ~/.bashrc
-
 WORKDIR $HOME
 
 RUN mkdir cpswarm
@@ -21,7 +18,7 @@ RUN mkdir cpswarm
 ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-amd64/
 
 RUN keytool -noprompt -importcert -trustcacerts \
-    -file <JVM-Certifivcation.pem> -alias <xmpp Server Name: pippo.pluto.it> \
+    -file <XMPP-Certifivcation.pem> -alias <xmpp Server Name: pippo.pluto.it> \
     -storepass changeit -keystore -J-Duser.language=en $JAVA_HOME/jre/lib/security/cacerts
 
 ENTRYPOINT ["/home/launch_SM.sh"]
