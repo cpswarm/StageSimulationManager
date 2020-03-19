@@ -93,7 +93,7 @@ public class StageSimulationManager extends SimulationManager {
 				fitnessFunction = context.getProperty("fitness.function");
 			}
 			if (fitnessFunction == null) {
-				System.out.println("path of fitness function = null");
+				System.out.println("the name of fitness function can not be null");
 				deactivate();
 			}
 			if(context.getProperty("maxNumber.carts")!=null){

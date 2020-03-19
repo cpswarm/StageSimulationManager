@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
+import org.jivesoftware.smack.util.StringUtils;
 import org.jxmpp.jid.EntityBareJid;
 import org.jxmpp.jid.impl.JidCreate;
 import org.osgi.service.component.ComponentFactory;
@@ -145,6 +146,12 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
+		String sid = null;
+		if(parent.getOptimizationID() != null) {
+			sid = parent.getSimulationID().split("_")[2];
+		} else {
+			sid = parent.getSimulationID();
+		}
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Properties props = new Properties();
 		props.put("SimulationManager", parent);
@@ -165,19 +172,19 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 			executor.shutdown();
 			SimulationResultMessage result = calculator.calcFitness(parent.getOptimizationID(), parent.getSimulationID(), parent.getDataFolder(), parent.getBagPath(), parent.getTimeout(), parent.getFitnessFunction(), parent.getMaxNumberOfCarts());
 			if (!result.getSuccess()) {
-				System.out.println("Error fitness " + parent.getSimulationID().split("_")[2]);
+				System.out.println("Error fitness " + sid);
 			}
 			if (calcFitness) {
 				parent.publishFitness(result, params.toString(), calculator.counter);
 			}
-			System.out.println("done simulation " + this.parent.getSimulationID().split("_")[2]);
+			System.out.println("done simulation " + sid);
 			parent.setSimulationID(null);
 			result = null;
 			return;
 		}
 		instance.dispose();
 		executor.shutdown();
-		System.out.println("Simulation " + parent.getSimulationID().split("_")[2] + " unnormally quit without timeout! ");
+		System.out.println("Simulation " + sid + " unnormally quit without timeout! ");
 		Process proc;
 		ProcessBuilder builder;
 		try {
@@ -209,7 +216,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		if (calcFitness) {
 			System.out.println("publish ERROR result to OT");
 			parent.publishFitness(reply, params.toString(), 0);
-			System.out.println("done simulation " + this.parent.getSimulationID().split("_")[2]);
+			System.out.println("done simulation " + sid);
 			parent.setSimulationID(null);
 		} else {
 			if (parent.isOrchestratorAvailable()) {

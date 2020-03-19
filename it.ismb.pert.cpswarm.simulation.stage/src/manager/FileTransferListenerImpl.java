@@ -81,6 +81,8 @@ public class FileTransferListenerImpl extends AbstractFileTransferListener {
 						} else if (fileName.equals("frevo.yaml")) {
 							newFile = new File(packagePath + File.separator + "config" + File.separator + fileName);
 						} else {
+							if(fileName.equals("fitness.py"))
+								System.out.println("received fitness.py");	
 							newFile = new File(dataFolder + fileName);
 						}
 						fos = new FileOutputStream(newFile);
