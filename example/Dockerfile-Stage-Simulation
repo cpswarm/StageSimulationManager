@@ -11,6 +11,9 @@ WORKDIR $HOME/catkin_ws/
 RUN /bin/bash -c "source /home/catkin_ws/devel/setup.bash \
     && catkin build"
 
+RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc \
+    && echo "source /home/catkin_ws/devel/setup.bash" >> ~/.bashrc
+
 WORKDIR $HOME
 
 RUN mkdir cpswarm
