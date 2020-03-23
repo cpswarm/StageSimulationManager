@@ -133,8 +133,8 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 
 	private void runSimulation(boolean calcFitness) throws IOException, InterruptedException {
 		try {
-			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; rosclean purge -y; rm "+parent.getBagPath()+"*.bag; rm "+parent.getBagPath()+"*.active" });
-			builder.inheritIO();
+			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "source /opt/ros/kinetic/setup.bash; rosclean purge -y; rm "+parent.getBagPath()+"*.bag" });
+		//	builder.inheritIO();
 			process = builder.start();
 			process.waitFor();
 			process = null;
@@ -188,8 +188,8 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		Process proc;
 		ProcessBuilder builder;
 		try {
-			builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 rosout; killall -2 record" });
-			builder.inheritIO();
+			builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 record" });
+		//	builder.inheritIO();
 			proc = builder.start();
 			proc.waitFor();
 			proc = null;
@@ -199,7 +199,7 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		}
 		try {
 			builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 stageros" });
-			builder.inheritIO();
+		//	builder.inheritIO();
 			proc = builder.start();
 			proc.waitFor();
 			proc = null;
@@ -242,7 +242,6 @@ public class MessageEventCoordinatorImpl extends AbstractMessageEventCoordinator
 		try {
 			proc = Runtime.getRuntime().exec("killall -2 roslaunch");
 			proc.waitFor();
-			proc.destroy();
 			proc = null;
 		} catch (IOException | InterruptedException ex) {
 			ex.printStackTrace();

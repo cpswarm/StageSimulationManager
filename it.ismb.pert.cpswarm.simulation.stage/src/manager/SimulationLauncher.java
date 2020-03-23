@@ -90,7 +90,7 @@ public class SimulationLauncher implements Runnable {
 		Process proc;
 		try {
 			ProcessBuilder builder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "killall -2 rosmaster"});	
-				builder.inheritIO();
+			//	builder.inheritIO();
 				proc = builder.start();
 				proc.waitFor();
 				proc = null;
