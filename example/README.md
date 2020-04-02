@@ -19,7 +19,7 @@ The `example` folder provides an example about how to create a docker image base
 
 Before containerizing the ros simulation package starting from the stage-simulation-manager image, follow the steps:
 
-1.  Change the configuration file `manager.xml` in `resources` folder according to the real use case. This file can be used to change some system parameters used by the Stage simulation manager to communicate with other components in the CPSWarm simulation environment.
+1.  Change the configuration file `manager.xml` in `resources` folder according to the real use case. This file can be used to change some system parameters used by the Stage simulation manager to communicate with other components in the CPSwarm simulation environment.
 2.  place the Stage simulation packages here in the `example` folder, it will be moved to an existing ros workspace `/home/catkin_ws/src/` folder coming from the `cpswarm/stage-simulation-manager:latest` image.
 3.  Replace the file `XMPP-Certifivcation.pem` used in real case.
 4.  (If using default setting, skip this step) The `stageManager.jar` has some internal system properies already set inside for configuring its launching environment, so user can set individual System properties with the -D option for passing the command line parameters to override the properties listed below:
